@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GitataHub — Your Gitata Community Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:   #0E5C30;
+      --green-mid:    #1A7A42;
+      --green-light:  #25A35A;
+      --green-pale:   #E8F5EE;
+      --white:        #FFFFFF;
+      --ink:          #0D1F14;
+      --ink-soft:     #3A5244;
+      --border:       #C4DFD0;
+      --gold:         #D4A017;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--green-deep);
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--white); text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 1.6rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); font-weight: 700; }
+
+    .nav-cta {
+      background: var(--gold); color: var(--ink) !important;
+      padding: 0.45rem 1.1rem; border-radius: 6px;
+      font-weight: 600 !important;
+    }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer;
+      background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: white; border-radius: 2px; transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav dropdown */
+    .mobile-nav {
+      display: none;
+      position: absolute; top: 64px; left: 0; width: 100%;
+      background: var(--green-deep);
+      padding: 1rem 5% 1.4rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 99;
+      flex-direction: column; gap: 0.8rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.95rem; font-weight: 500;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a.nav-cta {
+      background: var(--gold); color: var(--ink) !important;
+      padding: 0.6rem 1.2rem; border-radius: 6px;
+      font-weight: 700 !important; text-align: center;
+      border: none; margin-top: 0.4rem;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 60%, var(--green-light) 100%);
+      color: var(--white);
+      padding: 80px 5% 70px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+      min-height: 520px;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 900; line-height: 1.1;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--gold); }
+
+    .hero p {
+      font-size: 1.05rem; color: rgba(255,255,255,0.85);
+      max-width: 480px; margin-bottom: 1.6rem; line-height: 1.7;
+    }
+
+    .hero-search {
+      display: flex; margin-bottom: 2rem;
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      max-width: 460px;
+    }
+    .hero-search input {
+      flex: 1; padding: 0.85rem 1.1rem;
+      border: none; outline: none;
+      font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      color: var(--ink);
+    }
+    .hero-search button {
+      background: var(--gold); color: var(--ink);
+      border: none; padding: 0 1.3rem;
+      font-weight: 700; font-size: 0.9rem;
+      cursor: pointer; white-space: nowrap;
+      transition: background .2s;
+    }
+    .hero-search button:hover { background: #c49010; }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--gold); color: var(--ink);
+      padding: 0.8rem 1.8rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.95rem;
+      text-decoration: none; transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 4px 16px rgba(212,160,23,0.35);
+      display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,160,23,0.45); }
+
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,0.6); color: var(--white);
+      padding: 0.8rem 1.8rem; border-radius: 8px;
+      font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; transition: background .15s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px; padding: 1.4rem;
+      backdrop-filter: blur(6px);
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.9rem; font-weight: 700; color: var(--gold);
+      display: block;
+    }
+    .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.75); }
+
+    /* TICKER */
+    .ticker {
+      background: var(--green-light);
+      padding: 0.6rem 0; overflow: hidden;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .ticker-label {
+      background: var(--gold); color: var(--ink);
+      font-weight: 700; font-size: 0.75rem;
+      padding: 0.25rem 0.8rem; white-space: nowrap;
+      flex-shrink: 0; margin-left: 1rem;
+      border-radius: 4px;
+    }
+    .ticker-track {
+      display: flex; gap: 3rem;
+      animation: ticker 28s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-track span { color: white; font-size: 0.85rem; font-weight: 500; }
+    .ticker-track span::before { content: "● "; color: var(--gold); font-size: 0.6rem; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* SECTIONS COMMON */
+    section { padding: 64px 5%; }
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--green-light);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700; color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+    .section-sub { color: var(--ink-soft); max-width: 520px; margin-bottom: 2.4rem; }
+
+    .section-header-row {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .see-all {
+      font-size: 0.85rem; font-weight: 600; color: var(--green-mid);
+      text-decoration: none; border-bottom: 1.5px solid var(--green-light);
+      padding-bottom: 1px; white-space: nowrap;
+    }
+    .see-all:hover { color: var(--green-deep); }
+
+    /* NEWS */
+    .news-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+
+    .news-card {
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--white);
+      transition: box-shadow .2s, transform .2s;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .news-card:hover { box-shadow: 0 8px 32px rgba(14,92,48,0.12); transform: translateY(-3px); }
+
+    .news-card-img {
+      width: 100%; height: 200px;
+      background: linear-gradient(135deg, var(--green-pale), var(--border));
+      display: flex; align-items: center; justify-content: center; font-size: 3rem;
+    }
+    .news-card.featured .news-card-img { height: 280px; }
+
+    .news-card-body { padding: 1.2rem; }
+    .news-tag {
+      display: inline-block;
+      background: var(--green-pale); color: var(--green-deep);
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 0.25rem 0.6rem;
+      border-radius: 4px; margin-bottom: 0.6rem;
+    }
+    .news-tag.politics { background: #FFF3CD; color: #856404; }
+    .news-tag.community { background: #D1ECF1; color: #0C5460; }
+
+    .news-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700; line-height: 1.35;
+      margin-bottom: 0.5rem; color: var(--ink);
+    }
+    .news-card.featured h3 { font-size: 1.35rem; }
+    .news-card p { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.55; }
+    .news-meta { display: flex; gap: 1rem; margin-top: 0.8rem; font-size: 0.75rem; color: #789; flex-wrap: wrap; }
+
+    .news-side { display: flex; flex-direction: column; gap: 1rem; }
+    .news-side-card {
+      display: flex; gap: 0.8rem; align-items: flex-start;
+      border-radius: 10px; padding: 1rem; border: 1px solid var(--border);
+      text-decoration: none; color: inherit; transition: box-shadow .2s;
+    }
+    .news-side-card:hover { box-shadow: 0 4px 16px rgba(14,92,48,0.1); }
+    .news-side-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .news-side-card h4 { font-size: 0.9rem; font-weight: 600; line-height: 1.3; color: var(--ink); margin-bottom: 0.3rem; }
+    .news-side-card span { font-size: 0.75rem; color: var(--ink-soft); }
+
+    /* CATEGORIES */
+    .categories { background: var(--green-pale); }
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+    .cat-card {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 1.5rem 1rem;
+      text-align: center; text-decoration: none; color: var(--ink);
+      transition: all .2s; cursor: pointer;
+    }
+    .cat-card:hover {
+      border-color: var(--green-mid);
+      box-shadow: 0 6px 20px rgba(14,92,48,0.12);
+      transform: translateY(-4px);
+    }
+    .cat-icon { font-size: 2.2rem; margin-bottom: 0.7rem; display: block; }
+    .cat-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .cat-card p { font-size: 0.78rem; color: var(--ink-soft); }
+
+    /* BUSINESSES */
+    .biz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+    .biz-card {
+      border: 1.5px solid var(--border); border-radius: 12px;
+      padding: 1.3rem; display: flex; gap: 1rem; align-items: flex-start;
+      text-decoration: none; color: inherit; transition: all .2s;
+    }
+    .biz-card:hover { border-color: var(--green-mid); box-shadow: 0 4px 18px rgba(14,92,48,0.1); }
+    .biz-logo {
+      width: 52px; height: 52px; border-radius: 10px;
+      background: var(--green-pale); display: flex; align-items: center;
+      justify-content: center; font-size: 1.6rem; flex-shrink: 0;
+    }
+    .biz-info h4 { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .biz-info p { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 0.4rem; }
+    .biz-tag {
+      background: var(--green-pale); color: var(--green-deep);
+      font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 4px;
+    }
+    .verified { color: var(--green-mid); font-size: 0.75rem; font-weight: 600; margin-top: 0.3rem; display: block; }
+
+    /* JOBS */
+    .jobs { background: var(--ink); color: var(--white); }
+    .jobs .section-label { color: var(--gold); }
+    .jobs .section-title { color: var(--white); }
+    .jobs .section-sub { color: rgba(255,255,255,0.7); }
+    .jobs .see-all { color: var(--gold); border-bottom-color: var(--gold); }
+
+    .jobs-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .job-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 1.1rem 1.4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; flex-wrap: wrap;
+      text-decoration: none; color: inherit; transition: background .2s;
+    }
+    .job-card:hover { background: rgba(255,255,255,0.1); }
+    .job-title { font-weight: 600; font-size: 0.95rem; color: white; margin-bottom: 0.25rem; }
+    .job-company { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+    .job-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .badge { font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 100px; }
+    .badge-green { background: rgba(37,163,90,0.25); color: #5DE89A; }
+    .badge-gold { background: rgba(212,160,23,0.2); color: var(--gold); }
+    .job-apply {
+      background: var(--green-light); color: white;
+      padding: 0.5rem 1.1rem; border-radius: 7px;
+      font-size: 0.8rem; font-weight: 600;
+      text-decoration: none; white-space: nowrap; transition: background .2s;
+    }
+    .job-apply:hover { background: var(--green-mid); }
+
+    /* PROPERTIES */
+    .prop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.3rem; }
+    .prop-card {
+      border-radius: 14px; overflow: hidden; border: 1px solid var(--border);
+      text-decoration: none; color: inherit; transition: all .2s; display: block;
+    }
+    .prop-card:hover { box-shadow: 0 8px 28px rgba(14,92,48,0.12); transform: translateY(-3px); }
+    .prop-img {
+      height: 180px; background: linear-gradient(135deg, var(--green-pale), #C8E6D4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem; position: relative;
+    }
+    .prop-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--green-deep); color: white;
+      font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 6px;
+    }
+    .prop-badge.rent { background: #0C5460; }
+    .prop-body { padding: 1.1rem; }
+    .prop-price {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700; color: var(--green-deep); margin-bottom: 0.3rem;
+    }
+    .prop-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem; }
+    .prop-location { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 0.7rem; }
+    .prop-meta { display: flex; gap: 1rem; font-size: 0.78rem; color: var(--ink-soft); flex-wrap: wrap; }
+
+    /* EVENTS */
+    .events { background: var(--green-pale); }
+    .events-list { display: flex; flex-direction: column; gap: 1rem; }
+    .event-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.4rem;
+      display: flex; gap: 1.2rem; align-items: center;
+      text-decoration: none; color: inherit; transition: box-shadow .2s;
+    }
+    .event-card:hover { box-shadow: 0 4px 20px rgba(14,92,48,0.1); }
+    .event-date {
+      background: var(--green-deep); color: white;
+      border-radius: 10px; padding: 0.6rem 0.8rem;
+      text-align: center; min-width: 56px; flex-shrink: 0;
+    }
+    .event-date-day { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; line-height: 1; }
+    .event-date-mon { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+    .event-info { flex: 1; min-width: 0; }
+    .event-info h4 { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .event-info p { font-size: 0.82rem; color: var(--ink-soft); }
+    .event-type {
+      margin-left: auto; background: var(--green-pale); color: var(--green-deep);
+      font-size: 0.72rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 6px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* JOIN COMMUNITY */
+    .join-community { background: var(--white); border-top: 1px solid var(--border); }
+    .join-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .join-card {
+      background: var(--green-pale); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 2rem; text-align: center;
+    }
+    .join-icon { font-size: 2.8rem; margin-bottom: 1rem; display: block; }
+    .join-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .join-card p { font-size: 0.88rem; color: var(--ink-soft); margin-bottom: 1.4rem; line-height: 1.6; }
+    .btn-green {
+      background: var(--green-deep); color: white;
+      padding: 0.75rem 1.6rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.9rem;
+      text-decoration: none; transition: background .2s; display: inline-block;
+    }
+    .btn-green:hover { background: var(--green-mid); }
+    .btn-whatsapp {
+      background: #25D366; color: white;
+      padding: 0.75rem 1.6rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.9rem;
+      text-decoration: none; transition: background .2s; display: inline-block;
+    }
+    .btn-whatsapp:hover { background: #1ebe5b; }
+
+    /* ADVERTISE CTA */
+    .advertise {
+      background: linear-gradient(120deg, var(--green-deep), var(--green-mid));
+      color: white; text-align: center; padding: 72px 5%;
+    }
+    .advertise h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 900; margin-bottom: 1rem;
+    }
+    .advertise h2 span { color: var(--gold); }
+    .advertise p { font-size: 1rem; color: rgba(255,255,255,0.8); max-width: 520px; margin: 0 auto 2rem; }
+    .adv-options { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .adv-pill {
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+      color: white; border-radius: 100px; padding: 0.45rem 1.1rem;
+      font-size: 0.85rem; font-weight: 500;
+    }
+
+    /* FOOTER */
+    footer { background: var(--ink); color: rgba(255,255,255,0.75); padding: 56px 5% 28px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+    .footer-brand .nav-logo { font-size: 1.4rem; display: inline-block; margin-bottom: 0.8rem; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.6); max-width: 280px; }
+    .footer-social { display: flex; gap: 0.7rem; margin-top: 1rem; }
+    .social-btn {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.08); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1rem; text-decoration: none; transition: background .2s;
+    }
+    .social-btn:hover { background: var(--green-mid); }
+
+    .footer-col h4 { color: white; font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--green-light); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.8rem; font-size: 0.8rem; color: rgba(255,255,255,0.4);
+    }
+
+    /* WHATSAPP FLOAT */
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      background: #25D366; color: white;
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45); transition: transform .2s;
+    }
+    .wa-float:hover { transform: scale(1.08); }
+
+    /* BACK TO TOP */
+    .back-to-top {
+      position: fixed; bottom: 90px; right: 24px; z-index: 998;
+      background: var(--green-deep); color: white;
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; text-decoration: none;
+      box-shadow: 0 4px 14px rgba(14,92,48,0.35);
+      transition: opacity .3s, transform .2s;
+      opacity: 0; pointer-events: none;
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: auto; }
+    .back-to-top:hover { transform: translateY(-3px); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 56px 5% 48px; }
+      .hero-stats { grid-template-columns: repeat(3, 1fr); }
+      .news-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .join-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none !important; }
+      .hamburger { display: flex; }
+      .hero h1 { font-size: 2rem; }
+      .hero-search { max-width: 100%; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+      .event-type { display: none; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .job-card { flex-direction: column; align-items: flex-start; }
+      .biz-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 400px) {
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Gitata<span>Hub</span></a>
+  <ul class="nav-links">
+    <li><a href="#news">News</a></li>
+    <li><a href="#businesses">Businesses</a></li>
+    <li><a href="#jobs">Jobs</a></li>
+    <li><a href="#properties">Properties</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#advertise" class="nav-cta">Advertise</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#news">News</a>
+  <a href="#businesses">Businesses</a>
+  <a href="#jobs">Jobs</a>
+  <a href="#properties">Properties</a>
+  <a href="#events">Events</a>
+  <a href="#advertise" class="nav-cta">Advertise</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <span class="hero-eyebrow">Gitata · Karu LGA · Nasarawa State</span>
+    <h1>Welcome to GitataHub</span><br>The Digital Hub for Gitata</h1>
+    <p>GitataHub is the official community platform for Gitata, connecting residents with local news, businesses, jobs, properties, events, and community opportunities. — built for us, by us.</p>
+    <div class="hero-search">
+      <input type="text" placeholder="Search news, jobs, businesses…" aria-label="Search GitataHub"/>
+      <button type="button">Search</button>
+    </div>
+    <div class="hero-btns">
+      <a href="#news" class="btn-primary">Read Latest News</a>
+      <a href="#businesses" class="btn-outline">Find a Business</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Community Members</span></div>
+    <div class="stat"><span class="stat-num">80+</span><span class="stat-label">Local Businesses</span></div>
+    <div class="stat"><span class="stat-num">120+</span><span class="stat-label">News Articles</span></div>
+    <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Job Listings</span></div>
+    <div class="stat"><span class="stat-num">60+</span><span class="stat-label">Properties</span></div>
+    <div class="stat"><span class="stat-num">30+</span><span class="stat-label">Events Monthly</span></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <span class="ticker-label">BREAKING</span>
+  <div class="ticker-track">
+    <span>Karu LGA holds quarterly community development meeting</span>
+    <span>New market construction to begin in Gitata by 2026</span>
+    <span>NSUK announces 2026/2027 academic calendar</span>
+    <span>Hon. Abraham Habu Ekpo visits Gitata ward leaders ahead of 2027 elections</span>
+    <span>Nasarawa State Government launches youth empowerment fund</span>
+    <span>Gitata Mirror celebrates 1.2k Followers in facebook</span>
+    <span>Karu LGA holds quarterly community development meeting</span>
+    <span>New market construction to begin in Gitata by 2026</span>
+    <span>NSUK  are yet to announces 2026/2027 jamb cut off mark</span>
+    <span>Hon. Daniel Ogah to empower 525 women in keffi July 7th 2026</span>
+    <span>HRH Sangarin Gitata Extends gratitude to the legal team, community elders, youths, an all who stood firm in prayers an support.</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div style="text-align:center; margin-bottom:2rem;">
+    <div class="section-label">Explore GitataHub</div>
+    <h2 class="section-title">What are you looking for?</h2>
+  </div>
+  <div class="cat-grid">
+    <a href="#news" class="cat-card"><span class="cat-icon">📰</span><h3>News</h3><p>Community & politics</p></a>
+    <a href="#businesses" class="cat-card"><span class="cat-icon">🏪</span><h3>Businesses</h3><p>Local shops & services</p></a>
+    <a href="#jobs" class="cat-card"><span class="cat-icon">💼</span><h3>Jobs</h3><p>Career opportunities</p></a>
+    <a href="#properties" class="cat-card"><span class="cat-icon">🏠</span><h3>Properties</h3><p>Rent & buy</p></a>
+    <a href="#events" class="cat-card"><span class="cat-icon">📅</span><h3>Events</h3><p>Community activities</p></a>
+    <a href="#advertise" class="cat-card"><span class="cat-icon">📢</span><h3>Advertise</h3><p>Promote your business</p></a>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label">Latest Updates</div>
+      <h2 class="section-title">Community News</h2>
+    </div>
+    <a href="#" class="see-all">View all news →</a>
+  </div>
+  <div class="news-grid">
+    <a href="#" class="news-card featured">
+      <div class="news-card-img" style="background:linear-gradient(135deg,#0E5C30 0%,#1A7A42 60%,#25A35A 100%);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:1.8rem;position:relative;overflow:hidden">
+  <div style="position:absolute;top:-40px;right:-40px;width:220px;height:220px;background:rgba(255,255,255,0.06);border-radius:50%"></div>
+  <div style="position:absolute;bottom:-50px;right:80px;width:160px;height:160px;background:rgba(255,255,255,0.04);border-radius:50%"></div>
+  <span style="background:#D4A017;color:#0D1F14;font-size:0.68rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:0.3rem 0.7rem;border-radius:4px;margin-bottom:0.8rem;display:inline-block">🏛️ POLITICS</span>
+  <div style="width:40px;height:3px;background:#D4A017;border-radius:2px;margin-bottom:0.8rem"></div>
+  <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:#fff;line-height:1.3;max-width:520px;text-shadow:0 2px 8px rgba(0,0,0,0.4);margin-bottom:0.8rem">YOUR HEADLINE HERE</div>
+  <div style="display:flex;gap:1rem;font-size:0.75rem;color:rgba(255,255,255,0.75)">
+    <span>GitataHub Reporter</span>
+    <span>July 2, 2026</span>
+    <span style="color:#D4A017;font-weight:700">Featured</span>
+  </div>
+</div>
+      <div class="news-card-body">
+        <span class="news-tag politics">Politics</span>
+        <h3>Hon. Bawa Rabo empower 500 women in panda kare Ward, Pledges More Infrastructure an support</h3>
+        <p>
+We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitata has won the case concerning the Traditional Throne of Gitata against the Nyankpa people.</p>
+        <div class="news-meta">
+          <span>GitataHub Reporter</span>
+          <span>June 29, 2026</span>
+          <span>1.2k views</span>
+        </div>
+      </div>
+    </a>
+    <div class="news-side">
+      <a href="#" class="news-side-card">
+        <span class="news-side-icon">🏗️</span>
+        <div>
+          <h4>Karu LGA Chairman Begins Building of Gunduma Market</h4>
+          <span>January 02, 2026 · Community</span>
+        </div>
+      </a>
+      <a href="#" class="news-side-card">
+        <span class="news-side-icon">🎓</span>
+        <div>
+          <h4>NSUK are yet to announces the cut off mark of 2026/2027 academic Session</h4>
+          <span>July 20, 2026 · Education</span>
+        </div>
+      </a>
+      <a href="#" class="news-side-card">
+        <span class="news-side-icon">⚡</span>
+        <div>
+          <h4>Gitata People Demand Restoration of Power Supply</h4>
+          <span>September 26, 2026 · Infrastructure</span>
+        </div>
+      </a>
+      <a href="#" class="news-side-card">
+        <span class="news-side-icon">💰</span>
+        <div>
+          <h4>Nasarawa state scholarship board Opens Applications — Here's How to Apply</h4>
+          <span>March 25, 2026 · Finance</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESSES --> 
+<section id="businesses" style="background:#FAFCFB;">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label">Local Directory</div>
+      <h2 class="section-title">Featured Businesses</h2>
+      <p class="section-sub">Discover trusted shops, services, and professionals in Gitata and Karu LGA.</p>
+    </div>
+    <a href="#" class="see-all">View all businesses →</a>
+  </div>
+  <div class="biz-grid">
+    <a href="#" class="biz-card">
+      <div class="biz-logo">✂️</div>
+      <div class="biz-info">
+        <h4>Elegance Tailoring House</h4>
+        <p>Custom suits, native wear & alterations</p>
+        <span class="biz-tag">Fashion & Tailoring</span>
+        <span class="verified">Verified Business</span>
+      </div>
+    </a>
+    <a href="#" class="biz-card">
+      <div class="biz-logo">🍽️</div>
+      <div class="biz-info">
+        <h4>Mama Ngozi Kitchen</h4>
+        <p>Nigerian dishes, local soups & small chops</p>
+        <span class="biz-tag">Food & Restaurant</span>
+        <span class="verified">Verified Business</span>
+      </div>
+    </a>
+    <a href="#" class="biz-card">
+      <div class="biz-logo">💊</div>
+      <div class="biz-info">
+        <h4>Gitata Community Pharmacy</h4>
+        <p>Drugs, medical supplies & consultations</p>
+        <span class="biz-tag">Health & Pharmacy</span>
+        <span class="verified">Verified Business</span>
+      </div>
+    </a>
+    <a href="#" class="biz-card">
+      <div class="biz-logo">🖥️</div>
+      <div class="biz-info">
+        <h4>TechFix Solutions</h4>
+        <p>Laptop & phone repairs, accessories</p>
+        <span class="biz-tag">Technology</span>
+        <span class="verified">Verified Business</span>
+      </div>
+    </a>
+    <a href="#" class="biz-card">
+      <div class="biz-logo">🏦</div>
+      <div class="biz-info">
+        <h4>Karu POS & Transfer Hub</h4>
+        <p>OPay, bank transfers, airtime & bills</p>
+        <span class="biz-tag">Finance & POS</span>
+        <span class="verified">Verified Business</span>
+      </div>
+    </a>
+    <a href="#" class="biz-card">
+      <div class="biz-logo">🚗</div>
+      <div class="biz-info">
+        <h4>Gitata Auto Workshop</h4>
+        <p>Car repairs, servicing & spare parts</p>
+        <span class="biz-tag">Automobile</span>
+        <span class="verified">Verified Business</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section id="jobs" class="jobs">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label">Career Opportunities</div>
+      <h2 class="section-title">Latest Job Listings</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.65);">Find work in Gitata, Karu, Keffi, and across Nasarawa State.</p>
+    </div>
+    <a href="#" class="see-all">View all jobs →</a>
+  </div>
+  <div class="jobs-list">
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Frontend Web Developer</div>
+        <div class="job-company">Nasarawa Tech Hub · Keffi</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Full-time</span>
+        <span class="badge badge-gold">₦80,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Sales Representative</div>
+        <div class="job-company">Gitata Supermarket · Gitata</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Full-time</span>
+        <span class="badge badge-gold">₦45,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Primary School Teacher (Math & English etc)</div>
+        <div class="job-company">Bright Future Academy · Karu</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Part-time</span>
+        <span class="badge badge-gold">₦35,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Security Guard (Day & Night Shift)</div>
+        <div class="job-company">Karu Estate Management · Karu</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Full-time</span>
+        <span class="badge badge-gold">₦30,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Dispatch Rider / Delivery Driver</div>
+        <div class="job-company">Karu Express Delivery · Karu LGA</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Full-time</span>
+        <span class="badge badge-gold">₦40,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+  </div>
+</section>
+
+<!-- PROPERTIES -->
+<section id="properties">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label">Real Estate</div>
+      <h2 class="section-title">Properties For Rent & Sale</h2>
+      <p class="section-sub">Find your next home or investment in Gitata and surrounding areas.</p>
+    </div>
+    <a href="#" class="see-all">View all properties →</a>
+  </div>
+  <div class="prop-grid">
+    <a href="#" class="prop-card">
+      <div class="prop-img">🏠<span class="prop-badge rent">FOR RENT</span></div>
+      <div class="prop-body">
+        <div class="prop-price">₦250,000/year</div>
+        <div class="prop-title">3 Bedroom Flat — Gitata</div>
+        <div class="prop-location">📍 Gitata, Karu LGA</div>
+        <div class="prop-meta"><span>3 Beds</span><span>2 Baths</span><span>Parking</span></div>
+      </div>
+    </a>
+    <a href="#" class="prop-card">
+      <div class="prop-img">🏡<span class="prop-badge">FOR SALE</span></div>
+      <div class="prop-body">
+        <div class="prop-price">₦8,500,000</div>
+        <div class="prop-title">4 Bedroom Duplex — Mararaba</div>
+        <div class="prop-location">📍 Mararaba, Karu LGA</div>
+        <div class="prop-meta"><span>4 Beds</span><span>3 Baths</span>Fence</span></div>
+      </div>
+    </a>
+    <a href="#" class="prop-card">
+      <div class="prop-img">🏢<span class="prop-badge rent">FOR RENT</span></div>
+      <div class="prop-body">
+        <div class="prop-price">₦120,000/year</div>
+        <div class="prop-title">Self-Contained Room — Gitata</div>
+        <div class="prop-location">📍 Gitata Main Area</div>
+        <div class="prop-meta"><span>1 Bed</span><span>1 Bath</span><span>Pre-paid</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events" class="events">
+  <div class="section-header-row">
+    <div>
+      <div class="section-label">What's Happening</div>
+      <h2 class="section-title">Upcoming Events</h2>
+      <p class="section-sub">Stay connected with community gatherings, town halls, and celebrations.</p>
+    </div>
+    <a href="#" class="see-all">View all events →</a>
+  </div>
+  <div class="events-list">
+    <a href="#" class="event-card">
+      <div class="event-date"><div class="event-date-day">05</div><div class="event-date-mon">Jul</div></div>
+      <div class="event-info">
+        <h4>Gitata Ward Community Town Hall Meeting</h4>
+        <p>Gitata Community Hall · 10:00 AM</p>
+      </div>
+      <span class="event-type">Town Hall</span>
+    </a>
+    <a href="#" class="event-card">
+      <div class="event-date"><div class="event-date-day">12</div><div class="event-date-mon">Jul</div></div>
+      <div class="event-info">
+        <h4>Nasarawa Youth Entrepreneurship Summit 2026</h4>
+        <p>Lafia Conference Centre · 9:00 AM</p>
+      </div>
+      <span class="event-type">Business</span>
+    </a>
+    <a href="#" class="event-card">
+      <div class="event-date"><div class="event-date-day">19</div><div class="event-date-mon">Jul</div></div>
+      <div class="event-info">
+        <h4>Gitata Cultural Day Celebration & Awards</h4>
+        <p>Gitata Open Ground · 2:00 PM</p>
+      </div>
+      <span class="event-type">Cultural</span>
+    </a>
+    <a href="#" class="event-card">
+      <div class="event-date"><div class="event-date-day">26</div><div class="event-date-mon">Jul</div></div>
+      <div class="event-info">
+        <h4>Free Medical Outreach.Karu LGA Health Week</h4>
+        <p>Karu General Hospital · 8:00 AM</p>
+      </div>
+      <span class="event-type">Health</span>
+    </a>
+  </div>
+</section>
+
+<!-- JOIN COMMUNITY -->
+<section class="join-community">
+  <div class="section-header-row" style="margin-bottom:2rem;">
+    <div>
+      <div class="section-label">Stay Connected</div>
+      <h2 class="section-title">Join the GitataHub Community</h2>
+      <p class="section-sub">Get news, updates, and job alerts directly - choose how you want to stay connected.</p>
+    </div>
+  </div>
+  <div class="join-grid">
+    <div class="join-card">
+      <span class="join-icon"></span>
+      <h3>WhatsApp Community</h3>
+      <p>Join hundreds of Gitata residents on our WhatsApp group to receive breaking news, job alerts, and community announcements instantly.</p>
+      <a href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20join%20the%20community" class="btn-whatsapp">Join WhatsApp Group</a>
+    </div>
+    <div class="join-card">
+      <span class="join-icon"></span>
+      <h3>Submit a News Tip</h3>
+      <p>See something happening in Gitata or Karu LGA? Send us a tip and our team will cover it. Your community needs your voice.</p>
+      <a href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20have%20a%20news%20tip" class="btn-green">Send a Tip</a>
+    </div>
+  </div>
+</section>
+
+<!-- ADVERTISE CTA -->
+<section id="advertise" class="advertise">
+  <h2>Reach <span>Thousands</span> of Gitata Residents</h2>
+  <p>Advertise your business, post a job, list your property, or sponsor community news — all from one place.</p>
+  <div class="adv-options">
+    <span class="adv-pill">Business Listing — ₦3,000/month</span>
+    <span class="adv-pill">Sponsored Post — ₦5,000</span>
+    <span class="adv-pill">Job Ad — ₦3,000</span>
+    <span class="adv-pill">Property Listing — ₦2,000</span>
+    <span class="adv-pill">Banner Ad — ₦10,000/month</span>
+  </div>
+  <a href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20advertise" class="btn-primary">
+    Contact Us on WhatsApp
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">Gitata<span style="color:var(--gold)">Hub</span></a>
+      <p>GitataHub is Gitata's trusted community platform — connecting residents with news, businesses, jobs, properties, and events since 2026.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/profile.php?id=61584163517576" target="_blank" class="social-btn" aria-label="Facebook">📘</a>
+        <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+        <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+        <a href="https://wa.me/2349159329638" class="social-btn" aria-label="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#news">Latest News</a></li>
+        <li><a href="#businesses">Business Directory</a></li>
+        <li><a href="#jobs">Job Listings</a></li>
+        <li><a href="#properties">Properties</a></li>
+        <li><a href="#events">Events</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="#">About GitataHub</a></li>
+        <li><a href="#">Submit News Tip</a></li>
+        <li><a href="#">List Your Business</a></li>
+        <li><a href="#">Post a Job</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">📍 Gitata, Karu LGA</a></li>
+        <li><a href="https://wa.me/2349159329638">📱 WhatsApp Us</a></li>
+        <li><a href="mailto:gitatahub4786@gmail.com">gitatahub4786@gmail.com</a></li>
+        <li>
+          <a 
+          href="https://www.facebook.com/profile.php?id=61584163517576"
+        target="_blank">
+      Facebook page
+    </a>
+    </li>
+      </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 GitataHub. Built for the Gitata Community.</span>
+    <span>Privacy Policy · Terms of Use</span>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT BUTTON -->
+<a href="https://wa.me/2349159329638?text=Hi%20GitataHub!" class="wa-float" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">💬</a>
+
+<!-- BACK TO TOP -->
+<a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
+
+<script>
+  // Mobile menu toggle
+  const hamburger = document.querySelector('.hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Close mobile nav when a link is clicked
+  mobileNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Active nav highlight on scroll + back-to-top visibility
+  const sections = document.querySelectorAll('section[id]');
+  const navAnchors = document.querySelectorAll('.nav-links a');
+  const btt = document.getElementById('backToTop');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 90) current = s.id;
+    });
+    navAnchors.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+    btt.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Hero search
+  const searchInput = document.querySelector('.hero-search input');
+  const searchBtn = document.querySelector('.hero-search button');
+  searchBtn.addEventListener('click', () => {
+    const q = searchInput.value.trim();
+    if (q) alert('Searching for: "' + q + '"\n\nFull search coming soon — for now, browse sections below or contact us on WhatsApp!');
+  });
+  searchInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') searchBtn.click();
+  });
+</script>
+</body>
+</html>

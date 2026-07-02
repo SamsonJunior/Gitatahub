@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login — GitataHub</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --green-deep: #0e5c30;
+        --green-mid: #1a7a42;
+        --green-light: #25a35a;
+        --green-pale: #e8f5ee;
+        --gold: #d4a017;
+        --ink: #0d1f14;
+        --border: #c4dfd0;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--green-deep),
+          var(--green-mid)
+        );
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      .login-box {
+        background: #fff;
+        border-radius: 20px;
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      }
+      .logo {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .logo h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--green-deep);
+      }
+      .logo h1 span {
+        color: var(--gold);
+      }
+      .logo p {
+        font-size: 0.82rem;
+        color: #789;
+        margin-top: 0.3rem;
+      }
+      .lock-icon {
+        font-size: 3rem;
+        display: block;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      .form-group {
+        margin-bottom: 1.2rem;
+      }
+      .form-group label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 0.4rem;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border 0.2s;
+        font-family: inherit;
+      }
+      .form-group input:focus {
+        border-color: var(--green-mid);
+      }
+      .login-btn {
+        width: 100%;
+        background: var(--green-deep);
+        color: #fff;
+        padding: 0.9rem;
+        border: none;
+        border-radius: 9px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin-top: 0.5rem;
+      }
+      .login-btn:hover {
+        background: var(--green-mid);
+      }
+      .error-msg {
+        background: #fee2e2;
+        color: #991b1b;
+        padding: 0.7rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+        display: none;
+        text-align: center;
+      }
+      .back-link {
+        text-align: center;
+        margin-top: 1.2rem;
+      }
+      .back-link a {
+        color: var(--green-mid);
+        font-size: 0.82rem;
+        text-decoration: none;
+      }
+      .attempts-msg {
+        text-align: center;
+        font-size: 0.78rem;
+        color: #789;
+        margin-top: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-box">
+      <div class="logo">
+        <span class="lock-icon"></span>
+        <h1>Gitata<span>Hub</span></h1>
+        <p>Admin Panel- Authorized Access Only</p>
+      </div>
+      <div class="error-msg" id="errorMsg">
+        Incorrect password. Please try again.
+      </div>
+      <div class="form-group">
+        <label>Admin Password</label>
+        <input
+          type="password"
+          id="passwordInput"
+          placeholder="Enter your admin password"
+          onkeypress="if (event.key === 'Enter') login();"
+        />
+      </div>
+      <button class="login-btn" onclick="login()">Login to Dashboard</button>
+      <div class="attempts-msg" id="attemptsMsg"></div>
+      <div class="back-link"><a href="index.html">← Back to GitataHub</a></div>
+    </div>
+    <script>
+      // Check if already logged in
+      if (sessionStorage.getItem("ghubAdmin") === "true")
+        window.location.href = "admin.html";
+
+      let attempts = 0;
+      const MAX_ATTEMPTS = 5;
+
+      function login() {
+        const pwd = document.getElementById("passwordInput").value;
+        const errorMsg = document.getElementById("errorMsg");
+        const attemptsMsg = document.getElementById("attemptsMsg");
+
+        if (attempts >= MAX_ATTEMPTS) {
+          errorMsg.textContent =
+            "Too many failed attempts. Please wait 5 minutes.";
+          errorMsg.style.display = "block";
+          return;
+        }
+
+        // Simple hash check - password: GHub2026@@##
+        if (pwd === atob("R0h1YjIwMjZAQCMj")) {
+          sessionStorage.setItem("ghubAdmin", "true");
+          window.location.href = "admin.html";
+        } else {
+          attempts++;
+          errorMsg.style.display = "block";
+          document.getElementById("passwordInput").value = "";
+          const remaining = MAX_ATTEMPTS - attempts;
+          if (remaining > 0) {
+            attemptsMsg.textContent = `${remaining} attempt(s) remaining`;
+          } else {
+            errorMsg.textContent =
+              "Too many failed attempts. Please wait 5 minutes.";
+            setTimeout(() => {
+              attempts = 0;
+              attemptsMsg.textContent = "";
+            }, 300000);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

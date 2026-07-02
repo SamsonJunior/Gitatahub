@@ -1,0 +1,1494 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News — GitataHub</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --green-deep: #0e5c30;
+        --green-mid: #1a7a42;
+        --green-light: #25a35a;
+        --green-pale: #e8f5ee;
+        --white: #ffffff;
+        --ink: #0d1f14;
+        --ink-soft: #3a5244;
+        --border: #c4dfd0;
+        --gold: #d4a017;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--white);
+        color: var(--ink);
+        line-height: 1.6;
+      }
+
+      /* NAV */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--green-deep);
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--white);
+        text-decoration: none;
+        letter-spacing: -0.5px;
+      }
+      .nav-logo span {
+        color: var(--gold);
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.6rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--white);
+        font-weight: 700;
+      }
+      .nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.45rem 1.1rem;
+        border-radius: 6px;
+        font-weight: 600 !important;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      .mobile-nav {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background: var(--green-deep);
+        padding: 1rem 5% 1.4rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        z-index: 99;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .mobile-nav.open {
+        display: flex;
+      }
+      .mobile-nav a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .mobile-nav a:last-child {
+        border-bottom: none;
+      }
+      .mobile-nav a.nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        font-weight: 700 !important;
+        text-align: center;
+        border: none;
+        margin-top: 0.4rem;
+      }
+
+      /* PAGE HERO */
+      .page-hero {
+        background: linear-gradient(
+          135deg,
+          var(--green-deep) 0%,
+          var(--green-mid) 100%
+        );
+        color: white;
+        padding: 52px 5% 44px;
+      }
+      .page-hero-eyebrow {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.6rem;
+      }
+      .page-hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 900;
+        margin-bottom: 0.7rem;
+      }
+      .page-hero p {
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 540px;
+        font-size: 1rem;
+      }
+
+      /* TICKER */
+      .ticker {
+        background: var(--green-light);
+        padding: 0.6rem 0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .ticker-label {
+        background: var(--gold);
+        color: var(--ink);
+        font-weight: 700;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.8rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-left: 1rem;
+        border-radius: 4px;
+      }
+      .ticker-track {
+        display: flex;
+        gap: 3rem;
+        animation: ticker 28s linear infinite;
+        white-space: nowrap;
+      }
+      .ticker-track span {
+        color: white;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      .ticker-track span::before {
+        content: "● ";
+        color: var(--gold);
+        font-size: 0.6rem;
+      }
+      @keyframes ticker {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* LAYOUT */
+      .content-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 52px 5%;
+      }
+      .news-layout {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 2.5rem;
+        align-items: start;
+      }
+
+      /* FILTERS */
+      .filter-bar {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+      .filter-btn {
+        background: var(--green-pale);
+        border: 1.5px solid var(--border);
+        color: var(--ink);
+        border-radius: 100px;
+        padding: 0.4rem 1rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--green-deep);
+        border-color: var(--green-deep);
+        color: white;
+      }
+
+      /* NEWS CARDS */
+      .news-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4rem;
+      }
+      .news-card {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: var(--white);
+        display: flex;
+        gap: 0;
+        text-decoration: none;
+        color: inherit;
+        transition:
+          box-shadow 0.2s,
+          transform 0.2s;
+      }
+      .news-card:hover {
+        box-shadow: 0 8px 32px rgba(14, 92, 48, 0.12);
+        transform: translateY(-2px);
+      }
+      .news-card-img {
+        width: 200px;
+        min-height: 160px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, var(--green-pale), var(--border));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+      }
+      .news-card-body {
+        padding: 1.3rem;
+        flex: 1;
+      }
+      .news-tag {
+        display: inline-block;
+        background: var(--green-pale);
+        color: var(--green-deep);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+        margin-bottom: 0.6rem;
+      }
+      .news-tag.politics {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .news-tag.community {
+        background: #d1ecf1;
+        color: #0c5460;
+      }
+      .news-tag.health {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .news-tag.education {
+        background: #e2d9f3;
+        color: #432874;
+      }
+      .news-tag.business {
+        background: #d4edda;
+        color: #155724;
+      }
+      .news-tag.infrastructure {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .news-card h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        line-height: 1.35;
+        margin-bottom: 0.5rem;
+      }
+      .news-card p {
+        font-size: 0.875rem;
+        color: var(--ink-soft);
+        line-height: 1.55;
+        margin-bottom: 0.8rem;
+      }
+      .news-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.75rem;
+        color: #789;
+        flex-wrap: wrap;
+      }
+
+      /* FEATURED CARD */
+      .news-card.featured-big {
+        flex-direction: column;
+      }
+      .news-card.featured-big .news-card-img {
+        width: 100%;
+        height: 260px;
+        font-size: 4rem;
+      }
+
+      /* SIDEBAR */
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .sidebar-box {
+        background: var(--green-pale);
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem;
+      }
+      .sidebar-box h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--ink);
+      }
+      .sidebar-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .sidebar-list li a {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        text-decoration: none;
+        color: var(--ink);
+        font-size: 0.85rem;
+        font-weight: 500;
+        line-height: 1.4;
+        transition: color 0.2s;
+      }
+      .sidebar-list li a:hover {
+        color: var(--green-mid);
+      }
+      .sidebar-list li span.icon {
+        font-size: 1.3rem;
+        flex-shrink: 0;
+      }
+      .sidebar-list li .meta {
+        font-size: 0.72rem;
+        color: var(--ink-soft);
+        margin-top: 0.15rem;
+      }
+
+      .categories-mini {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .cat-pill {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 100px;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--ink);
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .cat-pill:hover {
+        background: var(--green-deep);
+        color: white;
+        border-color: var(--green-deep);
+      }
+
+      .btn-whatsapp {
+        background: #25d366;
+        color: white;
+        padding: 0.7rem 1.3rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.88rem;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        transition: background 0.2s;
+        margin-top: 0.5rem;
+      }
+      .btn-whatsapp:hover {
+        background: #1ebe5b;
+      }
+
+      /* LOAD MORE */
+      .load-more-wrap {
+        text-align: center;
+        margin-top: 2rem;
+      }
+      .btn-load {
+        background: var(--green-pale);
+        border: 2px solid var(--green-mid);
+        color: var(--green-deep);
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-load:hover {
+        background: var(--green-deep);
+        color: white;
+        border-color: var(--green-deep);
+      }
+
+      /* ADVERTISE BANNER */
+      .adv-banner {
+        background: linear-gradient(
+          120deg,
+          var(--green-deep),
+          var(--green-mid)
+        );
+        color: white;
+        border-radius: 14px;
+        padding: 1.5rem;
+        text-align: center;
+      }
+      .adv-banner h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .adv-banner p {
+        font-size: 0.82rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 1rem;
+      }
+      .btn-gold {
+        background: var(--gold);
+        color: var(--ink);
+        padding: 0.65rem 1.3rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.88rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.2s;
+      }
+      .btn-gold:hover {
+        background: #c49010;
+      }
+
+      /* FOOTER */
+      footer {
+        background: var(--ink);
+        color: rgba(255, 255, 255, 0.75);
+        padding: 56px 5% 28px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 2.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .footer-brand .nav-logo {
+        font-size: 1.4rem;
+        display: inline-block;
+        margin-bottom: 0.8rem;
+      }
+      .footer-brand p {
+        font-size: 0.85rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.6);
+        max-width: 280px;
+      }
+      .footer-social {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+      .social-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .social-btn:hover {
+        background: var(--green-mid);
+      }
+      .footer-col h4 {
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .footer-col a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.2s;
+      }
+      .footer-col a:hover {
+        color: var(--green-light);
+      }
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 1.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .wa-float {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999;
+        background: #25d366;
+        color: white;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+        transition: transform 0.2s;
+      }
+      .wa-float:hover {
+        transform: scale(1.08);
+      }
+      .back-to-top {
+        position: fixed;
+        bottom: 90px;
+        right: 24px;
+        z-index: 998;
+        background: var(--green-deep);
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(14, 92, 48, 0.35);
+        transition:
+          opacity 0.3s,
+          transform 0.2s;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .back-to-top.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .back-to-top:hover {
+        transform: translateY(-3px);
+      }
+
+      @media (max-width: 900px) {
+        .news-layout {
+          grid-template-columns: 1fr;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .nav-links {
+          display: none !important;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .news-card {
+          flex-direction: column;
+        }
+        .news-card-img {
+          width: 100%;
+          height: 180px;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="nav-logo">Gitata<span>Hub</span></a>
+      <ul class="nav-links">
+        <li><a href="news.html" class="active">News</a></li>
+        <li><a href="businesses.html">Businesses</a></li>
+        <li><a href="jobs.html">Jobs</a></li>
+        <li><a href="properties.html">Properties</a></li>
+        <li><a href="index.html#events">Events</a></li>
+        <li><a href="submit.html" class="nav-cta">Submit / Advertise</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="news.html">News</a>
+      <a href="businesses.html">Businesses</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="properties.html">Properties</a>
+      <a href="index.html#events">Events</a>
+      <a href="submit.html" class="nav-cta">Submit / Advertise</a>
+    </div>
+
+    <div class="page-hero">
+      <div class="page-hero-eyebrow">Community Journalism</div>
+      <h1>Gitata & Karu LGA News</h1>
+      <p>
+        Stay informed with the latest news, politics, events, and stories from
+        Gitata, Karu LGA, and Nasarawa State.
+      </p>
+    </div>
+
+    <div class="ticker">
+      <span class="ticker-label">BREAKING</span>
+      <div class="ticker-track">
+        <span>Karu LGA holds quarterly community development meeting</span>
+        <span
+          >New Flyover/underpass construction are currently ongoing in karu LGA,
+          Mararaba</span
+        >
+        <span
+          >NSUK are yet to announces 2026/2027 cut off mark stay turned for
+          updates</span
+        >
+        <span
+          >Hon. Daniel Ogah visits Gitata ward leaders ahead of 2027
+          elections</span
+        >
+        <span>Nasarawa State Government launches youth empowerment fund</span>
+        <span>Gitata Mirror celebrates 1.2k Followers</span>
+        <span>Karu LGA holds quarterly community development meeting</span>
+        <span
+          >Karu LGA Chairman set to begins construction of Market in 2026</span
+        >
+        <span
+          >Hon. Daniel Ogah Ogazi will be live in keffi on 7th of july to
+          empower 525 women, u are all invited</span
+        >
+        <span>Follow Gitata Mirror for more update in facebook</span>
+      </div>
+    </div>
+
+    <div class="content-wrap">
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterNews('all', this)">
+          All
+        </button>
+        <button class="filter-btn" onclick="filterNews('politics', this)">
+          Politics
+        </button>
+        <button class="filter-btn" onclick="filterNews('community', this)">
+          Community
+        </button>
+        <button class="filter-btn" onclick="filterNews('health', this)">
+          Health
+        </button>
+        <button class="filter-btn" onclick="filterNews('education', this)">
+          Education
+        </button>
+        <button class="filter-btn" onclick="filterNews('business', this)">
+          Business
+        </button>
+        <button class="filter-btn" onclick="filterNews('infrastructure', this)">
+          Infrastructure
+        </button>
+      </div>
+
+      <div class="news-layout">
+        <div>
+          <div class="news-list" id="newsList">
+            <a href="#" class="news-card featured-big" data-cat="politics">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #0e5c30 0%, #1a7a42 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >🏛️ POLITICS</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag politics">Politics</span>
+                <h3>
+                  Hon. Daniel Ogah Commissions New Borehole Project in Gitata
+                  Ward, Pledges More Infrastructure
+                </h3>
+                <p>
+                  The federal representative for Karu/Keffi/Kokona constituency
+                  visited Gitata community yesterday to commission a newly
+                  installed borehole, promising more development projects ahead
+                  of the 2027 general elections.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 29, 2026</span
+                  ><span>👁 1.2k views</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="#" class="news-card" data-cat="infrastructure">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >🏗️ INFRASTRUCTURE</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag infrastructure">Infrastructure</span>
+                <h3>
+                  Nasarawa State Govn. Begins Road Rehabilitation on
+                  Karu–Mararaba Axis
+                </h3>
+                <p>
+                  His. Excellency Eng.AA Sule Started Construction
+                  rehabilitation work on the long-neglected Karu-Mararaba road,
+                  with the Chairman confirming project completion by September
+                  2026.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 28, 2026</span
+                  ><span>870 views</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="#" class="news-card" data-cat="education">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #3730a3 0%, #6b21a8 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >🎓 EDUCATION</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag education">Education</span>
+                <h3>
+                  NSUK Final Year Students Begin Defence Season for 2025/2026
+                  Session
+                </h3>
+                <p>
+                  Nasarawa State University Keffi has officially kicked off its
+                  final year project defence sessions, with over 2,000 students
+                  scheduled across multiple departments through July 2026.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 27, 2026</span
+                  ><span>👁 640 views</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="#" class="news-card" data-cat="community">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #1a2f1a 0%, #0e5c30 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >🏘️ COMMUNITY</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag community">Community</span>
+                <h3>Residents Demand Restoration of Power Supply in Gitata</h3>
+                <p>
+                  A coalition of Gitata residents has submitted a formal
+                  petition to the Abuja Distribution Company demanding
+                  restoration of electricity supply after month of outage
+                  affecting hundreds of homes and businesses.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 26, 2026</span
+                  ><span>👁 510 views</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="#" class="news-card" data-cat="business">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >💼 BUSINESS</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag business">Business</span>
+                <h3>
+                  Nasarawa Youth Fund Opens Applications . Here's How to Apply
+                </h3>
+                <p>
+                  The Nasarawa State Government's youth empowerment fund has
+                  opened applications for the 2026 cycle, offering grants
+                  between ₦100,000 and ₦500,000 to young entrepreneurs in
+                  agriculture, technology, and trade.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 25, 2026</span
+                  ><span>👁 1.5k views</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="#" class="news-card" data-cat="health">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #0c5460 0%, #117a8b 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >🏥 HEALTH</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag health">Health</span>
+                <h3>
+                  Free Medical Outreach Planned for Gitata — Karu LGA Health
+                  Week Begins July 26
+                </h3>
+                <p>
+                  The Karu LGA Primary Healthcare Authority has announced a free
+                  medical outreach programme to be held at Karu General Hospital
+                  during Health Week, covering malaria testing, blood pressure
+                  checks, and antenatal care.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 24, 2026</span
+                  ><span>👁 390 views</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="#" class="news-card" data-cat="politics">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #0e5c30 0%, #1a7a42 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >🏛️ POLITICS</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag politics">Politics</span>
+                <h3>
+                  Karu/Gitata House of Assembly: more than 4 Aspirants Declare
+                  Intention Ahead of 2027 Polls
+                </h3>
+                <p>
+                  more than four prominent individuals have formally declared
+                  interest in the Karu/Gitata House of Assembly seat, with early
+                  consultations already ongoing with ward leaders and community
+                  stakeholders.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 22, 2026</span
+                  ><span>720 views</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="#" class="news-card" data-cat="community">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #1a2f1a 0%, #0e5c30 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >🏘️ COMMUNITY</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag community">Community</span>
+                <h3>
+                  Gitata Cultural Day Celebration & Awards Set for July 19 Full
+                  Programme Revealed
+                </h3>
+                <p>
+                  Organisers of the annual Gitata Cultural Day have released the
+                  full event programme, featuring traditional performances,
+                  community awards, and a youth talent showcase at the Gitata
+                  Open Ground.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 20, 2026</span
+                  ><span>👁 480 views</span>
+                </div>
+              </div>
+            </a>
+
+            <a href="#" class="news-card" data-cat="infrastructure">
+              <div
+                class="news-card-img"
+                style="
+                  background: linear-gradient(135deg, #78350f 0%, #b45309 100%);
+                  display: flex;
+                  align-items: flex-end;
+                  padding: 1rem;
+                  position: relative;
+                  overflow: hidden;
+                "
+              >
+                <div
+                  style="
+                    position: absolute;
+                    top: -30px;
+                    right: -30px;
+                    width: 160px;
+                    height: 160px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 50%;
+                  "
+                ></div>
+                <span
+                  style="
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    padding: 0.25rem 0.6rem;
+                    border-radius: 4px;
+                    background: #d4a017;
+                    color: #0d1f14;
+                  "
+                  >🏗️ INFRASTRUCTURE</span
+                >
+              </div>
+              <div class="news-card-body">
+                <span class="news-tag infrastructure">Infrastructure</span>
+                <h3>
+                  Nasarawa RUWASA to Connect 3 Gitata Communities to Rural Water
+                  Supply Network
+                </h3>
+                <p>
+                  The Nasarawa State Rural Water Supply and Sanitation Agency
+                  has confirmed plans to extend the rural water network to three
+                  underserved communities in Gitata ward before the end of 2026.
+                </p>
+                <div class="news-meta">
+                  <span>GitataHub Reporter</span><span>June 18, 2026</span
+                  ><span>👁 310 views</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="load-more-wrap">
+            <button class="btn-load" onclick="loadMore()">
+              Load More Stories
+            </button>
+          </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+          <div class="sidebar-box">
+            <h3>Trending Now</h3>
+            <ul class="sidebar-list">
+              <li>
+                <a href="#"
+                  ><span class="icon"></span>
+                  <div>
+                    <div>
+                      Borehole commissioning by Hon. Ogah sparks 2027 debate
+                      againts his intention to contest for House of reps,
+                      representing Karu,Keffi,Kokona
+                    </div>
+                    <div class="meta">July 29, 2026 · 1.2k views</div>
+                  </div></a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  ><span class="icon"></span>
+                  <div>
+                    <div>Nasarawa Youth Fund how to apply step by step</div>
+                    <div class="meta">June 25, 2026 · 1.5k views</div>
+                  </div></a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  ><span class="icon"></span>
+                  <div>
+                    <div>Karu.Mararaba road rehabilitation underway</div>
+                    <div class="meta">June 28, 2026 · 870 views</div>
+                  </div></a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  ><span class="icon"></span>
+                  <div>
+                    <div>
+                      more than 4 aspirants declare for Karu/Gitata House of
+                      Assembly.
+                    </div>
+                    <div class="meta">may 22, 2026 · 720 views</div>
+                  </div></a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Browse by Category</h3>
+            <div class="categories-mini">
+              <a href="#" class="cat-pill">Politics</a>
+              <a href="#" class="cat-pill">Community</a>
+              <a href="#" class="cat-pill">Health</a>
+              <a href="#" class="cat-pill">Education</a>
+              <a href="#" class="cat-pill">Business</a>
+              <a href="#" class="cat-pill">Infrastructure</a>
+              <a href="#" class="cat-pill">Sports</a>
+              <a href="#" class="cat-pill">Culture</a>
+            </div>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Got a News Tip?</h3>
+            <p
+              style="
+                font-size: 0.85rem;
+                color: var(--ink-soft);
+                margin-bottom: 0.8rem;
+                line-height: 1.6;
+              "
+            >
+              See something happening in Gitata or Karu LGA? Send us a tip and
+              we'll cover it.
+            </p>
+            <a
+              href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20have%20a%20news%20tip"
+              class="btn-whatsapp"
+              >Send a Tip on WhatsApp</a
+            >
+          </div>
+
+          <div class="adv-banner">
+            <h4>Advertise Here</h4>
+            <p>
+              Reach thousands of Gitata readers with a sponsored post or banner
+              ad.
+            </p>
+            <a
+              href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20advertise"
+              class="btn-gold"
+              >Get Started</a
+            >
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo"
+            >Gitata<span style="color: var(--gold)">Hub</span></a
+          >
+          <p>
+            GitataHub is Gitata's trusted community platform . connecting
+            residents with news, businesses, jobs, properties, and events since
+            2026.
+          </p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" aria-label="Facebook">📘</a>
+            <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+            <a
+              href="https://wa.me/2349159329638"
+              class="social-btn"
+              aria-label="WhatsApp"
+              >💬</a
+            >
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="news.html">Latest News</a></li>
+            <li><a href="businesses.html">Business Directory</a></li>
+            <li><a href="jobs.html">Job Listings</a></li>
+            <li><a href="properties.html">Properties</a></li>
+            <li><a href="index.html#events">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#">About GitataHub</a></li>
+            <li><a href="submit.html">Submit News Tip</a></li>
+            <li><a href="submit.html">List Your Business</a></li>
+            <li><a href="submit.html">Post a Job</a></li>
+            <li><a href="https://wa.me/2349159329638">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">📍 Gitata, Karu LGA</a></li>
+            <li><a href="https://wa.me/2349159329638">📱 WhatsApp Us</a></li>
+            <li>
+              <a href="mailto:gitatahub4786@gmail.com"
+                >gitatahub4786@gmail.com</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://www.facebook.com/profile.php?id=61584163517576"
+                target="_blank"
+              >
+                Facebook page
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 GitataHub. Built for the Gitata Community.</span>
+        <span>Privacy Policy · Terms of Use</span>
+      </div>
+    </footer>
+
+    <a
+      href="https://wa.me/2349159329638?text=Hi%20GitataHub!"
+      class="wa-float"
+      title="Chat on WhatsApp"
+      aria-label="Chat on WhatsApp"
+      >💬</a
+    >
+    <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top"
+      >↑</a
+    >
+
+    <script>
+      const hamburger = document.querySelector(".hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+      hamburger.addEventListener("click", () => {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+      });
+      mobileNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileNav.classList.remove("open");
+          hamburger.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      const btt = document.getElementById("backToTop");
+      window.addEventListener("scroll", () => {
+        btt.classList.toggle("visible", window.scrollY > 400);
+      });
+
+      function filterNews(cat, btn) {
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".news-card").forEach((card) => {
+          card.style.display =
+            cat === "all" || card.dataset.cat === cat ? "" : "none";
+        });
+      }
+
+      function loadMore() {
+        alert(
+          "More stories coming soon! Follow us on WhatsApp for instant updates.",
+        );
+      }
+    </script>
+  </body>
+</html>

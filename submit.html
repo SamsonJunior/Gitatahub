@@ -1,0 +1,1253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit / Advertise — GitataHub</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --green-deep: #0e5c30;
+        --green-mid: #1a7a42;
+        --green-light: #25a35a;
+        --green-pale: #e8f5ee;
+        --white: #ffffff;
+        --ink: #0d1f14;
+        --ink-soft: #3a5244;
+        --border: #c4dfd0;
+        --gold: #d4a017;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--green-pale);
+        color: var(--ink);
+        line-height: 1.6;
+      }
+
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--green-deep);
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--white);
+        text-decoration: none;
+        letter-spacing: -0.5px;
+      }
+      .nav-logo span {
+        color: var(--gold);
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.6rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--white);
+        font-weight: 700;
+      }
+      .nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.45rem 1.1rem;
+        border-radius: 6px;
+        font-weight: 600 !important;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      .mobile-nav {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background: var(--green-deep);
+        padding: 1rem 5% 1.4rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        z-index: 99;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .mobile-nav.open {
+        display: flex;
+      }
+      .mobile-nav a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .mobile-nav a:last-child {
+        border-bottom: none;
+      }
+      .mobile-nav a.nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        font-weight: 700 !important;
+        text-align: center;
+        border: none;
+        margin-top: 0.4rem;
+      }
+
+      .page-hero {
+        background: linear-gradient(
+          135deg,
+          var(--green-deep) 0%,
+          var(--green-mid) 100%
+        );
+        color: white;
+        padding: 52px 5% 44px;
+        text-align: center;
+      }
+      .page-hero-eyebrow {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.6rem;
+      }
+      .page-hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 900;
+        margin-bottom: 0.7rem;
+      }
+      .page-hero p {
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 560px;
+        margin: 0 auto;
+        font-size: 1rem;
+      }
+
+      /* TAB SELECTOR */
+      .tab-wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 44px 5% 0;
+      }
+      .tab-selector {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-bottom: 2.5rem;
+      }
+      .tab-btn {
+        background: white;
+        border: 2px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem 1rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .tab-btn:hover {
+        border-color: var(--green-mid);
+        box-shadow: 0 4px 14px rgba(14, 92, 48, 0.08);
+      }
+      .tab-btn.active {
+        border-color: var(--green-deep);
+        background: var(--green-pale);
+      }
+      .tab-icon {
+        font-size: 2rem;
+      }
+      .tab-label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .tab-sub {
+        font-size: 0.75rem;
+        color: var(--ink-soft);
+      }
+
+      /* FORM CARD */
+      .form-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.4rem;
+        box-shadow: 0 4px 24px rgba(14, 92, 48, 0.08);
+        max-width: 960px;
+        margin: 0 auto;
+        display: none;
+      }
+      .form-card.active {
+        display: block;
+      }
+      .form-card h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+      }
+      .form-card .form-intro {
+        font-size: 0.88rem;
+        color: var(--ink-soft);
+        margin-bottom: 2rem;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2rem;
+      }
+      .form-grid.full {
+        grid-template-columns: 1fr;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .field.span2 {
+        grid-column: span 2;
+      }
+      label {
+        font-size: 0.83rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      label span.req {
+        color: var(--green-mid);
+        margin-left: 2px;
+      }
+      input[type="text"],
+      input[type="tel"],
+      input[type="email"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1.5px solid var(--border);
+        border-radius: 10px;
+        font-family: "Inter", sans-serif;
+        font-size: 0.9rem;
+        color: var(--ink);
+        background: var(--white);
+        transition: border-color 0.2s;
+        outline: none;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: var(--green-mid);
+      }
+      textarea {
+        resize: vertical;
+        min-height: 110px;
+      }
+
+      .form-note {
+        background: var(--green-pale);
+        border-left: 4px solid var(--green-mid);
+        border-radius: 8px;
+        padding: 0.9rem 1.1rem;
+        font-size: 0.83rem;
+        color: var(--ink-soft);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+      }
+
+      .btn-submit {
+        background: var(--green-deep);
+        color: white;
+        padding: 0.9rem 2rem;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s;
+        width: 100%;
+        margin-top: 0.5rem;
+      }
+      .btn-submit:hover {
+        background: var(--green-mid);
+      }
+
+      .or-divider {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        color: var(--ink-soft);
+        font-size: 0.85rem;
+      }
+      .or-divider::before,
+      .or-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .btn-wa {
+        background: #25d366;
+        color: white;
+        padding: 0.85rem 2rem;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        text-decoration: none;
+        display: block;
+        text-align: center;
+        transition: background 0.2s;
+      }
+      .btn-wa:hover {
+        background: #1ebe5b;
+      }
+
+      /* PRICING TABLE */
+      .pricing-section {
+        max-width: 960px;
+        margin: 2.5rem auto 0;
+        padding: 0 5%;
+      }
+      .pricing-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        margin-bottom: 3rem;
+      }
+      .pricing-card {
+        background: white;
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem;
+        text-align: center;
+      }
+      .pricing-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+      .pricing-type {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 0.4rem;
+      }
+      .pricing-amount {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--green-deep);
+        margin-bottom: 0.3rem;
+      }
+      .pricing-desc {
+        font-size: 0.75rem;
+        color: var(--ink-soft);
+      }
+
+      footer {
+        background: var(--ink);
+        color: rgba(255, 255, 255, 0.75);
+        padding: 56px 5% 28px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 2.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .footer-brand .nav-logo {
+        font-size: 1.4rem;
+        display: inline-block;
+        margin-bottom: 0.8rem;
+      }
+      .footer-brand p {
+        font-size: 0.85rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.6);
+        max-width: 280px;
+      }
+      .footer-social {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+      .social-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .social-btn:hover {
+        background: var(--green-mid);
+      }
+      .footer-col h4 {
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .footer-col a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.2s;
+      }
+      .footer-col a:hover {
+        color: var(--green-light);
+      }
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 1.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+      }
+      .wa-float {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999;
+        background: #25d366;
+        color: white;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+        transition: transform 0.2s;
+      }
+      .wa-float:hover {
+        transform: scale(1.08);
+      }
+      .back-to-top {
+        position: fixed;
+        bottom: 90px;
+        right: 24px;
+        z-index: 998;
+        background: var(--green-deep);
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(14, 92, 48, 0.35);
+        transition:
+          opacity 0.3s,
+          transform 0.2s;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .back-to-top.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .back-to-top:hover {
+        transform: translateY(-3px);
+      }
+
+      @media (max-width: 900px) {
+        .tab-selector {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .nav-links {
+          display: none !important;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .tab-selector {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .field.span2 {
+          grid-column: span 1;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="nav-logo">Gitata<span>Hub</span></a>
+      <ul class="nav-links">
+        <li><a href="news.html">News</a></li>
+        <li><a href="businesses.html">Businesses</a></li>
+        <li><a href="jobs.html">Jobs</a></li>
+        <li><a href="properties.html">Properties</a></li>
+        <li><a href="index.html#events">Events</a></li>
+        <li>
+          <a href="submit.html" class="nav-cta active">Submit / Advertise</a>
+        </li>
+      </ul>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="news.html">News</a>
+      <a href="businesses.html">Businesses</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="properties.html">Properties</a>
+      <a href="index.html#events">Events</a>
+      <a href="submit.html" class="nav-cta">Submit / Advertise</a>
+    </div>
+
+    <div class="page-hero">
+      <div class="page-hero-eyebrow">Get Involved</div>
+      <h1>Submit & Advertise on GitataHub</h1>
+      <p>
+        Share news tips, list your business, post jobs, or advertise your
+        property reach thousands of Gitata residents.
+      </p>
+    </div>
+
+    <div class="tab-wrap">
+      <div class="tab-selector">
+        <button class="tab-btn active" onclick="switchTab('news')">
+          <span class="tab-icon">📰</span>
+          <span class="tab-label">News Tip</span>
+          <span class="tab-sub">Share a story</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('business')">
+          <span class="tab-icon">🏪</span>
+          <span class="tab-label">List Business</span>
+          <span class="tab-sub">₦3,000/month</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('job')">
+          <span class="tab-icon">💼</span>
+          <span class="tab-label">Post a Job</span>
+          <span class="tab-sub">₦3,000/listing</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('property')">
+          <span class="tab-icon">🏠</span>
+          <span class="tab-label">List Property</span>
+          <span class="tab-sub">₦2,000/listing</span>
+        </button>
+      </div>
+
+      <!-- NEWS TIP FORM -->
+      <div class="form-card active" id="form-news">
+        <h2>Submit a News Tip</h2>
+        <p class="form-intro">
+          Have something happening in Gitata or Karu LGA? Send us the details
+          and our editorial team will cover it. Your identity will be kept
+          confidential if requested.
+        </p>
+        <div class="form-note">
+          All submissions are reviewed by our editorial team before publication.
+          You may be contacted for more details.
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Your Name <span class="req">*</span></label>
+            <input
+              type="text"
+              id="news-name"
+              placeholder="e.g. Aisha Mohammed"
+            />
+          </div>
+          <div class="field">
+            <label>Your Phone Number <span class="req">*</span></label>
+            <input
+              type="tel"
+              id="news-phone"
+              placeholder="e.g. 0812 345 6789"
+            />
+          </div>
+          <div class="field span2">
+            <label>News Headline / Title <span class="req">*</span></label>
+            <input
+              type="text"
+              id="news-title"
+              placeholder="e.g. New borehole constructed in Gitata"
+            />
+          </div>
+          <div class="field">
+            <label>Category <span class="req">*</span></label>
+            <select id="news-cat">
+              <option value="">— Select Category —</option>
+              <option>Politics</option>
+              <option>Community</option>
+              <option>Infrastructure</option>
+              <option>Health</option>
+              <option>Education</option>
+              <option>Business</option>
+              <option>Security</option>
+              <option>Culture & Events</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Location</label>
+            <input
+              type="text"
+              id="news-location"
+              placeholder="e.g. Gitata, Karu LGA"
+            />
+          </div>
+          <div class="field span2">
+            <label>Details / Description <span class="req">*</span></label>
+            <textarea
+              id="news-desc"
+              placeholder="Describe what happened, who is involved, where and when it occurred…"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label>Keep My Identity Confidential?</label>
+            <select id="news-anon">
+              <option value="no">No you can mention my name</option>
+              <option value="yes">Yes please keep me anonymous</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Do you have photos?</label>
+            <select id="news-photos">
+              <option value="no">No photos</option>
+              <option value="yes-wa">Yes I will send via WhatsApp</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="submitForm('news')">
+          Submit News Tip via WhatsApp
+        </button>
+        <div class="or-divider">or send directly</div>
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20have%20a%20news%20tip"
+          class="btn-wa"
+          >Message Us Directly on WhatsApp</a
+        >
+      </div>
+
+      <!-- BUSINESS FORM -->
+      <div class="form-card" id="form-business">
+        <h2>List Your Business</h2>
+        <p class="form-intro">
+          Get your business in front of thousands of Gitata and Karu LGA
+          residents. Verified listings appear on the homepage and the full
+          business directory.
+        </p>
+        <div class="form-note">
+          Business listings start at ₦3,000/month. After submitting, our team
+          will contact you within 24 hours to confirm details and collect
+          payment.
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Business Name <span class="req">*</span></label>
+            <input
+              type="text"
+              id="biz-name"
+              placeholder="e.g. Elegance Tailoring House"
+            />
+          </div>
+          <div class="field">
+            <label>Owner / Contact Person <span class="req">*</span></label>
+            <input type="text" id="biz-owner" placeholder="e.g. Musa Ibrahim" />
+          </div>
+          <div class="field">
+            <label>Phone Number <span class="req">*</span></label>
+            <input type="tel" id="biz-phone" placeholder="e.g. 0801 234 5678" />
+          </div>
+          <div class="field">
+            <label>WhatsApp Number</label>
+            <input type="tel" id="biz-wa" placeholder="e.g. 0801 234 5678" />
+          </div>
+          <div class="field">
+            <label>Business Category <span class="req">*</span></label>
+            <select id="biz-cat">
+              <option value="">— Select Category —</option>
+              <option>Fashion & Tailoring</option>
+              <option>Food & Restaurant</option>
+              <option>Health & Pharmacy</option>
+              <option>Technology & Electronics</option>
+              <option>Finance & POS</option>
+              <option>Automobile</option>
+              <option>Education</option>
+              <option>Building & Construction</option>
+              <option>Supermarket & Retail</option>
+              <option>Beauty & Salon</option>
+              <option>Logistics & Delivery</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Business Location <span class="req">*</span></label>
+            <input
+              type="text"
+              id="biz-location"
+              placeholder="e.g. Gitata Zone 2, near the junction"
+            />
+          </div>
+          <div class="field span2">
+            <label
+              >Brief Description of Your Business
+              <span class="req">*</span></label
+            >
+            <textarea
+              id="biz-desc"
+              placeholder="Describe what your business does, what products or services you offer…"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label>Opening Hours</label>
+            <input
+              type="text"
+              id="biz-hours"
+              placeholder="e.g. Mon–Sat, 8am–6pm"
+            />
+          </div>
+          <div class="field">
+            <label>How long have you been operating?</label>
+            <select id="biz-age">
+              <option>Less than 1 year</option>
+              <option>1–3 years</option>
+              <option>3–5 years</option>
+              <option>5+ years</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="submitForm('business')">
+          Submit Business Listing via WhatsApp
+        </button>
+        <div class="or-divider">or contact us directly</div>
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20list%20my%20business"
+          class="btn-wa"
+          >WhatsApp Us to List Your Business</a
+        >
+      </div>
+
+      <!-- JOB FORM -->
+      <div class="form-card" id="form-job">
+        <h2>Post a Job</h2>
+        <p class="form-intro">
+          Hiring? Reach hundreds of job seekers in Gitata and Karu LGA. Job
+          listings are shared on the website and our WhatsApp community.
+        </p>
+        <div class="form-note">
+          Job listings cost ₦3,000 per posting. Our team will confirm your
+          listing within 24 hours of submission.
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Job Title <span class="req">*</span></label>
+            <input
+              type="text"
+              id="job-title"
+              placeholder="e.g. Sales Representative"
+            />
+          </div>
+          <div class="field">
+            <label>Company / Employer Name <span class="req">*</span></label>
+            <input
+              type="text"
+              id="job-company"
+              placeholder="e.g. Gitata Supermarket"
+            />
+          </div>
+          <div class="field">
+            <label>Contact Phone <span class="req">*</span></label>
+            <input type="tel" id="job-phone" placeholder="e.g. 0812 345 6789" />
+          </div>
+          <div class="field">
+            <label>Job Location <span class="req">*</span></label>
+            <input
+              type="text"
+              id="job-location"
+              placeholder="e.g. Gitata Main Area"
+            />
+          </div>
+          <div class="field">
+            <label>Job Type <span class="req">*</span></label>
+            <select id="job-type">
+              <option value="">— Select —</option>
+              <option>Full-time</option>
+              <option>Part-time</option>
+              <option>Contract</option>
+              <option>Apprenticeship</option>
+              <option>Internship</option>
+              <option>Volunteer</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Salary / Pay (optional)</label>
+            <input
+              type="text"
+              id="job-salary"
+              placeholder="e.g. ₦45,000/month or Negotiable"
+            />
+          </div>
+          <div class="field span2">
+            <label>Job Description <span class="req">*</span></label>
+            <textarea
+              id="job-desc"
+              placeholder="Describe the role, responsibilities, and what you are looking for in a candidate…"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label>Qualifications Required</label>
+            <input
+              type="text"
+              id="job-quals"
+              placeholder="e.g. SSCE, OND, Degree, or none"
+            />
+          </div>
+          <div class="field">
+            <label>Experience Required</label>
+            <select id="job-exp">
+              <option>No experience required</option>
+              <option>Less than 1 year</option>
+              <option>1–2 years</option>
+              <option>3–5 years</option>
+              <option>5+ years</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="submitForm('job')">
+          Submit Job Listing via WhatsApp
+        </button>
+        <div class="or-divider">or contact us directly</div>
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20post%20a%20job"
+          class="btn-wa"
+          >WhatsApp Us to Post a Job</a
+        >
+      </div>
+
+      <!-- PROPERTY FORM -->
+      <div class="form-card" id="form-property">
+        <h2>List Your Property</h2>
+        <p class="form-intro">
+          Selling or renting a property in Gitata or Karu LGA? List it here and
+          reach serious buyers and tenants directly.
+        </p>
+        <div class="form-note">
+          Property listings cost ₦2,000. Our team will confirm and publish your
+          listing within 24 hours.
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Your Name <span class="req">*</span></label>
+            <input type="text" id="prop-name" placeholder="e.g. Bello Usman" />
+          </div>
+          <div class="field">
+            <label>Your Phone Number <span class="req">*</span></label>
+            <input
+              type="tel"
+              id="prop-phone"
+              placeholder="e.g. 0803 456 7890"
+            />
+          </div>
+          <div class="field">
+            <label>Property Type <span class="req">*</span></label>
+            <select id="prop-type">
+              <option value="">— Select —</option>
+              <option>Self-Contained Room</option>
+              <option>1 Bedroom Flat</option>
+              <option>2 Bedroom Flat</option>
+              <option>3 Bedroom Flat</option>
+              <option>4+ Bedroom Flat</option>
+              <option>Bungalow</option>
+              <option>Duplex</option>
+              <option>Shop / Office Space</option>
+              <option>Land / Plot</option>
+              <option>Warehouse</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Listing Type <span class="req">*</span></label>
+            <select id="prop-listing">
+              <option>For Rent</option>
+              <option>For Sale</option>
+              <option>Land for Sale</option>
+              <option>Commercial Let</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Price <span class="req">*</span></label>
+            <input
+              type="text"
+              id="prop-price"
+              placeholder="e.g. ₦250,000/year or ₦8,500,000"
+            />
+          </div>
+          <div class="field">
+            <label>Property Location <span class="req">*</span></label>
+            <input
+              type="text"
+              id="prop-location"
+              placeholder="e.g. Gitata Zone 2, near the market"
+            />
+          </div>
+          <div class="field">
+            <label>Number of Bedrooms</label>
+            <select id="prop-beds">
+              <option>N/A (land/shop)</option>
+              <option>1 Bedroom</option>
+              <option>2 Bedrooms</option>
+              <option>3 Bedrooms</option>
+              <option>4 Bedrooms</option>
+              <option>5+ Bedrooms</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Number of Bathrooms</label>
+            <select id="prop-baths">
+              <option>N/A</option>
+              <option>1 Bathroom</option>
+              <option>2 Bathrooms</option>
+              <option>3 Bathrooms</option>
+              <option>4+ Bathrooms</option>
+            </select>
+          </div>
+          <div class="field span2">
+            <label>Key Features</label>
+            <input
+              type="text"
+              id="prop-features"
+              placeholder="e.g. Pre-paid meter, borehole, fence, parking, tiled…"
+            />
+          </div>
+          <div class="field span2">
+            <label>Additional Description</label>
+            <textarea
+              id="prop-desc"
+              placeholder="Any extra information about the property — condition, neighbourhood, nearby landmarks…"
+            ></textarea>
+          </div>
+        </div>
+        <button class="btn-submit" onclick="submitForm('property')">
+          Submit Property Listing via WhatsApp
+        </button>
+        <div class="or-divider">or contact us directly</div>
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20list%20my%20property"
+          class="btn-wa"
+          >WhatsApp Us to List Your Property</a
+        >
+      </div>
+    </div>
+
+    <!-- PRICING SECTION -->
+    <div class="pricing-section">
+      <p class="pricing-title">Our Advertising Rates</p>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-icon">🏪</div>
+          <div class="pricing-type">Business Listing</div>
+          <div class="pricing-amount">₦3,000</div>
+          <div class="pricing-desc">per month</div>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-icon">📰</div>
+          <div class="pricing-type">Sponsored Post</div>
+          <div class="pricing-amount">₦5,000</div>
+          <div class="pricing-desc">one-time</div>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-icon">💼</div>
+          <div class="pricing-type">Job Ad</div>
+          <div class="pricing-amount">₦3,000</div>
+          <div class="pricing-desc">per listing</div>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-icon">🏠</div>
+          <div class="pricing-type">Property Listing</div>
+          <div class="pricing-amount">₦2,000</div>
+          <div class="pricing-desc">per listing</div>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-icon">🖼️</div>
+          <div class="pricing-type">Banner Ad</div>
+          <div class="pricing-amount">₦10,000</div>
+          <div class="pricing-desc">per month</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo"
+            >Gitata<span style="color: var(--gold)">Hub</span></a
+          >
+          <p>
+            GitataHub is Gitata's trusted community platform — connecting
+            residents with news, businesses, jobs, properties, and events since
+            2026.
+          </p>
+          <div class="footer-social">
+            <a href="#" class="social-btn">📘</a
+            ><a href="#" class="social-btn">🐦</a
+            ><a href="#" class="social-btn">📸</a
+            ><a href="https://wa.me/2349159329638" class="social-btn">💬</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="news.html">Latest News</a></li>
+            <li><a href="businesses.html">Business Directory</a></li>
+            <li><a href="jobs.html">Job Listings</a></li>
+            <li><a href="properties.html">Properties</a></li>
+            <li><a href="index.html#events">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#">About GitataHub</a></li>
+            <li><a href="submit.html">Submit News Tip</a></li>
+            <li><a href="submit.html">List Your Business</a></li>
+            <li><a href="submit.html">Post a Job</a></li>
+            <li><a href="https://wa.me/2349159329638">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">📍 Gitata, Karu LGA</a></li>
+            <li><a href="https://wa.me/2349159329638">📱 WhatsApp Us</a></li>
+            <li>
+              <a href="mailto:gitatahub4786@gmail.com"
+                >gitatahub4786@gmail.com</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://www.facebook.com/profile.php?id=61584163517576"
+                target="_blank"
+              >
+                Facebook page
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 GitataHub. Built for the Gitata Community.</span>
+        <span>Privacy Policy · Terms of Use</span>
+      </div>
+    </footer>
+
+    <a href="https://wa.me/2349159329638?text=Hi%20GitataHub!" class="wa-float"
+      >💬</a
+    >
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+
+    <script>
+      const hamburger = document.querySelector(".hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+      hamburger.addEventListener("click", () => {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+      });
+      mobileNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileNav.classList.remove("open");
+          hamburger.classList.remove("open");
+        });
+      });
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("backToTop")
+          .classList.toggle("visible", window.scrollY > 400);
+      });
+
+      function switchTab(tab) {
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelectorAll(".form-card")
+          .forEach((f) => f.classList.remove("active"));
+        event.currentTarget.classList.add("active");
+        document.getElementById("form-" + tab).classList.add("active");
+        document
+          .getElementById("form-" + tab)
+          .scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function submitForm(type) {
+        let msg = "";
+        if (type === "news") {
+          const name = document.getElementById("news-name").value.trim();
+          const phone = document.getElementById("news-phone").value.trim();
+          const title = document.getElementById("news-title").value.trim();
+          const cat = document.getElementById("news-cat").value;
+          const loc = document.getElementById("news-location").value.trim();
+          const desc = document.getElementById("news-desc").value.trim();
+          if (!name || !phone || !title || !cat || !desc) {
+            alert("Please fill in all required fields marked with *.");
+            return;
+          }
+          msg = `Hi GitataHub, I have a NEWS TIP:%0A%0A*Title:* ${title}%0A*Category:* ${cat}%0A*Location:* ${loc || "Not specified"}%0A*Details:* ${desc}%0A%0A*Submitted by:* ${name} | ${phone}`;
+        } else if (type === "business") {
+          const name = document.getElementById("biz-name").value.trim();
+          const owner = document.getElementById("biz-owner").value.trim();
+          const phone = document.getElementById("biz-phone").value.trim();
+          const cat = document.getElementById("biz-cat").value;
+          const loc = document.getElementById("biz-location").value.trim();
+          const desc = document.getElementById("biz-desc").value.trim();
+          if (!name || !owner || !phone || !cat || !loc || !desc) {
+            alert("Please fill in all required fields marked with *.");
+            return;
+          }
+          msg = `Hi GitataHub, I want to LIST MY BUSINESS:%0A%0A*Business:* ${name}%0A*Owner:* ${owner}%0A*Phone:* ${phone}%0A*Category:* ${cat}%0A*Location:* ${loc}%0A*Description:* ${desc}`;
+        } else if (type === "job") {
+          const title = document.getElementById("job-title").value.trim();
+          const company = document.getElementById("job-company").value.trim();
+          const phone = document.getElementById("job-phone").value.trim();
+          const loc = document.getElementById("job-location").value.trim();
+          const jtype = document.getElementById("job-type").value;
+          const desc = document.getElementById("job-desc").value.trim();
+          if (!title || !company || !phone || !loc || !jtype || !desc) {
+            alert("Please fill in all required fields marked with *.");
+            return;
+          }
+          msg = `Hi GitataHub, I want to POST A JOB:%0A%0A*Job Title:* ${title}%0A*Company:* ${company}%0A*Type:* ${jtype}%0A*Location:* ${loc}%0A*Description:* ${desc}%0A%0A*Contact:* ${phone}`;
+        } else if (type === "property") {
+          const name = document.getElementById("prop-name").value.trim();
+          const phone = document.getElementById("prop-phone").value.trim();
+          const ptype = document.getElementById("prop-type").value;
+          const listing = document.getElementById("prop-listing").value;
+          const price = document.getElementById("prop-price").value.trim();
+          const loc = document.getElementById("prop-location").value.trim();
+          if (!name || !phone || !ptype || !price || !loc) {
+            alert("Please fill in all required fields marked with *.");
+            return;
+          }
+          msg = `Hi GitataHub, I want to LIST A PROPERTY:%0A%0A*Type:* ${ptype} (${listing})%0A*Price:* ${price}%0A*Location:* ${loc}%0A%0A*Owner:* ${name} | ${phone}`;
+        }
+        window.open("https://wa.me/2349159329638?text=" + msg, "_blank");
+      }
+
+      // Auto-open tab from URL hash
+      const hash = window.location.hash;
+      if (hash === "#business") {
+        switchTab("business");
+        document.querySelector(".tab-btn:nth-child(2)").classList.add("active");
+        document
+          .querySelector(".tab-btn:first-child")
+          .classList.remove("active");
+      } else if (hash === "#job") {
+        switchTab("job");
+        document.querySelector(".tab-btn:nth-child(3)").classList.add("active");
+        document
+          .querySelector(".tab-btn:first-child")
+          .classList.remove("active");
+      } else if (hash === "#property") {
+        switchTab("property");
+        document.querySelector(".tab-btn:nth-child(4)").classList.add("active");
+        document
+          .querySelector(".tab-btn:first-child")
+          .classList.remove("active");
+      }
+    </script>
+  </body>
+</html>

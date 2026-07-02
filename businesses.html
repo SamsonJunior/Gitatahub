@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business Directory — GitataHub</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --green-deep: #0e5c30;
+        --green-mid: #1a7a42;
+        --green-light: #25a35a;
+        --green-pale: #e8f5ee;
+        --white: #ffffff;
+        --ink: #0d1f14;
+        --ink-soft: #3a5244;
+        --border: #c4dfd0;
+        --gold: #d4a017;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--white);
+        color: var(--ink);
+        line-height: 1.6;
+      }
+
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--green-deep);
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--white);
+        text-decoration: none;
+        letter-spacing: -0.5px;
+      }
+      .nav-logo span {
+        color: var(--gold);
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.6rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--white);
+        font-weight: 700;
+      }
+      .nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.45rem 1.1rem;
+        border-radius: 6px;
+        font-weight: 600 !important;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      .mobile-nav {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background: var(--green-deep);
+        padding: 1rem 5% 1.4rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        z-index: 99;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .mobile-nav.open {
+        display: flex;
+      }
+      .mobile-nav a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .mobile-nav a:last-child {
+        border-bottom: none;
+      }
+      .mobile-nav a.nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        font-weight: 700 !important;
+        text-align: center;
+        border: none;
+        margin-top: 0.4rem;
+      }
+
+      .page-hero {
+        background: linear-gradient(
+          135deg,
+          var(--green-deep) 0%,
+          var(--green-mid) 100%
+        );
+        color: white;
+        padding: 52px 5% 44px;
+      }
+      .page-hero-eyebrow {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.6rem;
+      }
+      .page-hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 900;
+        margin-bottom: 0.7rem;
+      }
+      .page-hero p {
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 540px;
+        font-size: 1rem;
+        margin-bottom: 1.4rem;
+      }
+
+      .hero-search {
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 480px;
+      }
+      .hero-search input {
+        flex: 1;
+        padding: 0.85rem 1.1rem;
+        border: none;
+        outline: none;
+        font-size: 0.9rem;
+        font-family: "Inter", sans-serif;
+        color: var(--ink);
+      }
+      .hero-search button {
+        background: var(--gold);
+        color: var(--ink);
+        border: none;
+        padding: 0 1.3rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.2s;
+      }
+      .hero-search button:hover {
+        background: #c49010;
+      }
+
+      .content-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 52px 5%;
+      }
+
+      .filter-row {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+      .filter-btn {
+        background: var(--green-pale);
+        border: 1.5px solid var(--border);
+        color: var(--ink);
+        border-radius: 100px;
+        padding: 0.4rem 1rem;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .filter-btn:hover,
+      .filter-btn.active {
+        background: var(--green-deep);
+        border-color: var(--green-deep);
+        color: white;
+      }
+
+      .biz-count {
+        font-size: 0.85rem;
+        color: var(--ink-soft);
+        margin-bottom: 1.4rem;
+      }
+      .biz-count strong {
+        color: var(--ink);
+      }
+
+      .biz-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.3rem;
+      }
+      .biz-card {
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.2s;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .biz-card:hover {
+        border-color: var(--green-mid);
+        box-shadow: 0 6px 24px rgba(14, 92, 48, 0.12);
+        transform: translateY(-3px);
+      }
+      .biz-header {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+      .biz-logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        background: var(--green-pale);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        flex-shrink: 0;
+      }
+      .biz-info h4 {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+      }
+      .biz-info p {
+        font-size: 0.82rem;
+        color: var(--ink-soft);
+        margin-bottom: 0.4rem;
+        line-height: 1.45;
+      }
+      .biz-tag {
+        background: var(--green-pale);
+        color: var(--green-deep);
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        display: inline-block;
+      }
+      .verified {
+        color: var(--green-mid);
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-top: 0.4rem;
+        display: block;
+      }
+      .biz-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0.8rem;
+        border-top: 1px solid var(--border);
+      }
+      .biz-location {
+        font-size: 0.78rem;
+        color: var(--ink-soft);
+      }
+      .biz-contact {
+        background: var(--green-deep);
+        color: white;
+        padding: 0.4rem 0.9rem;
+        border-radius: 6px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .biz-contact:hover {
+        background: var(--green-mid);
+      }
+
+      .list-your-biz {
+        background: linear-gradient(
+          120deg,
+          var(--green-deep),
+          var(--green-mid)
+        );
+        color: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        text-align: center;
+        margin-top: 3rem;
+      }
+      .list-your-biz h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.7rem;
+      }
+      .list-your-biz p {
+        color: rgba(255, 255, 255, 0.8);
+        max-width: 480px;
+        margin: 0 auto 1.5rem;
+        font-size: 0.95rem;
+      }
+      .btn-gold {
+        background: var(--gold);
+        color: var(--ink);
+        padding: 0.8rem 1.8rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.2s;
+      }
+      .btn-gold:hover {
+        background: #c49010;
+      }
+
+      footer {
+        background: var(--ink);
+        color: rgba(255, 255, 255, 0.75);
+        padding: 56px 5% 28px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 2.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .footer-brand .nav-logo {
+        font-size: 1.4rem;
+        display: inline-block;
+        margin-bottom: 0.8rem;
+      }
+      .footer-brand p {
+        font-size: 0.85rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.6);
+        max-width: 280px;
+      }
+      .footer-social {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+      .social-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .social-btn:hover {
+        background: var(--green-mid);
+      }
+      .footer-col h4 {
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .footer-col a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.2s;
+      }
+      .footer-col a:hover {
+        color: var(--green-light);
+      }
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 1.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+      }
+      .wa-float {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999;
+        background: #25d366;
+        color: white;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+        transition: transform 0.2s;
+      }
+      .wa-float:hover {
+        transform: scale(1.08);
+      }
+      .back-to-top {
+        position: fixed;
+        bottom: 90px;
+        right: 24px;
+        z-index: 998;
+        background: var(--green-deep);
+        color: white;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(14, 92, 48, 0.35);
+        transition:
+          opacity 0.3s,
+          transform 0.2s;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .back-to-top.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .back-to-top:hover {
+        transform: translateY(-3px);
+      }
+
+      @media (max-width: 900px) {
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .nav-links {
+          display: none !important;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .biz-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="nav-logo">Gitata<span>Hub</span></a>
+      <ul class="nav-links">
+        <li><a href="news.html">News</a></li>
+        <li><a href="businesses.html" class="active">Businesses</a></li>
+        <li><a href="jobs.html">Jobs</a></li>
+        <li><a href="properties.html">Properties</a></li>
+        <li><a href="index.html#events">Events</a></li>
+        <li><a href="submit.html" class="nav-cta">Submit / Advertise</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="news.html">📰 News</a>
+      <a href="businesses.html">🏪 Businesses</a>
+      <a href="jobs.html">💼 Jobs</a>
+      <a href="properties.html">🏠 Properties</a>
+      <a href="index.html#events">📅 Events</a>
+      <a href="submit.html" class="nav-cta">📢 Submit / Advertise</a>
+    </div>
+
+    <div class="page-hero">
+      <div class="page-hero-eyebrow">Local Directory</div>
+      <h1>Gitata Business Directory</h1>
+      <p>
+        Discover trusted shops, services, and professionals in Gitata and Karu
+        LGA. Support local, buy local.
+      </p>
+      <div class="hero-search">
+        <input
+          type="text"
+          id="bizSearch"
+          placeholder="Search businesses, services…"
+          aria-label="Search businesses"
+        />
+        <button type="button" onclick="searchBiz()">Search</button>
+      </div>
+    </div>
+
+    <div class="content-wrap">
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterBiz('all', this)">
+          All Categories
+        </button>
+        <button class="filter-btn" onclick="filterBiz('fashion', this)">
+          Fashion
+        </button>
+        <button class="filter-btn" onclick="filterBiz('food', this)">
+          Food
+        </button>
+        <button class="filter-btn" onclick="filterBiz('health', this)">
+          Health
+        </button>
+        <button class="filter-btn" onclick="filterBiz('tech', this)">
+          Technology
+        </button>
+        <button class="filter-btn" onclick="filterBiz('finance', this)">
+          Finance
+        </button>
+        <button class="filter-btn" onclick="filterBiz('auto', this)">
+          Automobile
+        </button>
+        <button class="filter-btn" onclick="filterBiz('education', this)">
+          Education
+        </button>
+        <button class="filter-btn" onclick="filterBiz('building', this)">
+          Building
+        </button>
+      </div>
+
+      <p class="biz-count">
+        <strong id="bizCountNum">14</strong> businesses listed in Gitata & Karu
+        LGA
+      </p>
+
+      <div class="biz-grid" id="bizGrid">
+        <a
+          href="https://wa.me/2349159329638"
+          class="biz-card"
+          data-cat="fashion"
+        >
+          <div class="biz-header">
+            <div class="biz-logo">✂️</div>
+            <div class="biz-info">
+              <h4>Elegance Tailoring House</h4>
+              <p>
+                Custom suits, native wear, agbada & alterations. Over 10 years
+                of quality craftsmanship.
+              </p>
+              <span class="biz-tag">Fashion & Tailoring</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Gitata Main Area</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a href="https://wa.me/2349159329638" class="biz-card" data-cat="food">
+          <div class="biz-header">
+            <div class="biz-logo">🍽️</div>
+            <div class="biz-info">
+              <h4>Mama Ngozi Kitchen</h4>
+              <p>
+                Nigerian dishes, local soups, egusi, banga, small chops &
+                catering services.
+              </p>
+              <span class="biz-tag">Food & Restaurant</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Gitata Zone 2</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a
+          href="https://wa.me/2349159329638"
+          class="biz-card"
+          data-cat="health"
+        >
+          <div class="biz-header">
+            <div class="biz-logo">💊</div>
+            <div class="biz-info">
+              <h4>Gitata Community Pharmacy</h4>
+              <p>
+                Drugs, medical supplies, BP checks & basic health consultations.
+                Open 7 days.
+              </p>
+              <span class="biz-tag">Health & Pharmacy</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Gitata Main Area</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a href="https://wa.me/2349159329638" class="biz-card" data-cat="tech">
+          <div class="biz-header">
+            <div class="biz-logo">🖥️</div>
+            <div class="biz-info">
+              <h4>TechFix Solutions</h4>
+              <p>
+                Laptop & phone repairs, screen replacements, accessories &
+                charging cables.
+              </p>
+              <span class="biz-tag">Technology</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Karu Market Area</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a
+          href="https://wa.me/2349159329638"
+          class="biz-card"
+          data-cat="finance"
+        >
+          <div class="biz-header">
+            <div class="biz-logo">🏦</div>
+            <div class="biz-info">
+              <h4>Karu POS & Transfer Hub</h4>
+              <p>
+                OPay, Palmpay, bank transfers, airtime top-up, bills & money
+                exchange.
+              </p>
+              <span class="biz-tag">Finance & POS</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Karu Junction</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a href="https://wa.me/2349159329638" class="biz-card" data-cat="auto">
+          <div class="biz-header">
+            <div class="biz-logo">🚗</div>
+            <div class="biz-info">
+              <h4>Gitata Auto Workshop</h4>
+              <p>
+                Car repairs, engine servicing, tyre change, body work & spare
+                parts supply.
+              </p>
+              <span class="biz-tag">Automobile</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Gitata Zone 4</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a
+          href="https://wa.me/2349159329638"
+          class="biz-card"
+          data-cat="education"
+        >
+          <div class="biz-header">
+            <div class="biz-logo">🎓</div>
+            <div class="biz-info">
+              <h4>Bright Stars Tutorial Centre</h4>
+              <p>
+                Primary & secondary school tutoring, WAEC & JAMB prep, computer
+                literacy classes.
+              </p>
+              <span class="biz-tag">Education</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Mararaba, Karu LGA</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a href="https://wa.me/2349159329638" class="biz-card" data-cat="food">
+          <div class="biz-header">
+            <div class="biz-logo">🛒</div>
+            <div class="biz-info">
+              <h4>Gitata Supermarket</h4>
+              <p>
+                Groceries, household items, beverages, baby products & daily
+                essentials at affordable prices.
+              </p>
+              <span class="biz-tag">Supermarket</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Gitata Main Area</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a
+          href="https://wa.me/2349159329638"
+          class="biz-card"
+          data-cat="building"
+        >
+          <div class="biz-header">
+            <div class="biz-logo">🔨</div>
+            <div class="biz-info">
+              <h4>Karu Block & Building Supplies</h4>
+              <p>
+                Cement, iron rods, blocks, roofing sheets, tiles, plumbing &
+                electrical materials.
+              </p>
+              <span class="biz-tag">Building & Construction</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Karu Market Road</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a
+          href="https://wa.me/2349159329638"
+          class="biz-card"
+          data-cat="health"
+        >
+          <div class="biz-header">
+            <div class="biz-logo">🏥</div>
+            <div class="biz-info">
+              <h4>Gitata Medical Clinic</h4>
+              <p>
+                General outpatient care, malaria treatment, antenatal services &
+                laboratory tests.
+              </p>
+              <span class="biz-tag">Health & Clinic</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Gitata</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a
+          href="https://wa.me/2349159329638"
+          class="biz-card"
+          data-cat="fashion"
+        >
+          <div class="biz-header">
+            <div class="biz-logo">👟</div>
+            <div class="biz-info">
+              <h4>Nasarawa Fashion Spot</h4>
+              <p>
+                Shoes, bags, belts, wristwatches & fashion accessories.
+                Wholesale & retail available.
+              </p>
+              <span class="biz-tag">Fashion & Accessories</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Mararaba, Karu LGA</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a href="https://wa.me/2349159329638" class="biz-card" data-cat="tech">
+          <div class="biz-header">
+            <div class="biz-logo">📡</div>
+            <div class="biz-info">
+              <h4>Karu Internet & Print Hub</h4>
+              <p>
+                Browsing, printing, scanning, laminating, photocopying &
+                passport photos.
+              </p>
+              <span class="biz-tag">Technology & Printing</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Karu New Town</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a href="https://wa.me/2349159329638" class="biz-card" data-cat="food">
+          <div class="biz-header">
+            <div class="biz-logo">🍞</div>
+            <div class="biz-info">
+              <h4>Gitata Bakery & Confectionery</h4>
+              <p>
+                Fresh bread, pastries, cakes, chin-chin & small chops for events
+                and daily supply.
+              </p>
+              <span class="biz-tag">Bakery & Food</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Gitata Zone 3</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+
+        <a
+          href="https://wa.me/2349159329638"
+          class="biz-card"
+          data-cat="finance"
+        >
+          <div class="biz-header">
+            <div class="biz-logo">📋</div>
+            <div class="biz-info">
+              <h4>Gitata Insurance & Microfinance</h4>
+              <p>
+                Micro-loans, vehicle insurance, savings plans & financial
+                advisory for small businesses.
+              </p>
+              <span class="biz-tag">Finance & Insurance</span>
+              <span class="verified">Verified Business</span>
+            </div>
+          </div>
+          <div class="biz-footer">
+            <span class="biz-location">📍 Karu Town Centre</span>
+            <span class="biz-contact">Contact</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="list-your-biz">
+        <h2>List Your Business on GitataHub</h2>
+        <p>
+          Join 80+ verified businesses already reaching thousands of Gitata
+          residents every week. Listing starts at just ₦3,000/month.
+        </p>
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20list%20my%20business"
+          class="btn-gold"
+          >List My Business . WhatsApp Us</a
+        >
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo"
+            >Gitata<span style="color: var(--gold)">Hub</span></a
+          >
+          <p>
+            GitataHub is Gitata's trusted community platform — connecting
+            residents with news, businesses, jobs, properties, and events since
+            2026.
+          </p>
+          <div class="footer-social">
+            <a href="#" class="social-btn">📘</a>
+            <a href="#" class="social-btn">🐦</a>
+            <a href="#" class="social-btn">📸</a>
+            <a href="https://wa.me/2349159329638" class="social-btn">💬</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="news.html">Latest News</a></li>
+            <li><a href="businesses.html">Business Directory</a></li>
+            <li><a href="jobs.html">Job Listings</a></li>
+            <li><a href="properties.html">Properties</a></li>
+            <li><a href="index.html#events">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#">About GitataHub</a></li>
+            <li><a href="submit.html">Submit News Tip</a></li>
+            <li><a href="submit.html">List Your Business</a></li>
+            <li><a href="submit.html">Post a Job</a></li>
+            <li><a href="https://wa.me/2349159329638">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">📍 Gitata, Karu LGA</a></li>
+            <li><a href="https://wa.me/2349159329638">📱 WhatsApp Us</a></li>
+            <li>
+              <a href="mailto:gitatahub4786@gmail.com"
+                >gitatahub4786@gmail.com</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://www.facebook.com/profile.php?id=61584163517576"
+                target="_blank"
+              >
+                Facebook page
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 GitataHub. Built for the Gitata Community.</span>
+        <span>Privacy Policy · Terms of Use</span>
+      </div>
+    </footer>
+
+    <a href="https://wa.me/2349159329638?text=Hi%20GitataHub!" class="wa-float"
+      >💬</a
+    >
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+
+    <script>
+      const hamburger = document.querySelector(".hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+      hamburger.addEventListener("click", () => {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+      });
+      mobileNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileNav.classList.remove("open");
+          hamburger.classList.remove("open");
+        });
+      });
+      window.addEventListener("scroll", () => {
+        document
+          .getElementById("backToTop")
+          .classList.toggle("visible", window.scrollY > 400);
+      });
+
+      function filterBiz(cat, btn) {
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const cards = document.querySelectorAll(".biz-card");
+        let count = 0;
+        cards.forEach((card) => {
+          const show = cat === "all" || card.dataset.cat === cat;
+          card.style.display = show ? "" : "none";
+          if (show) count++;
+        });
+        document.getElementById("bizCountNum").textContent = count;
+      }
+
+      function searchBiz() {
+        const q = document
+          .getElementById("bizSearch")
+          .value.trim()
+          .toLowerCase();
+        if (!q) return;
+        const cards = document.querySelectorAll(".biz-card");
+        let count = 0;
+        cards.forEach((card) => {
+          const text = card.textContent.toLowerCase();
+          const show = text.includes(q);
+          card.style.display = show ? "" : "none";
+          if (show) count++;
+        });
+        document.getElementById("bizCountNum").textContent = count;
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+      }
+
+      document.getElementById("bizSearch").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") searchBiz();
+      });
+    </script>
+  </body>
+</html>

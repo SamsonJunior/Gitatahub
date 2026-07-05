@@ -1,1003 +1,462 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jobs — GitataHub</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      :root {
-        --green-deep: #0e5c30;
-        --green-mid: #1a7a42;
-        --green-light: #25a35a;
-        --green-pale: #e8f5ee;
-        --white: #ffffff;
-        --ink: #0d1f14;
-        --ink-soft: #3a5244;
-        --border: #c4dfd0;
-        --gold: #d4a017;
-      }
-      body {
-        font-family: "Inter", sans-serif;
-        background: #f8faf9;
-        color: var(--ink);
-      }
-      nav {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: var(--green-deep);
-        padding: 0 5%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 64px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
-      }
-      .nav-logo {
-        font-family: "Playfair Display", serif;
-        font-size: 1.5rem;
-        font-weight: 900;
-        color: #fff;
-        text-decoration: none;
-      }
-      .nav-logo span {
-        color: var(--gold);
-      }
-      .nav-links {
-        display: flex;
-        gap: 1.6rem;
-        list-style: none;
-      }
-      .nav-links a {
-        color: rgba(255, 255, 255, 0.85);
-        text-decoration: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        transition: color 0.2s;
-      }
-      .nav-links a:hover,
-      .nav-links a.active {
-        color: #fff;
-        font-weight: 700;
-      }
-      .nav-cta {
-        background: var(--gold);
-        color: var(--ink) !important;
-        padding: 0.45rem 1.1rem;
-        border-radius: 6px;
-        font-weight: 600 !important;
-      }
-      .page-hero {
-        background: linear-gradient(135deg, var(--ink) 0%, #1a3a26 100%);
-        color: #fff;
-        padding: 48px 5% 40px;
-        text-align: center;
-      }
-      .page-hero .eyebrow {
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 2.5px;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 0.5rem;
-      }
-      .page-hero h1 {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(1.8rem, 3vw, 2.8rem);
-        font-weight: 900;
-        margin-bottom: 0.8rem;
-      }
-      .page-hero p {
-        color: rgba(255, 255, 255, 0.8);
-        max-width: 500px;
-        margin: 0 auto 1.5rem;
-      }
-      .search-bar {
-        display: flex;
-        gap: 0.7rem;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-      .search-bar input,
-      .search-bar select {
-        padding: 0.8rem 1rem;
-        border-radius: 8px;
-        border: none;
-        font-size: 0.9rem;
-        outline: none;
-      }
-      .search-bar input {
-        flex: 1;
-      }
-      .search-bar button {
-        background: var(--gold);
-        color: var(--ink);
-        padding: 0.8rem 1.5rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 700;
-        cursor: pointer;
-        white-space: nowrap;
-      }
-      .stats-bar {
-        background: var(--green-deep);
-        padding: 1rem 5%;
-        display: flex;
-        gap: 2rem;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      .stat-item {
-        color: #fff;
-        font-size: 0.85rem;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-      }
-      .stat-item strong {
-        color: var(--gold);
-        font-family: "Space Grotesk", sans-serif;
-        font-size: 1rem;
-      }
-      .container {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 40px 5%;
-      }
-      .filter-bar {
-        display: flex;
-        gap: 0.7rem;
-        flex-wrap: wrap;
-        margin-bottom: 2rem;
-      }
-      .filter-btn {
-        padding: 0.45rem 1.1rem;
-        border-radius: 100px;
-        border: 1.5px solid var(--border);
-        background: #fff;
-        color: var(--ink-soft);
-        font-size: 0.82rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .filter-btn:hover,
-      .filter-btn.active {
-        background: var(--green-deep);
-        color: #fff;
-        border-color: var(--green-deep);
-      }
-      .jobs-layout {
-        display: grid;
-        grid-template-columns: 1fr 300px;
-        gap: 2rem;
-      }
-      /* Job Cards */
-      .job-card {
-        background: #fff;
-        border: 1.5px solid var(--border);
-        border-radius: 14px;
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        transition: all 0.2s;
-        position: relative;
-      }
-      .job-card:hover {
-        border-color: var(--green-mid);
-        box-shadow: 0 6px 24px rgba(14, 92, 48, 0.1);
-        transform: translateY(-2px);
-      }
-      .job-card.urgent {
-        border-color: #dc2626;
-      }
-      .urgent-badge {
-        position: absolute;
-        top: 14px;
-        right: 14px;
-        background: #dc2626;
-        color: #fff;
-        font-size: 0.68rem;
-        font-weight: 700;
-        padding: 0.2rem 0.6rem;
-        border-radius: 4px;
-      }
-      .firebase-badge {
-        position: absolute;
-        top: 14px;
-        right: 14px;
-        background: var(--green-light);
-        color: #fff;
-        font-size: 0.68rem;
-        font-weight: 700;
-        padding: 0.2rem 0.6rem;
-        border-radius: 4px;
-      }
-      .job-header {
-        display: flex;
-        gap: 1rem;
-        align-items: flex-start;
-        margin-bottom: 0.8rem;
-      }
-      .job-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 12px;
-        background: var(--green-pale);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.6rem;
-        flex-shrink: 0;
-      }
-      .job-title-area h3 {
-        font-size: 1.05rem;
-        font-weight: 700;
-        margin-bottom: 0.2rem;
-      }
-      .job-company {
-        font-size: 0.85rem;
-        color: var(--green-mid);
-        font-weight: 600;
-      }
-      .job-location {
-        font-size: 0.8rem;
-        color: var(--ink-soft);
-      }
-      .job-tags {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        margin-bottom: 0.8rem;
-      }
-      .tag {
-        font-size: 0.72rem;
-        font-weight: 600;
-        padding: 0.25rem 0.65rem;
-        border-radius: 100px;
-      }
-      .tag-green {
-        background: var(--green-pale);
-        color: var(--green-deep);
-      }
-      .tag-gold {
-        background: #fff3cd;
-        color: #856404;
-      }
-      .tag-blue {
-        background: #dbeafe;
-        color: #1e40af;
-      }
-      .tag-red {
-        background: #fee2e2;
-        color: #991b1b;
-      }
-      .job-desc {
-        font-size: 0.85rem;
-        color: var(--ink-soft);
-        line-height: 1.6;
-        margin-bottom: 1rem;
-      }
-      .job-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.8rem;
-      }
-      .job-salary {
-        font-family: "Space Grotesk", sans-serif;
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--green-deep);
-      }
-      .job-date {
-        font-size: 0.75rem;
-        color: var(--ink-soft);
-      }
-      .apply-btn {
-        background: var(--green-deep);
-        color: #fff;
-        padding: 0.6rem 1.4rem;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 0.85rem;
-        border: none;
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-      .apply-btn:hover {
-        background: var(--green-mid);
-      }
-      /* Sidebar */
-      .sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 1.3rem;
-      }
-      .side-card {
-        background: #fff;
-        border: 1.5px solid var(--border);
-        border-radius: 14px;
-        padding: 1.3rem;
-      }
-      .side-card h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        padding-bottom: 0.6rem;
-        border-bottom: 2px solid var(--green-pale);
-      }
-      .post-job-cta {
-        background: linear-gradient(
-          135deg,
-          var(--green-deep),
-          var(--green-mid)
-        );
-        color: #fff;
-      }
-      .post-job-cta h3 {
-        border-bottom-color: rgba(255, 255, 255, 0.2) !important;
-        color: #fff !important;
-      }
-      .post-job-cta p {
-        font-size: 0.82rem;
-        color: rgba(255, 255, 255, 0.8);
-        margin-bottom: 1rem;
-        line-height: 1.6;
-      }
-      .post-job-cta a {
-        display: inline-block;
-        background: var(--gold);
-        color: var(--ink);
-        padding: 0.6rem 1.3rem;
-        border-radius: 7px;
-        font-weight: 700;
-        font-size: 0.85rem;
-        text-decoration: none;
-      }
-      .category-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.55rem 0;
-        border-bottom: 1px solid var(--green-pale);
-        font-size: 0.85rem;
-        cursor: pointer;
-        color: var(--ink);
-        transition: color 0.2s;
-      }
-      .category-item:last-child {
-        border-bottom: none;
-      }
-      .category-item:hover {
-        color: var(--green-mid);
-      }
-      .cat-count {
-        background: var(--green-pale);
-        color: var(--green-deep);
-        font-size: 0.72rem;
-        font-weight: 700;
-        padding: 0.15rem 0.5rem;
-        border-radius: 4px;
-      }
-      .alert-form input {
-        width: 100%;
-        padding: 0.6rem 0.9rem;
-        border: 1.5px solid var(--border);
-        border-radius: 7px;
-        font-size: 0.85rem;
-        margin-bottom: 0.6rem;
-        outline: none;
-      }
-      .alert-form input:focus {
-        border-color: var(--green-mid);
-      }
-      .alert-form button {
-        width: 100%;
-        background: var(--green-deep);
-        color: #fff;
-        padding: 0.65rem;
-        border: none;
-        border-radius: 7px;
-        font-weight: 700;
-        cursor: pointer;
-        font-size: 0.85rem;
-      }
-      /* Loading */
-      .loading-state {
-        text-align: center;
-        padding: 3rem;
-        color: var(--ink-soft);
-      }
-      .loading-spinner {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border: 3px solid var(--border);
-        border-top-color: var(--green-mid);
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-        margin-bottom: 1rem;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-      .empty-jobs {
-        text-align: center;
-        padding: 3rem;
-        color: var(--ink-soft);
-      }
-      .empty-jobs .ei {
-        font-size: 3rem;
-        display: block;
-        margin-bottom: 1rem;
-      }
-      /* Modal */
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 200;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-      }
-      .modal-overlay.open {
-        display: flex;
-      }
-      .modal {
-        background: #fff;
-        border-radius: 20px;
-        padding: 2rem;
-        max-width: 480px;
-        width: 100%;
-        position: relative;
-        max-height: 90vh;
-        overflow-y: auto;
-      }
-      .modal-close {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: none;
-        border: none;
-        font-size: 1.3rem;
-        cursor: pointer;
-        color: var(--ink-soft);
-      }
-      .modal h2 {
-        font-family: "Playfair Display", serif;
-        font-size: 1.3rem;
-        margin-bottom: 0.3rem;
-      }
-      .modal .job-ref {
-        font-size: 0.82rem;
-        color: var(--green-mid);
-        font-weight: 600;
-        margin-bottom: 1.2rem;
-      }
-      .modal-fg {
-        margin-bottom: 1rem;
-      }
-      .modal-fg label {
-        display: block;
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: var(--ink);
-        margin-bottom: 0.4rem;
-      }
-      .modal-fg input,
-      .modal-fg select,
-      .modal-fg textarea {
-        width: 100%;
-        padding: 0.7rem 0.9rem;
-        border: 1.5px solid var(--border);
-        border-radius: 8px;
-        font-size: 0.875rem;
-        outline: none;
-        font-family: inherit;
-        transition: border 0.2s;
-      }
-      .modal-fg input:focus,
-      .modal-fg select:focus,
-      .modal-fg textarea:focus {
-        border-color: var(--green-mid);
-      }
-      .modal-fg textarea {
-        height: 90px;
-        resize: vertical;
-      }
-      .modal-submit {
-        width: 100%;
-        background: linear-gradient(
-          135deg,
-          var(--green-deep),
-          var(--green-mid)
-        );
-        color: #fff;
-        padding: 0.85rem;
-        border: none;
-        border-radius: 9px;
-        font-weight: 700;
-        font-size: 0.95rem;
-        cursor: pointer;
-        margin-top: 0.5rem;
-      }
-      .wa-note {
-        background: var(--green-pale);
-        color: var(--green-deep);
-        padding: 0.7rem;
-        border-radius: 8px;
-        font-size: 0.8rem;
-        margin-bottom: 1rem;
-        line-height: 1.5;
-      }
-      footer {
-        background: var(--ink);
-        color: rgba(255, 255, 255, 0.7);
-        padding: 36px 5% 20px;
-        margin-top: 60px;
-      }
-      .footer-bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.8rem;
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.4);
-      }
-      .footer-links {
-        display: flex;
-        gap: 1.5rem;
-      }
-      .footer-links a {
-        color: rgba(255, 255, 255, 0.6);
-        text-decoration: none;
-        font-size: 0.82rem;
-      }
-      .wa-float {
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        z-index: 999;
-        background: #25d366;
-        color: white;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.6rem;
-        text-decoration: none;
-        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
-        transition: transform 0.2s;
-      }
-      .wa-float:hover {
-        transform: scale(1.08);
-      }
-      @media (max-width: 800px) {
-        .jobs-layout {
-          grid-template-columns: 1fr;
-        }
-        .nav-links {
-          display: none;
-        }
-        .search-bar {
-          flex-direction: column;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <nav>
-      <a href="index.html" class="nav-logo">Gitata<span>Hub</span></a>
-      <ul class="nav-links">
-        <li><a href="news.html">News</a></li>
-        <li><a href="businesses.html">Businesses</a></li>
-        <li><a href="jobs.html" class="active">Jobs</a></li>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Job Listings — GitataHub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:   #0E5C30;
+      --green-mid:    #1A7A42;
+      --green-light:  #25A35A;
+      --green-pale:   #E8F5EE;
+      --white:        #FFFFFF;
+      --ink:          #0D1F14;
+      --ink-soft:     #3A5244;
+      --border:       #C4DFD0;
+      --gold:         #D4A017;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--green-deep);
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--white); text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 1.6rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); font-weight: 700; }
+
+    .nav-cta {
+      background: var(--gold); color: var(--ink) !important;
+      padding: 0.45rem 1.1rem; border-radius: 6px;
+      font-weight: 600 !important;
+    }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer;
+      background: none; border: none; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: white; border-radius: 2px; transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-nav {
+      display: none;
+      position: absolute; top: 64px; left: 0; width: 100%;
+      background: var(--green-deep);
+      padding: 1rem 5% 1.4rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      z-index: 99;
+      flex-direction: column; gap: 0.8rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.95rem; font-weight: 500;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a.nav-cta {
+      background: var(--gold); color: var(--ink) !important;
+      padding: 0.6rem 1.2rem; border-radius: 6px;
+      font-weight: 700 !important; text-align: center;
+      border: none; margin-top: 0.4rem;
+    }
+
+    /* PAGE BANNER */
+    .page-banner {
+      background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 60%, var(--green-light) 100%);
+      color: var(--white);
+      padding: 56px 5% 44px;
+      text-align: center;
+    }
+    .page-eyebrow {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+    .page-banner h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 900; margin-bottom: 0.6rem;
+    }
+    .page-banner h1 span { color: var(--gold); }
+    .page-banner p { color: rgba(255,255,255,0.85); max-width: 560px; margin: 0 auto; }
+    .breadcrumb { margin-top: 1.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+    .breadcrumb a { color: var(--gold); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    /* SECTION */
+    section { padding: 48px 5% 64px; }
+    .section-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 2.5px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    /* JOBS */
+    .jobs { background: var(--ink); color: var(--white); padding-top: 48px; }
+    .jobs-count { color: rgba(255,255,255,0.65); font-size: 0.9rem; margin-bottom: 1.6rem; }
+    .jobs-list { display: flex; flex-direction: column; gap: 0.9rem; max-width: 900px; margin: 0 auto; }
+    .job-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 1.1rem 1.4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; flex-wrap: wrap;
+      text-decoration: none; color: inherit; transition: background .2s;
+    }
+    .job-card:hover { background: rgba(255,255,255,0.1); }
+    .job-title { font-weight: 600; font-size: 0.95rem; color: white; margin-bottom: 0.25rem; }
+    .job-company { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+    .job-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .badge { font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 100px; }
+    .badge-green { background: rgba(37,163,90,0.25); color: #5DE89A; }
+    .badge-gold { background: rgba(212,160,23,0.2); color: var(--gold); }
+    .job-apply {
+      background: var(--green-light); color: white;
+      padding: 0.5rem 1.1rem; border-radius: 7px;
+      font-size: 0.8rem; font-weight: 600;
+      text-decoration: none; white-space: nowrap; transition: background .2s;
+    }
+    .job-apply:hover { background: var(--green-mid); }
+
+    .empty-state {
+      text-align: center; color: rgba(255,255,255,0.6);
+      padding: 2rem; border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 10px; max-width: 900px; margin: 0 auto;
+    }
+
+    /* ADVERTISE CTA (post a job) */
+    .advertise {
+      background: linear-gradient(120deg, var(--green-deep), var(--green-mid));
+      color: white; text-align: center; padding: 56px 5%;
+    }
+    .advertise h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 900; margin-bottom: 0.8rem;
+    }
+    .advertise h2 span { color: var(--gold); }
+    .advertise p { font-size: 0.95rem; color: rgba(255,255,255,0.8); max-width: 480px; margin: 0 auto 1.6rem; }
+    .btn-primary {
+      background: var(--gold); color: var(--ink);
+      padding: 0.8rem 1.8rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.95rem;
+      text-decoration: none; transition: transform .15s, box-shadow .15s;
+      box-shadow: 0 4px 16px rgba(212,160,23,0.35);
+      display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,160,23,0.45); }
+
+    /* FOOTER */
+    footer { background: var(--ink); color: rgba(255,255,255,0.75); padding: 56px 5% 28px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+    .footer-brand .nav-logo { font-size: 1.4rem; display: inline-block; margin-bottom: 0.8rem; }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; color: rgba(255,255,255,0.6); max-width: 280px; }
+    .footer-social { display: flex; gap: 0.7rem; margin-top: 1rem; }
+    .social-btn {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.08); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1rem; text-decoration: none; transition: background .2s;
+    }
+    .social-btn:hover { background: var(--green-mid); }
+    .footer-col h4 { color: white; font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--green-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 0.8rem; font-size: 0.8rem; color: rgba(255,255,255,0.4);
+    }
+
+    /* WHATSAPP FLOAT */
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      background: #25D366; color: white;
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45); transition: transform .2s;
+    }
+    .wa-float:hover { transform: scale(1.08); }
+
+    /* BACK TO TOP */
+    .back-to-top {
+      position: fixed; bottom: 90px; right: 24px; z-index: 998;
+      background: var(--green-deep); color: white;
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; text-decoration: none;
+      box-shadow: 0 4px 14px rgba(14,92,48,0.35);
+      transition: opacity .3s, transform .2s;
+      opacity: 0; pointer-events: none;
+    }
+    .back-to-top.visible { opacity: 1; pointer-events: auto; }
+    .back-to-top:hover { transform: translateY(-3px); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none !important; }
+      .hamburger { display: flex; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .job-card { flex-direction: column; align-items: flex-start; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Gitata<span>Hub</span></a>
+  <ul class="nav-links">
+    <li><a href="news.html">News</a></li>
+    <li><a href="businesses.html">Businesses</a></li>
+    <li><a href="jobs.html" class="active">Jobs</a></li>
+    <li><a href="properties.html">Properties</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="index.html#advertise" class="nav-cta">Advertise</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="news.html">News</a>
+  <a href="businesses.html">Businesses</a>
+  <a href="jobs.html">Jobs</a>
+  <a href="properties.html">Properties</a>
+  <a href="events.html">Events</a>
+  <a href="index.html#advertise" class="nav-cta">Advertise</a>
+</div>
+
+<!-- PAGE BANNER -->
+<div class="page-banner">
+  <span class="page-eyebrow">Career Opportunities</span>
+  <h1>All Job <span>Listings</span></h1>
+  <p>Find work in Gitata, Karu, Keffi, and across Nasarawa State — updated regularly by the GitataHub team.</p>
+  <div class="breadcrumb"><a href="index.html">Home</a> · Jobs</div>
+</div>
+
+<!-- JOBS -->
+<section class="jobs">
+  <div class="jobs-count" id="jobsCount">Loading job listings…</div>
+  <div class="jobs-list" id="jobsList">
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Frontend Web Developer</div>
+        <div class="job-company">Nasarawa Tech Hub · Keffi</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Full-time</span>
+        <span class="badge badge-gold">₦80,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Sales Representative</div>
+        <div class="job-company">Gitata Supermarket · Gitata</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Full-time</span>
+        <span class="badge badge-gold">₦45,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Primary School Teacher (Math & English etc)</div>
+        <div class="job-company">Bright Future Academy · Karu</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Part-time</span>
+        <span class="badge badge-gold">₦35,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Security Guard (Day & Night Shift)</div>
+        <div class="job-company">Karu Estate Management · Karu</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Full-time</span>
+        <span class="badge badge-gold">₦30,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+    <a href="#" class="job-card">
+      <div>
+        <div class="job-title">Dispatch Rider / Delivery Driver</div>
+        <div class="job-company">Karu Express Delivery · Karu LGA</div>
+      </div>
+      <div class="job-badges">
+        <span class="badge badge-green">Full-time</span>
+        <span class="badge badge-gold">₦40,000/month</span>
+      </div>
+      <span class="job-apply">Apply Now</span>
+    </a>
+  </div>
+</section>
+
+<!-- ADVERTISE CTA -->
+<section class="advertise">
+  <h2>Have a Job to <span>Post?</span></h2>
+  <p>Reach hundreds of active job seekers in Gitata and Karu LGA. Job ads start at ₦3,000.</p>
+  <a href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20post%20a%20job" class="btn-primary">
+    Post a Job on WhatsApp
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">Gitata<span style="color:var(--gold)">Hub</span></a>
+      <p>GitataHub is Gitata's trusted community platform — connecting residents with news, businesses, jobs, properties, and events since 2026.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/profile.php?id=61584163517576" target="_blank" class="social-btn" aria-label="Facebook">📘</a>
+        <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+        <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+        <a href="https://wa.me/2349159329638" class="social-btn" aria-label="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="news.html">Latest News</a></li>
+        <li><a href="businesses.html">Business Directory</a></li>
+        <li><a href="jobs.html">Job Listings</a></li>
         <li><a href="properties.html">Properties</a></li>
         <li><a href="events.html">Events</a></li>
-        <li><a href="advertise.html" class="nav-cta">Advertise</a></li>
       </ul>
-    </nav>
-
-    <div class="page-hero">
-      <div class="eyebrow">Career Opportunities</div>
-      <h1>Jobs in Gitata & Karu LGA</h1>
-      <p>
-        Find your next job opportunity in Gitata, Karu, Keffi, and across
-        Nasarawa State.
-      </p>
-      <div class="search-bar">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Job title, skill, keyword..."
-          onkeyup="filterJobs()"
-        />
-        <button onclick="filterJobs()">Search</button>
-      </div>
     </div>
-
-    <div class="stats-bar">
-      <div class="stat-item"><strong id="totalJobs">0</strong> Active Jobs</div>
-      <div class="stat-item"><strong>Free</strong> to Apply</div>
-      <div class="stat-item"><strong>Instant</strong> WhatsApp Application</div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="index.html">About GitataHub</a></li>
+        <li><a href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20have%20a%20news%20tip">Submit News Tip</a></li>
+        <li><a href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20advertise">List Your Business</a></li>
+        <li><a href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20post%20a%20job">Post a Job</a></li>
+        <li><a href="https://wa.me/2349159329638">Contact Us</a></li>
+      </ul>
     </div>
-
-    <div class="container">
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterByType('all', this)">
-          All Jobs
-        </button>
-        <button class="filter-btn" onclick="filterByType('Full-time', this)">
-          Full-time
-        </button>
-        <button class="filter-btn" onclick="filterByType('Part-time', this)">
-          Part-time
-        </button>
-        <button class="filter-btn" onclick="filterByType('Contract', this)">
-          Contract
-        </button>
-        <button class="filter-btn" onclick="filterByType('Remote', this)">
-          Remote
-        </button>
-      </div>
-
-      <div class="jobs-layout">
-        <div>
-          <div id="jobsContainer">
-            <div class="loading-state">
-              <div class="loading-spinner"></div>
-              <p>Loading jobs...</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="sidebar">
-          <div class="side-card post-job-cta">
-            <h3>Post a Job</h3>
-            <p>
-              Reach hundreds of qualified candidates in Gitata and Karu LGA. Job
-              ads from ₦3,000.
-            </p>
-            <a href="advertise.html">Post a Job →</a>
-          </div>
-          <div class="side-card">
-            <h3>📂 Browse by Category</h3>
-            <div class="category-item" onclick="filterByCategory('Technology')">
-              💻 Technology <span class="cat-count" id="cat-tech">0</span>
-            </div>
-            <div class="category-item" onclick="filterByCategory('Education')">
-              🏫 Education <span class="cat-count" id="cat-edu">0</span>
-            </div>
-            <div class="category-item" onclick="filterByCategory('Health')">
-              🏥 Health <span class="cat-count" id="cat-health">0</span>
-            </div>
-            <div class="category-item" onclick="filterByCategory('Sales')">
-              🛒 Sales <span class="cat-count" id="cat-sales">0</span>
-            </div>
-            <div class="category-item" onclick="filterByCategory('Security')">
-              🔐 Security <span class="cat-count" id="cat-sec">0</span>
-            </div>
-            <div class="category-item" onclick="filterByCategory('Media')">
-              📱 Media <span class="cat-count" id="cat-media">0</span>
-            </div>
-          </div>
-          <div class="side-card">
-            <h3>🔔 Job Alert</h3>
-            <p
-              style="
-                font-size: 0.82rem;
-                color: var(--ink-soft);
-                margin-bottom: 0.8rem;
-              "
-            >
-              Get new jobs sent to your WhatsApp.
-            </p>
-            <div class="alert-form">
-              <input
-                type="text"
-                id="alertPhone"
-                placeholder="Your WhatsApp number"
-              />
-              <button onclick="subscribeAlert()">Subscribe to Alerts</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">📍 Gitata, Karu LGA</a></li>
+        <li><a href="https://wa.me/2349159329638">📱 WhatsApp Us</a></li>
+        <li><a href="mailto:gitatahub4786@gmail.com">gitatahub4786@gmail.com</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61584163517576" target="_blank">Facebook page</a></li>
+      </ul>
     </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 GitataHub. Built for the Gitata Community.</span>
+    <span>Privacy Policy · Terms of Use</span>
+  </div>
+</footer>
 
-    <!-- APPLY MODAL -->
-    <div class="modal-overlay" id="applyModal">
-      <div class="modal">
-        <button class="modal-close" onclick="closeModal()">✕</button>
-        <h2>Apply for Position</h2>
-        <div class="job-ref" id="modalJobRef"></div>
-        <div class="wa-note">
-          📲 Your application will be sent directly to the employer via
-          WhatsApp. Make sure your phone number is correct.
-        </div>
-        <div class="modal-fg">
-          <label>Full Name *</label
-          ><input type="text" id="appName" placeholder="e.g. Musa Ibrahim" />
-        </div>
-        <div class="modal-fg">
-          <label>Phone / WhatsApp Number *</label
-          ><input type="tel" id="appPhone" placeholder="e.g. 08012345678" />
-        </div>
-        <div class="modal-fg">
-          <label>Email Address</label
-          ><input
-            type="email"
-            id="appEmail"
-            placeholder="e.g. musa@gmail.com"
-          />
-        </div>
-        <div class="modal-fg">
-          <label>Highest Qualification</label>
-          <select id="appQual">
-            <option>SSCE / WAEC</option>
-            <option>OND</option>
-            <option>HND</option>
-            <option>B.Sc / B.Ed / B.Tech</option>
-            <option>Masters / PhD</option>
-            <option>No formal qualification</option>
-          </select>
-        </div>
-        <div class="modal-fg">
-          <label>Years of Experience</label>
-          <select id="appExp">
-            <option>No experience</option>
-            <option>Less than 1 year</option>
-            <option>1–2 years</option>
-            <option>3–5 years</option>
-            <option>5+ years</option>
-          </select>
-        </div>
-        <div class="modal-fg">
-          <label>Why should we hire you?</label
-          ><textarea
-            id="appCover"
-            placeholder="Briefly describe your skills and why you're the right person for this job..."
-          ></textarea>
-        </div>
-        <button class="modal-submit" onclick="submitApplication()">
-          📲 Send Application via WhatsApp
-        </button>
-      </div>
-    </div>
+<a href="https://wa.me/2349159329638?text=Hi%20GitataHub!" class="wa-float" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">💬</a>
+<a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
 
-    <!-- FIREBASE -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+<script>
+  const hamburger = document.querySelector('.hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+  mobileNav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+  const btt = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('visible', window.scrollY > 400);
+  });
+</script>
 
-        const firebaseConfig = {
-          apiKey: "AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",
-          authDomain: "gitatahub.firebaseapp.com",
-          projectId: "gitatahub",
-          storageBucket: "gitatahub.firebasestorage.app",
-          messagingSenderId: "81280695755",
-          appId: "1:81280695755:web:60659495811412e0bd8a4e",
-          measurementId: "G-00PLEVJFF0"
-        };
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import{getFirestore,collection,getDocs,query,orderBy}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+const fb={apiKey:"AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",authDomain:"gitatahub.firebaseapp.com",projectId:"gitatahub",storageBucket:"gitatahub.firebasestorage.app",messagingSenderId:"81280695755",appId:"1:81280695755:web:60659495811412e0bd8a4e"};
+const app=initializeApp(fb);
+const db=getFirestore(app);
+const countEl=document.getElementById("jobsCount");
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+async function loadAllJobs(){
+  try{
+    const snap=await getDocs(query(collection(db,"jobs"),orderBy("createdAt","desc")));
+    if(!snap.size){ countEl.textContent="Showing sample listings — check back soon for more."; return; }
+    const list=document.getElementById("jobsList");
+    list.innerHTML="";
+    snap.forEach(doc=>{
+      const j=doc.data();
+      const a=document.createElement("a");
+      a.href=j.applyLink||"https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20to%20apply%20for%20a%20job";
+      a.className="job-card";
+      a.innerHTML='<div><div class="job-title">'+j.title+'</div><div class="job-company">'+(j.company||"")+" · "+(j.location||"Gitata")+'</div></div>'
+        +'<div class="job-badges"><span class="badge badge-green">'+(j.type||"Full-time")+'</span>'
+        +(j.salary?'<span class="badge badge-gold">'+j.salary+'</span>':"")
+        +'</div><span class="job-apply">Apply Now</span>';
+      list.appendChild(a);
+    });
+    countEl.textContent=snap.size+" job listing"+(snap.size===1?"":"s")+" available";
+  }catch(e){
+    console.log("jobs err",e);
+    countEl.textContent="Showing sample listings — check back soon for more.";
+  }
+}
+loadAllJobs();
+</script>
 
-        const ICONS = {
-          'Technology':'💻','Education':'🏫','Health':'🏥','Sales':'🛒','Security':'🔐','Media':'📱','Other':'💼'
-        };
-
-        window.allJobs = [];
-        window.currentFilter = 'all';
-
-        async function loadJobs(){
-          try{
-            const q = query(collection(db,'jobs'), orderBy('createdAt','desc'));
-            const snap = await getDocs(q);
-            window.allJobs = snap.docs.map(d=>({id:d.id,...d.data()}));
-            renderJobs(window.allJobs);
-            updateCategoryCounts(window.allJobs);
-            document.getElementById('totalJobs').textContent = window.allJobs.length;
-          } catch(e){
-            document.getElementById('jobsContainer').innerHTML = `
-              <div class="empty-jobs">
-                <span class="ei">💼</span>
-                <p>No jobs available right now. Check back soon!</p>
-              </div>`;
-          }
-        }
-
-        window.renderJobs = function(jobs){
-          const container = document.getElementById('jobsContainer');
-          if(!jobs.length){
-            container.innerHTML = `<div class="empty-jobs"><span class="ei">💼</span><p>No jobs found. Try a different filter.</p></div>`;
-            return;
-          }
-          container.innerHTML = jobs.map((job,i)=>`
-            <div class="job-card ${i===0?'urgent':''}">
-              ${i===0?'<span class="urgent-badge">🔥 URGENT</span>':'<span class="firebase-badge">🟢 LIVE</span>'}
-              <div class="job-header">
-                <div class="job-icon">${ICONS[job.category]||'💼'}</div>
-                <div class="job-title-area">
-                  <h3>${job.title||'Job Title'}</h3>
-                  <div class="job-company">${job.company||''}</div>
-                  <div class="job-location">📍 ${job.location||'Gitata, Karu LGA'}</div>
-                </div>
-              </div>
-              <div class="job-tags">
-                <span class="tag tag-green">${job.type||'Full-time'}</span>
-                <span class="tag tag-blue">${job.category||'General'}</span>
-                ${job.salary?`<span class="tag tag-gold">${job.salary}</span>`:''}
-              </div>
-              <div class="job-desc">${job.desc||'Contact us for more details about this position.'}</div>
-              <div class="job-footer">
-                <div>
-                  <div class="job-salary">${job.salary||'Salary negotiable'}</div>
-                  <div class="job-date">📅 Posted recently</div>
-                </div>
-                <button class="apply-btn" onclick="openModal('${job.title}','${job.company}','${job.id}')">Apply Now →</button>
-              </div>
-            </div>
-          `).join('');
-        };
-
-        function updateCategoryCounts(jobs){
-          const counts = {};
-          jobs.forEach(j=>{ counts[j.category] = (counts[j.category]||0)+1; });
-          const map = {'Technology':'cat-tech','Education':'cat-edu','Health':'cat-health','Sales':'cat-sales','Security':'cat-sec','Media':'cat-media'};
-          Object.entries(map).forEach(([cat,id])=>{
-            const el = document.getElementById(id);
-            if(el) el.textContent = counts[cat]||0;
-          });
-        }
-
-        loadJobs();
-      }
-    </script>
-
-    <script>
-      let currentJobTitle = "";
-      let currentCompany = "";
-
-      function openModal(title, company, id) {
-        currentJobTitle = title;
-        currentCompany = company;
-        document.getElementById("modalJobRef").textContent =
-          title + " at " + company;
-        document.getElementById("applyModal").classList.add("open");
-        document.getElementById("appName").value = "";
-        document.getElementById("appPhone").value = "";
-        document.getElementById("appEmail").value = "";
-        document.getElementById("appCover").value = "";
-      }
-
-      function closeModal() {
-        document.getElementById("applyModal").classList.remove("open");
-      }
-
-      function submitApplication() {
-        const name = document.getElementById("appName").value.trim();
-        const phone = document.getElementById("appPhone").value.trim();
-        const email = document.getElementById("appEmail").value.trim();
-        const qual = document.getElementById("appQual").value;
-        const exp = document.getElementById("appExp").value;
-        const cover = document.getElementById("appCover").value.trim();
-
-        if (!name || !phone) {
-          alert("⚠️ Please fill your name and phone number.");
-          return;
-        }
-
-        const msg = `💼 *JOB APPLICATION — GitataHub*
-
-*Position:* ${currentJobTitle}
-*Company:* ${currentCompany}
-
-*Applicant Details:*
-👤 Name: ${name}
-📱 Phone: ${phone}
-${email ? `📧 Email: ${email}` : ""}
-🎓 Qualification: ${qual}
-⏱ Experience: ${exp}
-
-${cover ? `*Cover Note:*\n${cover}` : ""}
-
-_Sent via GitataHub — gitatahub.vercel.app_`;
-
-        window.open(
-          `https://wa.me/2349159329638?text=${encodeURIComponent(msg)}`,
-          "_blank",
-        );
-        closeModal();
-        alert(
-          "✅ Application sent! The employer will contact you soon on WhatsApp.",
-        );
-      }
-
-      function filterJobs() {
-        const search = document
-          .getElementById("searchInput")
-          .value.toLowerCase();
-        const filtered = window.allJobs.filter((j) => {
-          const matchSearch =
-            !search ||
-            (j.title || "").toLowerCase().includes(search) ||
-            (j.company || "").toLowerCase().includes(search) ||
-            (j.desc || "").toLowerCase().includes(search) ||
-            (j.category || "").toLowerCase().includes(search);
-          const matchType =
-            window.currentFilter === "all" || j.type === window.currentFilter;
-          return matchSearch && matchType;
-        });
-        renderJobs(filtered);
-      }
-
-      function filterByType(type, btn) {
-        window.currentFilter = type;
-        document
-          .querySelectorAll(".filter-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        filterJobs();
-      }
-
-      function filterByCategory(cat) {
-        document.getElementById("searchInput").value = cat;
-        filterJobs();
-      }
-
-      function subscribeAlert() {
-        const phone = document.getElementById("alertPhone").value.trim();
-        if (!phone) {
-          alert("Please enter your WhatsApp number");
-          return;
-        }
-        const msg = `Hi GitataHub! I want to subscribe to job alerts. My WhatsApp: ${phone}`;
-        window.open(
-          `https://wa.me/2349159329638?text=${encodeURIComponent(msg)}`,
-          "_blank",
-        );
-        alert(
-          "✅ Subscription request sent! We will add you to our job alerts list.",
-        );
-      }
-
-      document
-        .getElementById("applyModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) closeModal();
-        });
-    </script>
-
-    <footer>
-      <div class="footer-bottom">
-        <span>© 2026 GitataHub. Built for the Gitata Community.</span>
-        <div class="footer-links">
-          <a href="index.html">Home</a><a href="jobs.html">Jobs</a
-          ><a href="advertise.html">Post a Job</a><a href="about.html">About</a>
-        </div>
-      </div>
-    </footer>
-    <a href="https://wa.me/2349159329638" class="wa-float">💬</a>
-  </body>
+</body>
 </html>

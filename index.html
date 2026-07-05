@@ -535,11 +535,11 @@
 <nav>
   <a href="#" class="nav-logo">Gitata<span>Hub</span></a>
   <ul class="nav-links">
-    <li><a href="#news">News</a></li>
-    <li><a href="#businesses">Businesses</a></li>
-    <li><a href="#jobs">Jobs</a></li>
-    <li><a href="#properties">Properties</a></li>
-    <li><a href="#events">Events</a></li>
+    <li><a href="news.html">News</a></li>
+    <li><a href="businesses.html">Businesses</a></li>
+    <li><a href="jobs.html">Jobs</a></li>
+    <li><a href="properties.html">Properties</a></li>
+    <li><a href="events.html">Events</a></li>
     <li><a href="#advertise" class="nav-cta">Advertise</a></li>
   </ul>
   <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
@@ -623,9 +623,9 @@
       <div class="section-label">Latest Updates</div>
       <h2 class="section-title">Community News</h2>
     </div>
-    <a href="#" class="see-all">View all news →</a>
+    <a href="news.html" class="see-all">View all news →</a>
   </div>
-  <div class="news-grid">
+  <div class="news-grid" id="newsGrid">
     <a href="#" class="news-card featured">
       <div class="news-card-img" style="background:linear-gradient(135deg,#0E5C30 0%,#1A7A42 60%,#25A35A 100%);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:1.8rem;position:relative;overflow:hidden">
   <div style="position:absolute;top:-40px;right:-40px;width:220px;height:220px;background:rgba(255,255,255,0.06);border-radius:50%"></div>
@@ -641,7 +641,7 @@
 </div>
       <div class="news-card-body">
         <span class="news-tag politics">Politics</span>
-        <h3>Hon. Bawa Rabo empower 500 women in panda kare Ward, Pledges More Infrastructure an support</h3>
+        <h3> Breaking News Hon. Daniel Ogah Ogazi to commission campaign Office and empower 525 women in keffi, 7th July 2026</h3>
         <p>
 We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitata has won the case concerning the Traditional Throne of Gitata against the Nyankpa people.</p>
         <div class="news-meta">
@@ -651,7 +651,7 @@ We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitat
         </div>
       </div>
     </a>
-    <div class="news-side">
+    <div class="news-side" id="newsSide">
       <a href="#" class="news-side-card">
         <span class="news-side-icon">🏗️</span>
         <div>
@@ -692,9 +692,9 @@ We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitat
       <h2 class="section-title">Featured Businesses</h2>
       <p class="section-sub">Discover trusted shops, services, and professionals in Gitata and Karu LGA.</p>
     </div>
-    <a href="#" class="see-all">View all businesses →</a>
+    <a href="businesses.html" class="see-all">View all businesses →</a>
   </div>
-  <div class="biz-grid">
+  <div class="biz-grid" id="bizGrid">
     <a href="#" class="biz-card">
       <div class="biz-logo">✂️</div>
       <div class="biz-info">
@@ -760,9 +760,9 @@ We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitat
       <h2 class="section-title">Latest Job Listings</h2>
       <p class="section-sub" style="color:rgba(255,255,255,0.65);">Find work in Gitata, Karu, Keffi, and across Nasarawa State.</p>
     </div>
-    <a href="#" class="see-all">View all jobs →</a>
+    <a href="jobs.html" class="see-all">View all jobs →</a>
   </div>
-  <div class="jobs-list">
+  <div class="jobs-list" id="jobsList">
     <a href="#" class="job-card">
       <div>
         <div class="job-title">Frontend Web Developer</div>
@@ -829,7 +829,7 @@ We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitat
       <h2 class="section-title">Properties For Rent & Sale</h2>
       <p class="section-sub">Find your next home or investment in Gitata and surrounding areas.</p>
     </div>
-    <a href="#" class="see-all">View all properties →</a>
+    <a href="properties.html" class="see-all">View all properties →</a>
   </div>
   <div class="prop-grid">
     <a href="#" class="prop-card">
@@ -870,7 +870,7 @@ We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitat
       <h2 class="section-title">Upcoming Events</h2>
       <p class="section-sub">Stay connected with community gatherings, town halls, and celebrations.</p>
     </div>
-    <a href="#" class="see-all">View all events →</a>
+    <a href="events.html" class="see-all">View all events →</a>
   </div>
   <div class="events-list">
     <a href="#" class="event-card">
@@ -968,8 +968,8 @@ We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitat
         <li><a href="#news">Latest News</a></li>
         <li><a href="#businesses">Business Directory</a></li>
         <li><a href="#jobs">Job Listings</a></li>
-        <li><a href="#properties">Properties</a></li>
-        <li><a href="#events">Events</a></li>
+        <li><a href="properties.html">Properties</a></li>
+        <li><a href="events.html">Events</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1056,5 +1056,117 @@ We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitat
     if (e.key === 'Enter') searchBtn.click();
   });
 </script>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import{getFirestore,collection,getDocs,query,orderBy,limit}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+const fb={apiKey:"AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",authDomain:"gitatahub.firebaseapp.com",projectId:"gitatahub",storageBucket:"gitatahub.firebasestorage.app",messagingSenderId:"81280695755",appId:"1:81280695755:web:60659495811412e0bd8a4e"};
+const app=initializeApp(fb);
+const db=getFirestore(app);
+
+const COLORS={"Politics":["#0E5C30","#1A7A42"],"Community":["#1a2f1a","#0E5C30"],"Education":["#3730a3","#6B21A8"],"Health":["#0C5460","#117a8b"],"Business":["#78350f","#b45309"],"Security":["#111827","#1f2937"],"Infrastructure":["#78350f","#92400E"]};
+const ICONS={"Politics":"🏛️","Community":"🏘️","Education":"🎓","Health":"🏥","Business":"💼","Security":"🔒","Infrastructure":"🏗️"};
+const BIZ_ICONS={"Fashion & Tailoring":"✂️","Food & Restaurant":"🍽️","Health & Pharmacy":"💊","Technology":"🖥️","Finance & POS":"🏦","Education":"📚","Automobile":"🚗","Supermarket":"🛒","Other":"🏪"};
+
+function trunc(t,l){return t&&t.length>l?t.substring(0,l)+"...":t||"";}
+
+async function loadNews(){
+  try{
+    const snap=await getDocs(query(collection(db,"news"),orderBy("createdAt","desc"),limit(5)));
+    if(!snap.size)return;
+    const arts=snap.docs.map(d=>({...d.data()}));
+    const feat=arts[0];
+    const rest=arts.slice(1,4);
+
+    // Update featured card
+    const fc=document.querySelector(".news-card.featured");
+    if(fc&&feat){
+      const col=COLORS[feat.category]||["#0E5C30","#1A7A42"];
+      const ic=ICONS[feat.category]||"📰";
+      const img=fc.querySelector(".news-card-img");
+      if(img){
+        img.style.background="linear-gradient(135deg,"+col[0]+" 0%,"+col[1]+" 100%)";
+        img.style.display="flex";
+        img.style.flexDirection="column";
+        img.style.alignItems="flex-start";
+        img.style.justifyContent="flex-end";
+        img.style.padding="1.8rem";
+        img.style.position="relative";
+        img.style.overflow="hidden";
+        img.innerHTML='<div style="position:absolute;top:-40px;right:-40px;width:220px;height:220px;background:rgba(255,255,255,0.06);border-radius:50%"></div>'
+          +'<span style="background:#D4A017;color:#0D1F14;font-size:0.68rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:0.3rem 0.7rem;border-radius:4px;margin-bottom:0.8rem;display:inline-block">'+ic+' '+(feat.category||"NEWS").toUpperCase()+'</span>'
+          +'<div style="width:40px;height:3px;background:#D4A017;border-radius:2px;margin-bottom:0.8rem"></div>'
+          +'<div style="font-family:Playfair Display,serif;font-size:1.3rem;font-weight:900;color:#fff;line-height:1.3;max-width:520px;text-shadow:0 2px 8px rgba(0,0,0,0.4);margin-bottom:0.8rem">'+feat.title+'</div>'
+          +'<div style="display:flex;gap:1rem;font-size:0.75rem;color:rgba(255,255,255,0.75)"><span>👤 '+(feat.author||"GitataHub Reporter")+'</span><span style="color:#D4A017;font-weight:700">⭐ Featured</span></div>';
+      }
+      const h3=fc.querySelector("h3");if(h3)h3.textContent=feat.title;
+      const p=fc.querySelector("p");if(p)p.textContent=trunc(feat.content,200);
+      const tag=fc.querySelector(".news-tag");if(tag)tag.textContent=feat.category||"News";
+    }
+
+    // Update side cards
+    const side=document.getElementById("newsSide");
+    if(side&&rest.length){
+      const cards=side.querySelectorAll(".news-side-card");
+      rest.forEach((a,i)=>{
+        if(i<cards.length){
+          const ico=cards[i].querySelector(".news-side-icon");
+          const h4=cards[i].querySelector("h4");
+          const sp=cards[i].querySelector("span");
+          if(ico)ico.textContent=ICONS[a.category]||"📰";
+          if(h4)h4.textContent=a.title;
+          if(sp)sp.textContent=(a.category||"News");
+        }
+      });
+    }
+  }catch(e){console.log("news err",e);}
+}
+
+async function loadJobs(){
+  try{
+    const snap=await getDocs(query(collection(db,"jobs"),orderBy("createdAt","desc"),limit(5)));
+    if(!snap.size)return;
+    const list=document.getElementById("jobsList");
+    if(!list)return;
+    list.innerHTML="";
+    snap.forEach(doc=>{
+      const j=doc.data();
+      const a=document.createElement("a");
+      a.href="jobs.html";
+      a.className="job-card";
+      a.innerHTML='<div><div class="job-title">'+j.title+'</div><div class="job-company">'+(j.company||"")+" · "+(j.location||"Gitata")+'</div></div>'
+        +'<div class="job-badges"><span class="badge badge-green">'+(j.type||"Full-time")+'</span>'
+        +(j.salary?'<span class="badge badge-gold">'+j.salary+'</span>':"")
+        +'</div><span class="job-apply">Apply Now</span>';
+      list.appendChild(a);
+    });
+  }catch(e){console.log("jobs err",e);}
+}
+
+async function loadBusinesses(){
+  try{
+    const snap=await getDocs(query(collection(db,"businesses"),orderBy("createdAt","desc"),limit(3)));
+    if(!snap.size)return;
+    const grid=document.getElementById("bizGrid");
+    if(!grid)return;
+    snap.forEach(doc=>{
+      const b=doc.data();
+      const card=document.createElement("a");
+      card.href="businesses.html";
+      card.className="biz-card";
+      card.innerHTML='<div class="biz-logo">'+(BIZ_ICONS[b.category]||"🏪")+'</div>'
+        +'<div class="biz-info"><h4>'+b.name+'</h4><p>'+(b.desc||"")+'</p>'
+        +'<span class="biz-tag">'+(b.category||"")+'</span>'
+        +'<span class="verified">✅ Verified Business</span></div>';
+      grid.appendChild(card);
+    });
+  }catch(e){console.log("biz err",e);}
+}
+
+loadNews();
+loadJobs();
+loadBusinesses();
+</script>
+
 </body>
 </html>

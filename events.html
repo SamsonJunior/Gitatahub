@@ -455,7 +455,7 @@
         <button class="filter-btn">Business</button>
         <button class="filter-btn">Education</button>
       </div>
-      <div class="events-layout">
+      <div class="events-layout" id="eventsLayout">
         <div>
           <div class="month-label">July 2026</div>
           <div class="event-card featured">
@@ -771,6 +771,84 @@
           btn.classList.add("active");
         });
       });
+    </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        query,
+        orderBy,
+      } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",
+        authDomain: "gitatahub.firebaseapp.com",
+        projectId: "gitatahub",
+        storageBucket: "gitatahub.firebasestorage.app",
+        messagingSenderId: "81280695755",
+        appId: "1:81280695755:web:60659495811412e0bd8a4e",
+      };
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const TAG_CLASSES = {
+        Community: "tag-community",
+        Political: "tag-political",
+        Cultural: "tag-cultural",
+        Health: "tag-health",
+        Business: "tag-business",
+        Education: "tag-education",
+      };
+
+      async function loadEvents() {
+        try {
+          const layout = document.getElementById("eventsLayout");
+          if (!layout) return;
+          // Get the first column (events list) inside layout
+          const eventsCol = layout.querySelector("div:first-child");
+          if (!eventsCol) return;
+
+          const q = query(
+            collection(db, "events"),
+            orderBy("createdAt", "desc"),
+          );
+          const snap = await getDocs(q);
+          if (!snap.size) return;
+
+          snap.forEach((doc) => {
+            const e = doc.data();
+            const d = new Date(e.date);
+            const day = isNaN(d.getDate()) ? "--" : d.getDate();
+            const mon = isNaN(d.getDate())
+              ? "---"
+              : d.toLocaleString("en", { month: "short" }).toUpperCase();
+
+            const card = document.createElement("div");
+            card.className = "event-card";
+            card.innerHTML = `
+            <div class="event-date-box">
+              <div class="event-date-day">${day}</div>
+              <div class="event-date-mon">${mon}</div>
+            </div>
+            <div class="event-info">
+              <span class="event-type ${TAG_CLASSES[e.category] || "tag-community"}">${e.category || "Community"}</span>
+              <h4>${e.title}</h4>
+              <p>📍 ${e.location || "Gitata"} ${e.time ? "· ⏰ " + e.time : ""} · ${e.fee || "🆓 Free"}</p>
+              ${e.desc ? "<p style='font-size:0.82rem;color:#3A5244;margin-top:0.3rem'>" + e.desc + "</p>" : ""}
+              <div style="display:flex;gap:0.6rem;margin-top:0.7rem">
+                <button class="btn-remind" onclick="window.open('https://wa.me/2349159329638?text=Remind me: ${e.title}','_blank')">🔔 Remind Me</button>
+                <button class="btn-share" onclick="navigator.clipboard&&navigator.clipboard.writeText('${e.title} - gitatahub.vercel.app/events.html').then(()=>alert('Copied!'))">📤 Share</button>
+              </div>
+            </div>`;
+            eventsCol.appendChild(card);
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      loadEvents();
     </script>
   </body>
 </html>

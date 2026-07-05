@@ -975,5 +975,86 @@
         if (e.key === "Enter") searchProps();
       });
     </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        query,
+        orderBy,
+      } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+      const firebaseConfig = {
+        apiKey: "AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",
+        authDomain: "gitatahub.firebaseapp.com",
+        projectId: "gitatahub",
+        storageBucket: "gitatahub.firebasestorage.app",
+        messagingSenderId: "81280695755",
+        appId: "1:81280695755:web:60659495811412e0bd8a4e",
+      };
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      async function loadProperties() {
+        try {
+          const grid = document.getElementById("propGrid");
+          if (!grid) return;
+          const q = query(
+            collection(db, "properties"),
+            orderBy("createdAt", "desc"),
+          );
+          const snap = await getDocs(q);
+          if (!snap.size) return;
+          const ICONS = { "For Rent": "🏠", "For Sale": "🏡", Land: "🌿" };
+          const BADGE = {
+            "For Rent": "rent",
+            "For Sale": "sale",
+            Land: "land",
+          };
+          snap.forEach((doc) => {
+            const p = doc.data();
+            const card = document.createElement("div");
+            card.className = "prop-card";
+            card.setAttribute(
+              "data-cat",
+              (p.type || "rent").toLowerCase().replace(" ", ""),
+            );
+            card.innerHTML = `
+            <div class="prop-img" style="background:linear-gradient(135deg,#E8F5EE,#C8E6D4);height:200px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative">
+              ${ICONS[p.type] || "🏠"}
+              <span class="prop-badge ${BADGE[p.type] || "rent"}" style="position:absolute;top:12px;left:12px">${p.type || "FOR RENT"}</span>
+              <span style="position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.75);color:#fff;font-size:0.9rem;font-weight:700;padding:0.3rem 0.8rem;border-radius:6px">${p.price || "Price on request"}</span>
+            </div>
+            <div class="prop-body" style="padding:1.2rem">
+              <div class="prop-title" style="font-weight:700;font-size:1rem;margin-bottom:0.35rem">${p.title}</div>
+              <div style="font-size:0.82rem;color:#3A5244;margin-bottom:0.8rem">📍 ${p.location || "Gitata, Karu LGA"}</div>
+              <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:0.9rem;font-size:0.78rem;color:#3A5244">
+                ${p.beds ? "<span>🛏 " + p.beds + " Bed" + (p.beds > 1 ? "s" : "") + "</span>" : ""}
+                ${p.baths ? "<span>🚿 " + p.baths + " Bath" + (p.baths > 1 ? "s" : "") + "</span>" : ""}
+                ${
+                  p.features
+                    ? p.features
+                        .split(",")
+                        .slice(0, 2)
+                        .map((f) => "<span>✅ " + f.trim() + "</span>")
+                        .join("")
+                    : ""
+                }
+              </div>
+              <a href="https://wa.me/2349159329638?text=I am interested in ${p.title}" style="display:flex;align-items:center;justify-content:center;background:#0E5C30;color:#fff;padding:0.55rem;border-radius:7px;font-size:0.82rem;font-weight:700;text-decoration:none">💬 Contact Owner</a>
+            </div>`;
+            grid.appendChild(card);
+          });
+          const countEl = document.getElementById("propCountNum");
+          if (countEl)
+            countEl.textContent =
+              parseInt(countEl.textContent || 0) + snap.size;
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      loadProperties();
+    </script>
   </body>
 </html>

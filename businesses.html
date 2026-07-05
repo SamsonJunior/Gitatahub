@@ -988,64 +988,91 @@
     >
     <a href="#" class="back-to-top" id="backToTop">↑</a>
 
-    <script>
-      const hamburger = document.querySelector(".hamburger");
-      const mobileNav = document.getElementById("mobileNav");
-      hamburger.addEventListener("click", () => {
-        const isOpen = mobileNav.classList.toggle("open");
-        hamburger.classList.toggle("open", isOpen);
-        hamburger.setAttribute("aria-expanded", isOpen);
-      });
-      mobileNav.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-          mobileNav.classList.remove("open");
-          hamburger.classList.remove("open");
-        });
-      });
-      window.addEventListener("scroll", () => {
-        document
-          .getElementById("backToTop")
-          .classList.toggle("visible", window.scrollY > 400);
-      });
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        query,
+        orderBy,
+      } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-      function filterBiz(cat, btn) {
-        document
-          .querySelectorAll(".filter-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        const cards = document.querySelectorAll(".biz-card");
-        let count = 0;
-        cards.forEach((card) => {
-          const show = cat === "all" || card.dataset.cat === cat;
-          card.style.display = show ? "" : "none";
-          if (show) count++;
-        });
-        document.getElementById("bizCountNum").textContent = count;
+      const firebaseConfig = {
+        apiKey: "AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",
+        authDomain: "gitatahub.firebaseapp.com",
+        projectId: "gitatahub",
+        storageBucket: "gitatahub.firebasestorage.app",
+        messagingSenderId: "81280695755",
+        appId: "1:81280695755:web:60659495811412e0bd8a4e",
+        measurementId: "G-00PLEVJFF0",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const grid = document.getElementById("bizGrid");
+
+      async function loadBusinesses() {
+        try {
+          const q = query(
+            collection(db, "businesses"),
+            orderBy("createdAt", "desc"),
+          );
+
+          const snap = await getDocs(q);
+
+          snap.forEach((doc) => {
+            const b = doc.data();
+            const ICONS = {
+              "Fashion & Tailoring": "✂️",
+              "Food & Restaurant": "🍽️",
+              "Health & Pharmacy": "💊",
+              Technology: "🖥️",
+              "Finance & POS": "🏦",
+              Education: "📚",
+              Automobile: "🚗",
+              Supermarket: "🛒",
+              Other: "🏪",
+            };
+            const CAT_MAP = {
+              "Fashion & Tailoring": "fashion",
+              "Food & Restaurant": "food",
+              "Health & Pharmacy": "health",
+              Technology: "tech",
+              "Finance & POS": "finance",
+              Automobile: "auto",
+              Education: "education",
+              Supermarket: "food",
+              Other: "other",
+            };
+            grid.innerHTML += `
+            <a href="https://wa.me/234${(b.wa || b.phone || "9159329638").replace(/^0/, "")}" class="biz-card" data-cat="${CAT_MAP[b.category] || "other"}">
+              <div class="biz-header">
+                <div class="biz-logo">${ICONS[b.category] || "🏪"}</div>
+                <div class="biz-info">
+                  <h4>${b.name}</h4>
+                  <p>${b.desc || b.description || ""}</p>
+                  <span class="biz-tag">${b.category || ""}</span>
+                  <span class="verified">✅ Verified Business</span>
+                </div>
+              </div>
+              <div class="biz-footer">
+                <span class="biz-location">📍 ${b.address || b.location || "Gitata, Karu LGA"}</span>
+                <span class="biz-contact">Contact</span>
+              </div>
+            </a>`;
+          });
+
+          document.getElementById("bizCountNum").textContent = snap.size;
+        } catch (err) {
+          grid.innerHTML = "<h3>Unable to load businesses.</h3>";
+
+          console.log(err);
+        }
       }
 
-      function searchBiz() {
-        const q = document
-          .getElementById("bizSearch")
-          .value.trim()
-          .toLowerCase();
-        if (!q) return;
-        const cards = document.querySelectorAll(".biz-card");
-        let count = 0;
-        cards.forEach((card) => {
-          const text = card.textContent.toLowerCase();
-          const show = text.includes(q);
-          card.style.display = show ? "" : "none";
-          if (show) count++;
-        });
-        document.getElementById("bizCountNum").textContent = count;
-        document
-          .querySelectorAll(".filter-btn")
-          .forEach((b) => b.classList.remove("active"));
-      }
-
-      document.getElementById("bizSearch").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") searchBiz();
-      });
+      loadBusinesses();
     </script>
   </body>
 </html>

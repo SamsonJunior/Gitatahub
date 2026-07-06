@@ -276,7 +276,11 @@
       .prop-img-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.4) 0%,
+          transparent 60%
+        );
       }
       .prop-badge {
         position: absolute;
@@ -615,7 +619,14 @@
 
       <div class="prop-grid" id="propGrid">
         <a href="#" class="prop-card" data-cat="rent">
-          <div class="prop-img"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80" alt="3 Bedroom Flat" loading="lazy"/><div class="prop-img-overlay"></div><span class="prop-badge rent">FOR RENT</span>
+          <div class="prop-img">
+            <img
+              src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80"
+              alt="3 Bedroom Flat"
+              loading="lazy"
+            />
+            <div class="prop-img-overlay"></div>
+            <span class="prop-badge rent">FOR RENT</span>
           </div>
           <div class="prop-body">
             <div class="prop-price">₦250,000/year</div>
@@ -641,7 +652,15 @@
         </a>
 
         <a href="#" class="prop-card" data-cat="sale duplex">
-          <div class="prop-img"><img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=600&q=80" alt="4 Bedroom Duplex" loading="lazy"/><div class="prop-img-overlay"></div><span class="prop-badge">FOR SALE</span></div>
+          <div class="prop-img">
+            <img
+              src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=600&q=80"
+              alt="4 Bedroom Duplex"
+              loading="lazy"
+            />
+            <div class="prop-img-overlay"></div>
+            <span class="prop-badge">FOR SALE</span>
+          </div>
           <div class="prop-body">
             <div class="prop-price">₦8,500,000</div>
             <div class="prop-title">4 Bedroom Duplex — Mararaba</div>
@@ -666,7 +685,14 @@
         </a>
 
         <a href="#" class="prop-card" data-cat="rent selfcon">
-          <div class="prop-img"><img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80" alt="Self Contained" loading="lazy"/><div class="prop-img-overlay"></div><span class="prop-badge rent">FOR RENT</span>
+          <div class="prop-img">
+            <img
+              src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80"
+              alt="Self Contained"
+              loading="lazy"
+            />
+            <div class="prop-img-overlay"></div>
+            <span class="prop-badge rent">FOR RENT</span>
           </div>
           <div class="prop-body">
             <div class="prop-price">₦120,000/year</div>
@@ -692,7 +718,14 @@
         </a>
 
         <a href="#" class="prop-card" data-cat="sale land">
-          <div class="prop-img"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80" alt="Plot of Land" loading="lazy"/><div class="prop-img-overlay"></div><span class="prop-badge land">LAND</span>
+          <div class="prop-img">
+            <img
+              src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80"
+              alt="Plot of Land"
+              loading="lazy"
+            />
+            <div class="prop-img-overlay"></div>
+            <span class="prop-badge land">LAND</span>
           </div>
           <div class="prop-body">
             <div class="prop-price">₦3,500,000</div>
@@ -719,7 +752,14 @@
         </a>
 
         <a href="#" class="prop-card" data-cat="rent">
-          <div class="prop-img"><img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80" alt="2 Bedroom Flat" loading="lazy"/><div class="prop-img-overlay"></div><span class="prop-badge rent">FOR RENT</span>
+          <div class="prop-img">
+            <img
+              src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80"
+              alt="2 Bedroom Flat"
+              loading="lazy"
+            />
+            <div class="prop-img-overlay"></div>
+            <span class="prop-badge rent">FOR RENT</span>
           </div>
           <div class="prop-body">
             <div class="prop-price">₦180,000/year</div>
@@ -797,7 +837,14 @@
         </a>
 
         <a href="#" class="prop-card" data-cat="rent selfcon">
-          <div class="prop-img"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80" alt="3 Bedroom Flat" loading="lazy"/><div class="prop-img-overlay"></div><span class="prop-badge rent">FOR RENT</span>
+          <div class="prop-img">
+            <img
+              src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80"
+              alt="3 Bedroom Flat"
+              loading="lazy"
+            />
+            <div class="prop-img-overlay"></div>
+            <span class="prop-badge rent">FOR RENT</span>
           </div>
           <div class="prop-body">
             <div class="prop-price">₦90,000/year</div>
@@ -981,51 +1028,74 @@
         if (e.key === "Enter") searchProps();
       });
     </script>
-  
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-    const fb={apiKey:"AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",authDomain:"gitatahub.firebaseapp.com",projectId:"gitatahub",storageBucket:"gitatahub.firebasestorage.app",messagingSenderId:"81280695755",appId:"1:81280695755:web:60659495811412e0bd8a4e"};
-    const app=initializeApp(fb);
-    const db=getFirestore(app);
-    const IMGS=["https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80","https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=600&q=80","https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80","https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80","https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80","https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80"];
-    const BADGE={"For Rent":"rent","For Sale":"","Land":"land"};
-    async function loadProperties(){
-      try{
-        const grid=document.getElementById("propGrid");
-        if(!grid)return;
-        const snap=await getDocs(query(collection(db,"properties"),orderBy("createdAt","desc")));
-        if(!snap.size)return;
-        snap.docs.forEach((doc,i)=>{
-          const p=doc.data();
-          const img=IMGS[i%IMGS.length];
-          const card=document.createElement("a");
-          card.href="#";
-          card.className="prop-card";
-          card.innerHTML=`
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        query,
+        orderBy,
+      } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+      const fb = {
+        apiKey: "AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",
+        authDomain: "gitatahub.firebaseapp.com",
+        projectId: "gitatahub",
+        storageBucket: "gitatahub.firebasestorage.app",
+        messagingSenderId: "81280695755",
+        appId: "1:81280695755:web:60659495811412e0bd8a4e",
+      };
+      const app = initializeApp(fb);
+      const db = getFirestore(app);
+      const IMGS = [
+        "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80",
+        "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=600&q=80",
+        "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80",
+        "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80",
+        "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80",
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80",
+      ];
+      const BADGE = { "For Rent": "rent", "For Sale": "", Land: "land" };
+      async function loadProperties() {
+        try {
+          const grid = document.getElementById("propGrid");
+          if (!grid) return;
+          const snap = await getDocs(
+            query(collection(db, "properties"), orderBy("createdAt", "desc")),
+          );
+          if (!snap.size) return;
+          snap.docs.forEach((doc, i) => {
+            const p = doc.data();
+            const img = IMGS[i % IMGS.length];
+            const card = document.createElement("a");
+            card.href = "#";
+            card.className = "prop-card";
+            card.innerHTML = `
           <div class="prop-img">
             <img src="${img}" alt="${p.title}" loading="lazy"/>
             <div class="prop-img-overlay"></div>
-            <span class="prop-badge ${BADGE[p.type]||""}">${p.type||"FOR RENT"}</span>
+            <span class="prop-badge ${BADGE[p.type] || ""}">${p.type || "FOR RENT"}</span>
           </div>
           <div class="prop-body">
-            <div class="prop-price">${p.price||"Price on request"}</div>
+            <div class="prop-price">${p.price || "Price on request"}</div>
             <div class="prop-title">${p.title}</div>
-            <div class="prop-location">📍 ${p.location||"Gitata, Karu LGA"}</div>
+            <div class="prop-location">📍 ${p.location || "Gitata, Karu LGA"}</div>
             <div class="prop-meta">
-              ${p.beds?`<span>🛏 ${p.beds} Beds</span>`:""}
-              ${p.baths?`<span>🚿 ${p.baths} Baths</span>`:""}
+              ${p.beds ? `<span>🛏 ${p.beds} Beds</span>` : ""}
+              ${p.baths ? `<span>🚿 ${p.baths} Baths</span>` : ""}
             </div>
             <div class="prop-footer">
               <a href="https://wa.me/2349159329638?text=Interested in: ${p.title}" class="btn-contact">💬 Contact</a>
             </div>
           </div>`;
-          grid.appendChild(card);
-        });
-      }catch(e){console.log(e);}
-    }
-    loadProperties();
-  </script>
-
-</body>
+            grid.appendChild(card);
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      loadProperties();
+    </script>
+  </body>
 </html>

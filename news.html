@@ -1490,6 +1490,132 @@
         );
       }
     </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        query,
+        orderBy,
+      } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+      const fb = {
+        apiKey: "AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",
+        authDomain: "gitatahub.firebaseapp.com",
+        projectId: "gitatahub",
+        storageBucket: "gitatahub.firebasestorage.app",
+        messagingSenderId: "81280695755",
+        appId: "1:81280695755:web:60659495811412e0bd8a4e",
+      };
+      const app = initializeApp(fb);
+      const db = getFirestore(app);
+
+      const MONTHS = [
+        "Jan","Feb","Mar","Apr","May","Jun",
+        "Jul","Aug","Sep","Oct","Nov","Dec",
+      ];
+      const CATEGORY_ICONS = {
+        politics: "🏛️",
+        community: "🤝",
+        health: "🏥",
+        education: "📚",
+        business: "💼",
+        infrastructure: "🏗️",
+        culture: "🎭",
+        sports: "⚽",
+      };
+      const CATEGORY_GRADIENTS = {
+        politics: "#0e5c30 0%, #1a7a42 100%",
+        community: "#155a63 0%, #1d7a86 100%",
+        health: "#7a1f2b 0%, #a83244 100%",
+        education: "#3d2166 0%, #5c3596 100%",
+        business: "#0e5c30 0%, #25a35a 100%",
+        infrastructure: "#78350f 0%, #b45309 100%",
+        culture: "#6b1f4b 0%, #9c3070 100%",
+        sports: "#0c4a6e 0%, #0284c7 100%",
+      };
+
+      function escapeHtml(str) {
+        const d = document.createElement("div");
+        d.textContent = str == null ? "" : String(str);
+        return d.innerHTML;
+      }
+
+      function formatDate(value) {
+        let d = null;
+        if (value && typeof value.toDate === "function") {
+          d = value.toDate();
+        } else if (value) {
+          const parsed = new Date(value);
+          if (!isNaN(parsed)) d = parsed;
+        }
+        if (!d) return "";
+        return MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+      }
+
+      function makeExcerpt(ev) {
+        const short = ev.excerpt || ev.summary;
+        if (short) return short;
+        const full = ev.desc || ev.body || ev.content || ev.description || "";
+        if (!full) return "";
+        return full.length > 160 ? full.slice(0, 160).trim() + "…" : full;
+      }
+
+      async function loadNews() {
+        try {
+          const snap = await getDocs(
+            query(collection(db, "news"), orderBy("date", "desc")),
+          );
+          if (!snap.size) return; // keep static sample cards as-is
+
+          const list = document.getElementById("newsList");
+          list.innerHTML = "";
+
+          let first = true;
+          snap.forEach((docSnap) => {
+            const ev = docSnap.data();
+            const catRaw = (ev.category || ev.tag || "community").toString();
+            const catKey = catRaw.toLowerCase();
+            const catLabel = catRaw.charAt(0).toUpperCase() + catRaw.slice(1);
+            const icon = CATEGORY_ICONS[catKey] || "📰";
+            const gradient = CATEGORY_GRADIENTS[catKey] || "#0e5c30 0%, #1a7a42 100%";
+            const author = ev.author || ev.reporter || "GitataHub Reporter";
+            const dateStr = formatDate(ev.date);
+            const views = ev.views ? (ev.views >= 1000 ? (ev.views / 1000).toFixed(1) + "k" : ev.views) : "0";
+            const excerpt = makeExcerpt(ev);
+
+            const imgInner = ev.image
+              ? ""
+              : '<span style="font-size:0.68rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:0.25rem 0.6rem;border-radius:4px;background:#d4a017;color:#0d1f14;">' +
+                icon + " " + escapeHtml(catLabel.toUpperCase()) + "</span>";
+            const imgStyle = ev.image
+              ? 'background-image:url(' + escapeHtml(ev.image) + ');background-size:cover;background-position:center;'
+              : 'background:linear-gradient(135deg,' + gradient + ');display:flex;align-items:flex-end;padding:1rem;position:relative;overflow:hidden;';
+
+            const a = document.createElement("a");
+            a.href = "news-details.html?id=" + encodeURIComponent(docSnap.id);
+            a.className = "news-card" + (first ? " featured-big" : "");
+            a.dataset.cat = catKey;
+            a.innerHTML =
+              '<div class="news-card-img" style="' + imgStyle + '">' + imgInner + "</div>" +
+              '<div class="news-card-body">' +
+              '<span class="news-tag ' + escapeHtml(catKey) + '">' + escapeHtml(catLabel) + "</span>" +
+              "<h3>" + escapeHtml(ev.title || "Untitled Story") + "</h3>" +
+              "<p>" + escapeHtml(excerpt) + "</p>" +
+              '<div class="news-meta"><span>' + escapeHtml(author) + "</span><span>" + escapeHtml(dateStr) + "</span><span>👁 " + escapeHtml(views) + " views</span></div>" +
+              "</div>";
+            list.appendChild(a);
+            first = false;
+          });
+        } catch (e) {
+          console.log("news load err", e);
+          // keep static sample cards on error
+        }
+      }
+      loadNews();
+    </script>
     <script defer src="/_vercel/insights/script.js"></script>
   </body>
 </html>

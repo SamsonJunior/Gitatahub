@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Article — GitataHub</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --green-deep: #0e5c30;
+        --green-mid: #1a7a42;
+        --green-light: #25a35a;
+        --green-pale: #e8f5ee;
+        --white: #ffffff;
+        --ink: #0d1f14;
+        --ink-soft: #3a5244;
+        --border: #c4dfd0;
+        --gold: #d4a017;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--white);
+        color: var(--ink);
+        line-height: 1.6;
+      }
+
+      /* NAV */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--green-deep);
+        padding: 0 5%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 64px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--white);
+        text-decoration: none;
+        letter-spacing: -0.5px;
+      }
+      .nav-logo span {
+        color: var(--gold);
+      }
+      .nav-links {
+        display: flex;
+        gap: 1.6rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--white);
+        font-weight: 700;
+      }
+      .nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.45rem 1.1rem;
+        border-radius: 6px;
+        font-weight: 600 !important;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      .mobile-nav {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background: var(--green-deep);
+        padding: 1rem 5% 1.4rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        z-index: 99;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .mobile-nav.open {
+        display: flex;
+      }
+      .mobile-nav a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .mobile-nav a:last-child {
+        border-bottom: none;
+      }
+      .mobile-nav a.nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        font-weight: 700 !important;
+        text-align: center;
+        border: none;
+        margin-top: 0.4rem;
+      }
+
+      .breadcrumb {
+        font-size: 0.85rem;
+        color: var(--ink-soft);
+        padding: 1.2rem 5% 0;
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      .breadcrumb a {
+        color: var(--green-mid);
+        text-decoration: none;
+      }
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 1.2rem 5% 64px;
+      }
+
+      .article-hero-img {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 14px;
+        margin: 1.4rem 0;
+        display: block;
+      }
+
+      .news-tag {
+        display: inline-block;
+        background: var(--green-pale);
+        color: var(--green-deep);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        margin-bottom: 1rem;
+      }
+      .news-tag.politics {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .news-tag.community {
+        background: #d1ecf1;
+        color: #0c5460;
+      }
+      .news-tag.health {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .news-tag.education {
+        background: #e2d9f3;
+        color: #432874;
+      }
+      .news-tag.business {
+        background: #d4edda;
+        color: #155724;
+      }
+      .news-tag.infrastructure {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      h1.article-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+        font-weight: 900;
+        color: var(--ink);
+        margin-bottom: 1rem;
+        line-height: 1.25;
+      }
+
+      .article-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        font-size: 0.85rem;
+        color: var(--ink-soft);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 1.2rem;
+        margin-bottom: 1.8rem;
+      }
+      .article-meta span strong {
+        color: var(--ink);
+      }
+
+      .article-body {
+        font-size: 1.02rem;
+        color: var(--ink-soft);
+      }
+      .article-body p {
+        margin-bottom: 1.1rem;
+        white-space: pre-line;
+      }
+
+      .article-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.9rem;
+        margin-top: 2.2rem;
+        padding-top: 1.6rem;
+        border-top: 1px solid var(--border);
+      }
+      .btn-primary {
+        background: var(--gold);
+        color: var(--ink);
+        padding: 0.8rem 1.6rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+        box-shadow: 0 4px 16px rgba(212, 160, 23, 0.35);
+        display: inline-block;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background: var(--green-pale);
+        color: var(--green-deep);
+        padding: 0.8rem 1.6rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.15s;
+      }
+      .btn-secondary:hover {
+        background: #d9f0e3;
+      }
+
+      .state-message {
+        text-align: center;
+        padding: 80px 5%;
+        color: var(--ink-soft);
+      }
+      .state-message a {
+        color: var(--green-mid);
+        font-weight: 600;
+      }
+
+      /* FOOTER */
+      footer {
+        background: var(--ink);
+        color: rgba(255, 255, 255, 0.75);
+        padding: 56px 5% 28px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 2.5rem;
+        margin-bottom: 2.5rem;
+      }
+      .footer-brand .nav-logo {
+        font-size: 1.4rem;
+        display: inline-block;
+        margin-bottom: 0.8rem;
+      }
+      .footer-brand p {
+        font-size: 0.85rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.6);
+        max-width: 280px;
+      }
+      .footer-social {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+      .social-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .social-btn:hover {
+        background: var(--green-mid);
+      }
+      .footer-col h4 {
+        color: white;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .footer-col a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.2s;
+      }
+      .footer-col a:hover {
+        color: var(--green-light);
+      }
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 1.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      .wa-float {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999;
+        background: #25d366;
+        color: white;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        text-decoration: none;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+        transition: transform 0.2s;
+      }
+      .wa-float:hover {
+        transform: scale(1.08);
+      }
+
+      @media (max-width: 600px) {
+        .nav-links {
+          display: none !important;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a href="index.html" class="nav-logo">Gitata<span>Hub</span></a>
+      <ul class="nav-links">
+        <li><a href="news.html" class="active">News</a></li>
+        <li><a href="businesses.html">Businesses</a></li>
+        <li><a href="jobs.html">Jobs</a></li>
+        <li><a href="properties.html">Properties</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="index.html#advertise" class="nav-cta">Advertise</a></li>
+      </ul>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="news.html">News</a>
+      <a href="businesses.html">Businesses</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="properties.html">Properties</a>
+      <a href="events.html">Events</a>
+      <a href="index.html#advertise" class="nav-cta">Advertise</a>
+    </div>
+
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> · <a href="news.html">News</a> ·
+      <span id="breadcrumbTitle">Loading…</span>
+    </div>
+
+    <main id="content">
+      <div class="state-message" id="loadingMsg">Loading article…</div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo"
+            >Gitata<span style="color: var(--gold)">Hub</span></a
+          >
+          <p>
+            GitataHub is Gitata's trusted community platform — connecting
+            residents with news, businesses, jobs, properties, and events since
+            2026.
+          </p>
+          <div class="footer-social">
+            <a href="#" class="social-btn" aria-label="Facebook">📘</a>
+            <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+            <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+            <a
+              href="https://wa.me/2349159329638"
+              class="social-btn"
+              aria-label="WhatsApp"
+              >💬</a
+            >
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="news.html">Latest News</a></li>
+            <li><a href="businesses.html">Business Directory</a></li>
+            <li><a href="jobs.html">Job Listings</a></li>
+            <li><a href="properties.html">Properties</a></li>
+            <li><a href="events.html">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="index.html">About GitataHub</a></li>
+            <li><a href="submit.html">Submit News Tip</a></li>
+            <li><a href="submit.html">List Your Business</a></li>
+            <li><a href="submit.html">Post a Job</a></li>
+            <li><a href="https://wa.me/2349159329638">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">📍 Gitata, Karu LGA</a></li>
+            <li><a href="https://wa.me/2349159329638">📱 WhatsApp Us</a></li>
+            <li>
+              <a href="mailto:gitatahub4786@gmail.com"
+                >gitatahub4786@gmail.com</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://www.facebook.com/profile.php?id=61584163517576"
+                target="_blank"
+                >Facebook page</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 GitataHub. Built for the Gitata Community.</span>
+        <span>Privacy Policy · Terms of Use</span>
+      </div>
+    </footer>
+
+    <a
+      href="https://wa.me/2349159329638?text=Hi%20GitataHub!"
+      class="wa-float"
+      title="Chat on WhatsApp"
+      aria-label="Chat on WhatsApp"
+      >💬</a
+    >
+
+    <script>
+      const hamburger = document.querySelector(".hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+      hamburger.addEventListener("click", () => {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+      });
+      mobileNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileNav.classList.remove("open");
+          hamburger.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+        });
+      });
+    </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+      const fb = {
+        apiKey: "AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",
+        authDomain: "gitatahub.firebaseapp.com",
+        projectId: "gitatahub",
+        storageBucket: "gitatahub.firebasestorage.app",
+        messagingSenderId: "81280695755",
+        appId: "1:81280695755:web:60659495811412e0bd8a4e",
+      };
+      const app = initializeApp(fb);
+      const db = getFirestore(app);
+
+      const MONTHS = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+
+      function escapeHtml(str) {
+        const d = document.createElement("div");
+        d.textContent = str == null ? "" : String(str);
+        return d.innerHTML;
+      }
+
+      function showState(message, showBackLink) {
+        document.getElementById("content").innerHTML =
+          '<div class="state-message"><p>' +
+          escapeHtml(message) +
+          "</p>" +
+          (showBackLink
+            ? '<p style="margin-top:1rem;"><a href="news.html">← Back to all news</a></p>'
+            : "") +
+          "</div>";
+      }
+
+      async function loadArticle() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        if (!id) {
+          showState("No article was specified.", true);
+          return;
+        }
+
+        try {
+          const snap = await getDoc(doc(db, "news", id));
+          if (!snap.exists()) {
+            showState(
+              "Sorry, we couldn't find that story. It may have been removed.",
+              true,
+            );
+            return;
+          }
+
+          const ev = snap.data();
+          const title = ev.title || "Untitled Story";
+          document.title = title + " — GitataHub";
+          document.getElementById("breadcrumbTitle").textContent = title;
+
+          let dateStr = "";
+          if (ev.date && typeof ev.date.toDate === "function") {
+            const d = ev.date.toDate();
+            dateStr =
+              MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+          } else if (ev.date) {
+            const parsed = new Date(ev.date);
+            if (!isNaN(parsed)) {
+              dateStr =
+                MONTHS[parsed.getMonth()] +
+                " " +
+                parsed.getDate() +
+                ", " +
+                parsed.getFullYear();
+            }
+          }
+
+          const author = ev.author || ev.reporter || "GitataHub Reporter";
+          const views = ev.views
+            ? ev.views >= 1000
+              ? (ev.views / 1000).toFixed(1) + "k"
+              : ev.views
+            : "0";
+          const category = (ev.category || ev.tag || "Community").toString();
+          const catKey = category.toLowerCase();
+          const catLabel = category.charAt(0).toUpperCase() + category.slice(1);
+
+          const body = ev.desc || ev.body || ev.content || ev.description || "";
+          const paragraphs = body
+            .split(/\n\s*\n/)
+            .filter((p) => p.trim().length)
+            .map((p) => "<p>" + escapeHtml(p.trim()) + "</p>")
+            .join("");
+
+          let html = "";
+          html +=
+            '<span class="news-tag ' +
+            escapeHtml(catKey) +
+            '">' +
+            escapeHtml(catLabel) +
+            "</span>";
+          html += '<h1 class="article-title">' + escapeHtml(title) + "</h1>";
+
+          if (ev.image) {
+            html +=
+              '<img class="article-hero-img" src="' +
+              escapeHtml(ev.image) +
+              '" alt="' +
+              escapeHtml(title) +
+              '" />';
+          }
+
+          html += '<div class="article-meta">';
+          html += "<span>By <strong>" + escapeHtml(author) + "</strong></span>";
+          if (dateStr)
+            html += "<span><strong>" + escapeHtml(dateStr) + "</strong></span>";
+          html += "<span>👁 " + escapeHtml(views) + " views</span>";
+          html += "</div>";
+
+          html += '<div class="article-body">';
+          html +=
+            paragraphs || "<p>This story doesn't have a full write-up yet.</p>";
+          html += "</div>";
+
+          html += '<div class="article-actions">';
+          html +=
+            '<a class="btn-primary" href="https://wa.me/2349159329638?text=' +
+            encodeURIComponent(
+              "Hi GitataHub, I want to know more about: " + title,
+            ) +
+            '" target="_blank">Ask GitataHub</a>';
+          html +=
+            '<a class="btn-secondary" href="news.html">← Back to News</a>';
+          html += "</div>";
+
+          document.getElementById("content").innerHTML = html;
+        } catch (e) {
+          console.log("article load err", e);
+          showState(
+            "Something went wrong loading this story. Please try again.",
+            true,
+          );
+        }
+      }
+
+      loadArticle();
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

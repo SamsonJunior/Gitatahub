@@ -1513,8 +1513,18 @@
       const db = getFirestore(app);
 
       const MONTHS = [
-        "Jan","Feb","Mar","Apr","May","Jun",
-        "Jul","Aug","Sep","Oct","Nov","Dec",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
       ];
       const CATEGORY_ICONS = {
         politics: "🏛️",
@@ -1552,7 +1562,9 @@
           if (!isNaN(parsed)) d = parsed;
         }
         if (!d) return "";
-        return MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+        return (
+          MONTHS[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear()
+        );
       }
 
       function makeExcerpt(ev) {
@@ -1580,31 +1592,61 @@
             const catKey = catRaw.toLowerCase();
             const catLabel = catRaw.charAt(0).toUpperCase() + catRaw.slice(1);
             const icon = CATEGORY_ICONS[catKey] || "📰";
-            const gradient = CATEGORY_GRADIENTS[catKey] || "#0e5c30 0%, #1a7a42 100%";
+            const gradient =
+              CATEGORY_GRADIENTS[catKey] || "#0e5c30 0%, #1a7a42 100%";
             const author = ev.author || ev.reporter || "GitataHub Reporter";
             const dateStr = formatDate(ev.date);
-            const views = ev.views ? (ev.views >= 1000 ? (ev.views / 1000).toFixed(1) + "k" : ev.views) : "0";
+            const views = ev.views
+              ? ev.views >= 1000
+                ? (ev.views / 1000).toFixed(1) + "k"
+                : ev.views
+              : "0";
             const excerpt = makeExcerpt(ev);
 
             const imgInner = ev.image
               ? ""
               : '<span style="font-size:0.68rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:0.25rem 0.6rem;border-radius:4px;background:#d4a017;color:#0d1f14;">' +
-                icon + " " + escapeHtml(catLabel.toUpperCase()) + "</span>";
+                icon +
+                " " +
+                escapeHtml(catLabel.toUpperCase()) +
+                "</span>";
             const imgStyle = ev.image
-              ? 'background-image:url(' + escapeHtml(ev.image) + ');background-size:cover;background-position:center;'
-              : 'background:linear-gradient(135deg,' + gradient + ');display:flex;align-items:flex-end;padding:1rem;position:relative;overflow:hidden;';
+              ? "background-image:url(" +
+                escapeHtml(ev.image) +
+                ");background-size:cover;background-position:center;"
+              : "background:linear-gradient(135deg," +
+                gradient +
+                ");display:flex;align-items:flex-end;padding:1rem;position:relative;overflow:hidden;";
 
             const a = document.createElement("a");
             a.href = "news-details.html?id=" + encodeURIComponent(docSnap.id);
             a.className = "news-card" + (first ? " featured-big" : "");
             a.dataset.cat = catKey;
             a.innerHTML =
-              '<div class="news-card-img" style="' + imgStyle + '">' + imgInner + "</div>" +
+              '<div class="news-card-img" style="' +
+              imgStyle +
+              '">' +
+              imgInner +
+              "</div>" +
               '<div class="news-card-body">' +
-              '<span class="news-tag ' + escapeHtml(catKey) + '">' + escapeHtml(catLabel) + "</span>" +
-              "<h3>" + escapeHtml(ev.title || "Untitled Story") + "</h3>" +
-              "<p>" + escapeHtml(excerpt) + "</p>" +
-              '<div class="news-meta"><span>' + escapeHtml(author) + "</span><span>" + escapeHtml(dateStr) + "</span><span>👁 " + escapeHtml(views) + " views</span></div>" +
+              '<span class="news-tag ' +
+              escapeHtml(catKey) +
+              '">' +
+              escapeHtml(catLabel) +
+              "</span>" +
+              "<h3>" +
+              escapeHtml(ev.title || "Untitled Story") +
+              "</h3>" +
+              "<p>" +
+              escapeHtml(excerpt) +
+              "</p>" +
+              '<div class="news-meta"><span>' +
+              escapeHtml(author) +
+              "</span><span>" +
+              escapeHtml(dateStr) +
+              "</span><span>👁 " +
+              escapeHtml(views) +
+              " views</span></div>" +
               "</div>";
             list.appendChild(a);
             first = false;

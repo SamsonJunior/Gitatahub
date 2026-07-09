@@ -667,14 +667,11 @@
 
           html += '<div class="event-meta">';
           if (dateStr)
-            html +=
-              "<div>📅 <strong>" + escapeHtml(dateStr) + "</strong></div>";
+            html += "<div><strong>" + escapeHtml(dateStr) + "</strong></div>";
           if (ev.time)
-            html +=
-              "<div>🕐 <strong>" + escapeHtml(ev.time) + "</strong></div>";
+            html += "<div><strong>" + escapeHtml(ev.time) + "</strong></div>";
           if (ev.venue)
-            html +=
-              "<div>📍 <strong>" + escapeHtml(ev.venue) + "</strong></div>";
+            html += "<div><strong>" + escapeHtml(ev.venue) + "</strong></div>";
           html += "</div>";
 
           html += '<div class="event-body">';

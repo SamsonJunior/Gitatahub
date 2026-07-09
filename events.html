@@ -520,7 +520,10 @@
     <section class="events">
       <div class="events-count" id="eventsCount">Loading events…</div>
       <div class="events-list" id="eventsList">
-        <a href="#" class="event-card">
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20more%20details%20about%3A%20Gitata%20Ward%20Community%20Town%20Hall%20Meeting"
+          class="event-card"
+        >
           <div class="event-date">
             <div class="event-date-day">05</div>
             <div class="event-date-mon">Jul</div>
@@ -531,7 +534,10 @@
           </div>
           <span class="event-type">Town Hall</span>
         </a>
-        <a href="#" class="event-card">
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20more%20details%20about%3A%20Nasarawa%20Youth%20Entrepreneurship%20Summit%202026"
+          class="event-card"
+        >
           <div class="event-date">
             <div class="event-date-day">12</div>
             <div class="event-date-mon">Jul</div>
@@ -542,7 +548,10 @@
           </div>
           <span class="event-type">Business</span>
         </a>
-        <a href="#" class="event-card">
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20more%20details%20about%3A%20Gitata%20Cultural%20Day%20Celebration%20%26%20Awards"
+          class="event-card"
+        >
           <div class="event-date">
             <div class="event-date-day">19</div>
             <div class="event-date-mon">Jul</div>
@@ -553,7 +562,10 @@
           </div>
           <span class="event-type">Cultural</span>
         </a>
-        <a href="#" class="event-card">
+        <a
+          href="https://wa.me/2349159329638?text=Hi%20GitataHub%2C%20I%20want%20more%20details%20about%3A%20Free%20Medical%20Outreach%20-%20Karu%20LGA%20Health%20Week"
+          class="event-card"
+        >
           <div class="event-date">
             <div class="event-date-day">26</div>
             <div class="event-date-mon">Jul</div>
@@ -756,13 +768,19 @@
             const ev = doc.data();
             let day = "--",
               mon = "---";
-            if (ev.date && ev.date.toDate) {
-              const d = ev.date.toDate();
+            let d = null;
+            if (ev.date && typeof ev.date.toDate === "function") {
+              d = ev.date.toDate();
+            } else if (ev.date) {
+              const parsed = new Date(ev.date);
+              if (!isNaN(parsed)) d = parsed;
+            }
+            if (d) {
               day = String(d.getDate()).padStart(2, "0");
               mon = MONTHS[d.getMonth()];
             }
             const a = document.createElement("a");
-            a.href = ev.link || "#";
+            a.href = "event-details.html?id=" + encodeURIComponent(doc.id);
             a.className = "event-card";
             a.innerHTML =
               '<div class="event-date"><div class="event-date-day">' +

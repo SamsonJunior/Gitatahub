@@ -587,6 +587,145 @@
         return d.innerHTML;
       }
 
+      // Full write-ups for the homepage sample/placeholder stories.
+      // These render without needing a matching Firestore document.
+      const SAMPLE_ARTICLES = {
+        "sample-1": {
+          title:
+            "Hon. Daniel Ogah Commissions New Borehole Project in Gitata Ward, Pledges More Infrastructure",
+          category: "politics",
+          author: "GitataHub Reporter",
+          date: "June 29, 2026",
+          views: "1.2k",
+          body: `The federal representative for Karu/Keffi/Kokona constituency, Hon. Daniel Ogah, visited Gitata community yesterday to formally commission a newly installed solar-powered borehole, describing it as part of a broader plan to bring basic infrastructure closer to underserved wards ahead of the 2027 general elections.
+
+Speaking to residents who turned out for the commissioning, Hon. Ogah said the project was funded through a constituency intervention scheme and would serve several surrounding streets that have long relied on distant water points. He noted that access to clean water remains one of the most frequent concerns raised by residents during his community visits.
+
+Community leaders who spoke at the event welcomed the project but urged the lawmaker to prioritise maintenance, noting that similar boreholes commissioned in neighbouring wards in past years have fallen into disrepair due to lack of upkeep. Ogah assured that a local maintenance committee would be set up to oversee the facility.
+
+The lawmaker also used the occasion to reaffirm earlier promises of additional projects for the ward, including road drainage work and support for local schools, though no firm timeline was given for these.`,
+        },
+        "sample-2": {
+          title:
+            "Nasarawa State Govn. Begins Road Rehabilitation on Karu–Mararaba Axis",
+          category: "infrastructure",
+          author: "GitataHub Reporter",
+          date: "June 28, 2026",
+          views: "870",
+          body: `Nasarawa State Governor, Engr. Abdullahi A. Sule, has flagged off construction rehabilitation work on the long-neglected Karu–Mararaba road, one of the busiest but most deteriorated corridors linking the state to the Federal Capital Territory.
+
+The road has for years been a source of frustration for commuters and traders, with sections reduced to potholes that regularly cause traffic gridlock, especially during the rainy season. Officials at the flag-off said the rehabilitation would involve full reconstruction of the worst-affected stretches, improved drainage, and resurfacing along the entire axis.
+
+The State Commissioner for Works, who represented the Governor at the event, confirmed that the contractor has been mobilised to site and that project completion is targeted for September 2026, barring any delays. He appealed to motorists and traders operating along the corridor to bear with the temporary disruption expected during construction.
+
+Local transport unions operating on the route have cautiously welcomed the development, while urging the state government to ensure the contractor sticks to the stated timeline given how long residents have waited for the road to be fixed.`,
+        },
+        "sample-3": {
+          title:
+            "NSUK Final Year Students Begin Defence Season for 2025/2026 Session",
+          category: "education",
+          author: "GitataHub Reporter",
+          date: "June 27, 2026",
+          views: "640",
+          body: `Nasarawa State University, Keffi (NSUK) has officially kicked off its final year project defence sessions for the 2025/2026 academic session, with over 2,000 students scheduled to appear before departmental panels across multiple faculties through July 2026.
+
+According to a notice from the university's academic affairs office, defence sessions will run on a staggered schedule by department to manage venue and panel availability. Students have been advised to confirm their exact dates with departmental coordinators and to ensure all supervisor sign-offs are completed ahead of their scheduled slot.
+
+Several students told GitataHub they were combining final revisions with last-minute rehearsals, with some describing the defence period as the most demanding stretch of their final year. Lecturers, meanwhile, have urged students to focus on clarity and depth of understanding of their projects rather than memorised presentations.
+
+The university has not yet announced a date for the 2025/2026 convocation, but departmental sources say it is expected to follow shortly after all defence sessions and result processing are concluded.`,
+        },
+        "sample-4": {
+          title: "Residents Demand Restoration of Power Supply in Gitata",
+          category: "community",
+          author: "GitataHub Reporter",
+          date: "June 26, 2026",
+          views: "510",
+          body: `A coalition of Gitata residents has submitted a formal petition to the Abuja Electricity Distribution Company (AEDC) demanding urgent restoration of electricity supply, after a prolonged outage that has affected hundreds of homes and businesses across the community for over a month.
+
+Residents say the outage has taken a heavy toll on daily life, from spoiled food and medication requiring refrigeration to small businesses — including barbing salons, welding shops, and cold-drink vendors — losing income they can barely afford to forgo. Several petitioners described the situation as especially difficult for students preparing for exams who now have to study by candlelight or generator power.
+
+The petition, signed by community leaders and representatives of local trader associations, calls on AEDC to provide a clear explanation for the outage and a firm timeline for restoration. Copies were also reportedly forwarded to the local government chairman's office for follow-up.
+
+AEDC is yet to issue an official response to the petition. GitataHub will provide updates as they become available.`,
+        },
+        "sample-5": {
+          title:
+            "Nasarawa Youth Fund Opens Applications — Here's How to Apply",
+          category: "business",
+          author: "GitataHub Reporter",
+          date: "June 25, 2026",
+          views: "1.5k",
+          body: `The Nasarawa State Government's youth empowerment fund has opened applications for its 2026 cycle, offering grants ranging between ₦100,000 and ₦500,000 to young entrepreneurs across agriculture, technology, and trade sectors.
+
+According to the guidelines released by the state's Ministry of Youth Development, applicants must be Nasarawa State residents aged 18 to 35, with a viable business plan or an existing small business that can demonstrate growth potential. Priority is expected to be given to applicants from underserved wards, including several communities within Karu LGA.
+
+Interested applicants are to submit their applications through the ministry's designated portal, along with a brief business proposal, a valid means of identification, and proof of residency. The ministry has advised prospective applicants to avoid third parties claiming to guarantee approval in exchange for payment, noting that the application process is free.
+
+The application window is expected to remain open for several weeks, with disbursement to successful applicants planned in batches later in the year. GitataHub will share the direct application link and any updates as soon as they are confirmed by the ministry.`,
+        },
+        "sample-6": {
+          title:
+            "Free Medical Outreach Planned for Gitata — Karu LGA Health Week Begins July 26",
+          category: "health",
+          author: "GitataHub Reporter",
+          date: "June 24, 2026",
+          views: "390",
+          body: `The Karu LGA Primary Healthcare Authority has announced a free medical outreach programme to be held at Karu General Hospital as part of this year's Health Week, running from July 26. The programme is expected to draw residents from Gitata and surrounding wards.
+
+Services on offer will include malaria testing and treatment, blood pressure and diabetes screening, antenatal care for pregnant women, and basic health education sessions on nutrition and hygiene. Organisers say the outreach is aimed particularly at residents who may not regularly access healthcare due to cost or distance.
+
+Health officials have encouraged residents, especially the elderly, pregnant women, and parents with young children, to take advantage of the free screenings. Volunteers and community health workers are expected to be on hand throughout the week to assist with registration and guide attendees to the appropriate service points.
+
+Further details on daily schedules and specific services available each day are expected to be released closer to the start date.`,
+        },
+        "sample-7": {
+          title:
+            "Karu/Gitata House of Assembly: More Than 4 Aspirants Declare Intention Ahead of 2027 Polls",
+          category: "politics",
+          author: "GitataHub Reporter",
+          date: "June 22, 2026",
+          views: "720",
+          body: `More than four prominent individuals have formally declared their interest in contesting for the Karu/Gitata State House of Assembly seat ahead of the 2027 general elections, with early consultations already ongoing with ward leaders and community stakeholders.
+
+Sources within the constituency say the declarations, though early, reflect growing political activity in the run-up to the polls, as aspirants begin reaching out to grassroots structures and traditional leaders to build support well ahead of party primaries.
+
+While none of the aspirants has yet released a formal manifesto, community members who have engaged with them say recurring themes include improved road infrastructure, youth employment, and better access to healthcare and water — issues that have featured prominently in recent community complaints.
+
+Political observers in the area expect the field to narrow significantly closer to primary season, once party structures begin formal screening of interested candidates. GitataHub will continue to track developments as aspirants formally register with their respective parties.`,
+        },
+        "sample-8": {
+          title:
+            "Gitata Cultural Day Celebration & Awards Set for July 19 — Full Programme Revealed",
+          category: "community",
+          author: "GitataHub Reporter",
+          date: "June 20, 2026",
+          views: "480",
+          body: `Organisers of the annual Gitata Cultural Day have released the full event programme, featuring traditional performances, community recognition awards, and a youth talent showcase, all set to take place at the Gitata Open Ground on July 19.
+
+The day-long event will open with a traditional procession by cultural groups from across the ward, followed by a series of dance and drama performances celebrating local heritage. Organisers say this year's edition will also include a community awards segment recognising residents who have contributed meaningfully to development, education, and peacebuilding within Gitata.
+
+A youth talent showcase, featuring music, spoken word, and comedy acts from young residents, has been added to this year's line-up in response to requests from community members for more youth-focused programming. Local vendors are also expected to set up food and craft stalls throughout the grounds.
+
+Organisers have called on residents and well-wishers to support the event, noting that proceeds from stall fees and sponsorships will go toward funding community development projects identified by the Cultural Day planning committee.`,
+        },
+        "sample-9": {
+          title:
+            "Nasarawa RUWASA to Connect 3 Gitata Communities to Rural Water Supply Network",
+          category: "infrastructure",
+          author: "GitataHub Reporter",
+          date: "June 18, 2026",
+          views: "310",
+          body: `The Nasarawa State Rural Water Supply and Sanitation Agency (RUWASA) has confirmed plans to extend its rural water network to three underserved communities within Gitata ward before the end of 2026, in a move expected to significantly ease water access challenges in the area.
+
+According to agency officials, the project will involve laying new pipelines and constructing distribution points to connect the affected communities to the existing rural water scheme, reducing reliance on distant boreholes and, in some cases, untreated surface water sources.
+
+RUWASA said the selected communities were identified based on an assessment of water accessibility gaps across the local government area, with Gitata among the wards prioritised for this phase of expansion. Preliminary survey and mapping work is reportedly already underway ahead of full construction.
+
+Community leaders have welcomed the announcement but urged the agency to maintain regular communication with residents on progress, citing past instances where similar projects in other wards experienced long, unexplained delays.`,
+        },
+      };
+
       function showState(message, showBackLink) {
         document.getElementById("content").innerHTML =
           '<div class="state-message"><p>' +
@@ -604,6 +743,52 @@
 
         if (!id) {
           showState("No article was specified.", true);
+          return;
+        }
+
+        // Sample/placeholder homepage stories render directly, no Firestore needed.
+        if (SAMPLE_ARTICLES[id]) {
+          const s = SAMPLE_ARTICLES[id];
+          document.title = s.title + " — GitataHub";
+          document.getElementById("breadcrumbTitle").textContent = s.title;
+
+          const catKey = s.category.toLowerCase();
+          const catLabel = catKey.charAt(0).toUpperCase() + catKey.slice(1);
+          const paragraphs = s.body
+            .split(/\n\s*\n/)
+            .filter((p) => p.trim().length)
+            .map((p) => "<p>" + escapeHtml(p.trim()) + "</p>")
+            .join("");
+
+          let sampleHtml = "";
+          sampleHtml +=
+            '<span class="news-tag ' +
+            escapeHtml(catKey) +
+            '">' +
+            escapeHtml(catLabel) +
+            "</span>";
+          sampleHtml +=
+            '<h1 class="article-title">' + escapeHtml(s.title) + "</h1>";
+          sampleHtml += '<div class="article-meta">';
+          sampleHtml +=
+            "<span>By <strong>" + escapeHtml(s.author) + "</strong></span>";
+          sampleHtml +=
+            "<span><strong>" + escapeHtml(s.date) + "</strong></span>";
+          sampleHtml += "<span>👁 " + escapeHtml(s.views) + " views</span>";
+          sampleHtml += "</div>";
+          sampleHtml += '<div class="article-body">' + paragraphs + "</div>";
+          sampleHtml += '<div class="article-actions">';
+          sampleHtml +=
+            '<a class="btn-primary" href="https://wa.me/2349159329638?text=' +
+            encodeURIComponent(
+              "Hi GitataHub, I want to know more about: " + s.title,
+            ) +
+            '" target="_blank">Ask GitataHub</a>';
+          sampleHtml +=
+            '<a class="btn-secondary" href="news.html">← Back to News</a>';
+          sampleHtml += "</div>";
+
+          document.getElementById("content").innerHTML = sampleHtml;
           return;
         }
 

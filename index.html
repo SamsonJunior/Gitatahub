@@ -629,7 +629,7 @@
     <a href="news.html" class="see-all">View all news →</a>
   </div>
   <div class="news-grid" id="newsGrid">
-    <a href="#" class="news-card featured">
+    <a href="news-details.html?id=sample-1" class="news-card featured" id="featuredCard">
       <div class="news-card-img" style="background:linear-gradient(135deg,#0E5C30 0%,#1A7A42 60%,#25A35A 100%);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:1.8rem;position:relative;overflow:hidden">
   <div style="position:absolute;top:-40px;right:-40px;width:220px;height:220px;background:rgba(255,255,255,0.06);border-radius:50%"></div>
   <div style="position:absolute;bottom:-50px;right:80px;width:160px;height:160px;background:rgba(255,255,255,0.04);border-radius:50%"></div>
@@ -655,28 +655,28 @@ We rejoice and give thanks to Almighty God as *His Royal Highness Sangarin Gitat
       </div>
     </a>
     <div class="news-side" id="newsSide">
-      <a href="#" class="news-side-card">
+      <a href="news-details.html?id=sample-2" class="news-side-card">
         <span class="news-side-icon">🏗️</span>
         <div>
           <h4>Karu LGA Chairman Begins Building of Gunduma Market</h4>
           <span>January 02, 2026 · Community</span>
         </div>
       </a>
-      <a href="#" class="news-side-card">
+      <a href="news-details.html?id=sample-3" class="news-side-card">
         <span class="news-side-icon">🎓</span>
         <div>
           <h4>NSUK are yet to announces the cut off mark of 2026/2027 academic Session</h4>
           <span>July 20, 2026 · Education</span>
         </div>
       </a>
-      <a href="#" class="news-side-card">
+      <a href="news-details.html?id=sample-4" class="news-side-card">
         <span class="news-side-icon">⚡</span>
         <div>
           <h4>Gitata People Demand Restoration of Power Supply</h4>
           <span>September 26, 2026 · Infrastructure</span>
         </div>
       </a>
-      <a href="#" class="news-side-card">
+      <a href="news-details.html?id=sample-5" class="news-side-card">
         <span class="news-side-icon">💰</span>
         <div>
           <h4>Nasarawa state scholarship board Opens Applications — Here's How to Apply</h4>
@@ -1084,6 +1084,7 @@ async function loadNews(){
     // Update featured card
     const fc=document.querySelector(".news-card.featured");
     if(fc&&feat){
+      fc.href="news-details.html?id="+snap.docs[0].id;
       const col=COLORS[feat.category]||["#0E5C30","#1A7A42"];
       const ic=ICONS[feat.category]||"📰";
       const img=fc.querySelector(".news-card-img");
@@ -1119,6 +1120,8 @@ async function loadNews(){
           if(ico)ico.textContent=ICONS[a.category]||"📰";
           if(h4)h4.textContent=a.title;
           if(sp)sp.textContent=(a.category||"News");
+          // Fix href to open the correct article
+          cards[i].href="news-details.html?id="+snap.docs[i+1].id;
         }
       });
     }

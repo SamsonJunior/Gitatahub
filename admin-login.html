@@ -311,12 +311,21 @@
           }
 
           const data = await response.json().catch(() => ({}));
-          attempts++;
           errorBox.classList.add("show");
+
+          if (response.status === 500) {
+            // ADMIN_PASSWORD or SESSION_SECRET is missing/misread on the server.
+            document.getElementById("errorText").textContent =
+              (data.error || "Admin login isn't configured yet.") +
+              " (Check the Vercel environment variables and redeploy.)";
+            btn.disabled = false;
+            btn.innerHTML = "Login to Dashboard";
+            return;
+          }
+
+          attempts++;
           document.getElementById("errorText").textContent =
-            data.error === "Server not configured"
-              ? "Admin login isn't configured yet. Contact the site owner."
-              : "Incorrect password. Please try again.";
+            "Incorrect password. Please try again.";
           document.getElementById("passwordInput").value = "";
           btn.disabled = false;
           btn.innerHTML = "Login to Dashboard";

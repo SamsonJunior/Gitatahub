@@ -246,7 +246,7 @@
         <p>Admin Portal · Authorized Access Only</p>
       </div>
       <div class="error-box" id="errorBox">
-        ⚠️ <span id="errorText">Incorrect password. Please try again.</span>
+        <span id="errorText">Incorrect password. Please try again.</span>
       </div>
       <div class="form-group">
         <label>Admin Password</label>
@@ -269,50 +269,69 @@
       <div class="secure-badge">Secured Admin Access · GitataHub 2026</div>
     </div>
     <script>
-      if (sessionStorage.getItem("ghubAdmin") === "true")
-        window.location.href = "admin.html";
+      // NOTE: the password check itself now happens server-side in /api/login.
+      // This client-side attempt counter is only a UX nicety (slows down
+      // impatient double-clicking); it is NOT a security control. Real
+      // protection (rate limiting, cookie signing, expiry) lives in
+      // /api/login.js and middleware.js.
       let attempts = 0;
+
       function togglePwd() {
         const i = document.getElementById("passwordInput");
         i.type = i.type === "password" ? "text" : "password";
       }
-      function login() {
+
+      async function login() {
         const pwd = document.getElementById("passwordInput").value;
         const btn = document.getElementById("loginBtn");
         const errorBox = document.getElementById("errorBox");
+
         if (attempts >= 5) {
           document.getElementById("errorText").textContent =
-            "Too many failed attempts. Please wait 5 minutes.";
+            "Too many failed attempts. Please wait a few minutes and try again.";
           errorBox.classList.add("show");
           return;
         }
+
         btn.disabled = true;
         btn.innerHTML = '<span class="loading"></span>Verifying...';
-        setTimeout(() => {
-          if (pwd === atob("R0h1YjIwMjZAQCMj")) {
-            sessionStorage.setItem("ghubAdmin", "true");
+        errorBox.classList.remove("show");
+
+        try {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: pwd }),
+          });
+
+          if (response.ok) {
             btn.innerHTML = "Access Granted! Redirecting...";
-            setTimeout(() => (window.location.href = "admin.html"), 800);
-          } else {
-            attempts++;
-            errorBox.classList.add("show");
-            document.getElementById("errorText").textContent =
-              "Incorrect password. Please try again.";
-            document.getElementById("passwordInput").value = "";
-            btn.disabled = false;
-            btn.innerHTML = "Login to Dashboard";
-            const remaining = 5 - attempts;
-            document.getElementById("attemptsMsg").textContent =
-              remaining > 0
-                ? remaining + " attempt(s) remaining"
-                : "Account locked for 5 minutes.";
-            if (attempts >= 5)
-              setTimeout(() => {
-                attempts = 0;
-                document.getElementById("attemptsMsg").textContent = "";
-              }, 300000);
+            window.location.href = "admin.html";
+            return;
           }
-        }, 1000);
+
+          const data = await response.json().catch(() => ({}));
+          attempts++;
+          errorBox.classList.add("show");
+          document.getElementById("errorText").textContent =
+            data.error === "Server not configured"
+              ? "Admin login isn't configured yet. Contact the site owner."
+              : "Incorrect password. Please try again.";
+          document.getElementById("passwordInput").value = "";
+          btn.disabled = false;
+          btn.innerHTML = "Login to Dashboard";
+          const remaining = 5 - attempts;
+          document.getElementById("attemptsMsg").textContent =
+            remaining > 0
+              ? remaining + " attempt(s) remaining"
+              : "Please wait a few minutes before trying again.";
+        } catch (err) {
+          errorBox.classList.add("show");
+          document.getElementById("errorText").textContent =
+            "Couldn't reach the server. Check your connection and try again.";
+          btn.disabled = false;
+          btn.innerHTML = "Login to Dashboard";
+        }
       }
     </script>
     <script defer src="/_vercel/insights/script.js"></script>

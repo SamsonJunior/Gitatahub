@@ -559,7 +559,7 @@
             </div>
           </div>
           <div class="list-card">
-            <div class="list-header"><h3>⚡ Quick Actions</h3></div>
+            <div class="list-header"><h3>Quick Actions</h3></div>
             <div class="list-item">
               <div>
                 <div class="list-item-title">📰 Post News Article</div>
@@ -1079,10 +1079,8 @@
         serverTimestamp,
       } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-      // Auth check
-      if (sessionStorage.getItem("ghubAdmin") !== "true") {
-        window.location.href = "admin-login.html";
-      }
+      // Auth is now enforced server-side by middleware.js before this page
+      // is ever served, so no client-side check is needed (or trustworthy) here.
 
       const firebaseConfig = {
         apiKey: "AIzaSyDwTIAxDnnxZN6AdyFjnukvBCjjfzt66hI",
@@ -1494,8 +1492,12 @@
         }
       }
 
-      function logout() {
-        sessionStorage.removeItem("ghubAdmin");
+      async function logout() {
+        try {
+          await fetch("/api/logout", { method: "POST" });
+        } catch (err) {
+          // Even if the request fails, still send the admin back to the login page.
+        }
         window.location.href = "admin-login.html";
       }
       window.logout = logout;

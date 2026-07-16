@@ -77,6 +77,69 @@
         border-radius: 6px;
         font-weight: 600 !important;
       }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+      .mobile-nav {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background: var(--green-deep);
+        padding: 1rem 5% 1.4rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        z-index: 99;
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+      .mobile-nav.open {
+        display: flex;
+      }
+      .mobile-nav a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .mobile-nav a:last-child {
+        border-bottom: none;
+      }
+      .mobile-nav a.nav-cta {
+        background: var(--gold);
+        color: var(--ink) !important;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        font-weight: 700 !important;
+        text-align: center;
+        border: none;
+        margin-top: 0.4rem;
+      }
       .page-hero {
         background: linear-gradient(
           135deg,
@@ -409,6 +472,9 @@
         .nav-links {
           display: none;
         }
+        .hamburger {
+          display: flex;
+        }
       }
     </style>
   </head>
@@ -424,7 +490,21 @@
         <li><a href="about.html" class="active">About</a></li>
         <li><a href="advertise.html" class="nav-cta">Advertise</a></li>
       </ul>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="news.html">News</a>
+      <a href="businesses.html">Businesses</a>
+      <a href="jobs.html">Jobs</a>
+      <a href="properties.html">Properties</a>
+      <a href="events.html">Events</a>
+      <a href="about.html" class="active">About</a>
+      <a href="advertise.html" class="nav-cta">Advertise</a>
+    </div>
     <div class="page-hero">
       <div>
         <div class="eyebrow">About GitataHub</div>
@@ -611,6 +691,20 @@
     </footer>
     <a href="https://wa.me/2349159329638" class="wa-float"></a>
     <script>
+      const hamburger = document.querySelector(".hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+      hamburger.addEventListener("click", () => {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+      });
+      mobileNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileNav.classList.remove("open");
+          hamburger.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+        });
+      });
       function sendMessage() {
         const name = document.querySelector(
           ".quick-form input:nth-child(1)",

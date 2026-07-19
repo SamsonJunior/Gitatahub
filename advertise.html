@@ -488,6 +488,101 @@
           display: none;
         }
       }
+      .pkg-btn-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .pkg-btn-pay {
+        background: #011b33;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+      }
+      .pkg-btn-pay:hover {
+        background: #01284a;
+      }
+      .pkg-btn-pay svg {
+        flex-shrink: 0;
+      }
+      /* Payment modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(13, 31, 20, 0.55);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        z-index: 1000;
+      }
+      .modal-overlay.show {
+        display: flex;
+      }
+      .modal-box {
+        background: #fff;
+        border-radius: 18px;
+        width: 100%;
+        max-width: 420px;
+        padding: 1.8rem;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .modal-box h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+      .modal-pkg-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--green-pale);
+        border-radius: 10px;
+        padding: 0.7rem 1rem;
+        margin: 0.9rem 0 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--green-deep);
+      }
+      .modal-box .form-group {
+        margin-bottom: 0.9rem;
+      }
+      .modal-actions {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 0.4rem;
+      }
+      .modal-actions button {
+        flex: 1;
+        padding: 0.75rem;
+        border-radius: 9px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        border: none;
+        cursor: pointer;
+      }
+      .modal-cancel {
+        background: #f1f1f1;
+        color: var(--ink);
+      }
+      .modal-pay {
+        background: var(--green-deep);
+        color: #fff;
+      }
+      .modal-pay:hover {
+        background: var(--green-mid);
+      }
+      .modal-note {
+        font-size: 0.74rem;
+        color: var(--ink-soft);
+        margin-top: 0.9rem;
+        line-height: 1.5;
+      }
     </style>
   </head>
   <body>
@@ -558,12 +653,20 @@
             <li>Opening hours</li>
             <li>Verified badge</li>
           </ul>
-          <button
-            class="pkg-btn pkg-btn-outline"
-            onclick="selectPackage('Business Listing - ₦3,000/month')"
-          >
-            Get Started
-          </button>
+          <div class="pkg-btn-row">
+            <button
+              class="pkg-btn pkg-btn-pay"
+              onclick="openPaymentModal('Business Listing — ₦3,000/month', 3000)"
+            >
+              💳 Pay with Paystack
+            </button>
+            <button
+              class="pkg-btn pkg-btn-outline"
+              onclick="selectPackage('Business Listing - ₦3,000/month')"
+            >
+              Order via WhatsApp Form
+            </button>
+          </div>
         </div>
         <div class="package-card popular">
           <span class="popular-badge">MOST POPULAR</span>
@@ -578,12 +681,20 @@
             <li>"Sponsored" badge</li>
             <li>Stays live for 7 days</li>
           </ul>
-          <button
-            class="pkg-btn pkg-btn-solid"
-            onclick="selectPackage('Sponsored Post - ₦5,000/post')"
-          >
-            Get Started
-          </button>
+          <div class="pkg-btn-row">
+            <button
+              class="pkg-btn pkg-btn-pay"
+              onclick="openPaymentModal('Sponsored Post — ₦5,000/post', 5000)"
+            >
+              💳 Pay with Paystack
+            </button>
+            <button
+              class="pkg-btn pkg-btn-solid"
+              onclick="selectPackage('Sponsored Post - ₦5,000/post')"
+            >
+              Order via WhatsApp Form
+            </button>
+          </div>
         </div>
         <div class="package-card">
           <span class="package-icon"></span>
@@ -597,12 +708,20 @@
             <li>Shared on Facebook page</li>
             <li>Active for 30 days</li>
           </ul>
-          <button
-            class="pkg-btn pkg-btn-outline"
-            onclick="selectPackage('Job Advertisement - ₦3,000')"
-          >
-            Get Started
-          </button>
+          <div class="pkg-btn-row">
+            <button
+              class="pkg-btn pkg-btn-pay"
+              onclick="openPaymentModal('Job Advertisement — ₦3,000', 3000)"
+            >
+              💳 Pay with Paystack
+            </button>
+            <button
+              class="pkg-btn pkg-btn-outline"
+              onclick="selectPackage('Job Advertisement - ₦3,000')"
+            >
+              Order via WhatsApp Form
+            </button>
+          </div>
         </div>
         <div class="package-card">
           <span class="package-icon"></span>
@@ -616,12 +735,20 @@
             <li>Shared on Facebook</li>
             <li>Active for 60 days</li>
           </ul>
-          <button
-            class="pkg-btn pkg-btn-outline"
-            onclick="selectPackage('Property Listing - ₦2,000')"
-          >
-            Get Started
-          </button>
+          <div class="pkg-btn-row">
+            <button
+              class="pkg-btn pkg-btn-pay"
+              onclick="openPaymentModal('Property Listing — ₦2,000', 2000)"
+            >
+              💳 Pay with Paystack
+            </button>
+            <button
+              class="pkg-btn pkg-btn-outline"
+              onclick="selectPackage('Property Listing - ₦2,000')"
+            >
+              Order via WhatsApp Form
+            </button>
+          </div>
         </div>
         <div class="package-card">
           <span class="package-icon"></span>
@@ -635,12 +762,20 @@
             <li>Link to your business</li>
             <li>Monthly performance report</li>
           </ul>
-          <button
-            class="pkg-btn pkg-btn-gold"
-            onclick="selectPackage('Banner Advertisement - ₦10,000/month')"
-          >
-            Get Started
-          </button>
+          <div class="pkg-btn-row">
+            <button
+              class="pkg-btn pkg-btn-pay"
+              onclick="openPaymentModal('Banner Advertisement — ₦10,000/month', 10000)"
+            >
+              💳 Pay with Paystack
+            </button>
+            <button
+              class="pkg-btn pkg-btn-gold"
+              onclick="selectPackage('Banner Advertisement - ₦10,000/month')"
+            >
+              Order via WhatsApp Form
+            </button>
+          </div>
         </div>
         <div class="package-card">
           <span class="package-icon"></span>
@@ -654,12 +789,20 @@
             <li>Featured on homepage</li>
             <li>Active until event date</li>
           </ul>
-          <button
-            class="pkg-btn pkg-btn-outline"
-            onclick="selectPackage('Event Promotion - ₦2,500')"
-          >
-            Get Started
-          </button>
+          <div class="pkg-btn-row">
+            <button
+              class="pkg-btn pkg-btn-pay"
+              onclick="openPaymentModal('Event Promotion — ₦2,500', 2500)"
+            >
+              💳 Pay with Paystack
+            </button>
+            <button
+              class="pkg-btn pkg-btn-outline"
+              onclick="selectPackage('Event Promotion - ₦2,500')"
+            >
+              Order via WhatsApp Form
+            </button>
+          </div>
         </div>
       </div>
       <div class="how-section">
@@ -742,7 +885,7 @@
               placeholder="Tell us about your business and what you'd like to advertise..."
             ></textarea>
           </div>
-          <button class="submit-btn" onclick="submitOrder()">
+          <button class="submit-btn" onclick="submitWhatsAppOrder()">
             Submit Order — We'll WhatsApp You
           </button>
         </div>
@@ -795,6 +938,69 @@
         </div>
       </div>
     </div>
+    <div class="modal-overlay" id="paymentModal">
+      <div class="modal-box">
+        <h3>Complete Your Payment</h3>
+        <p style="font-size: 0.83rem; color: var(--ink-soft)">
+          Pay securely with Paystack, then send us your advert details.
+        </p>
+        <div class="modal-pkg-line">
+          <span id="modalPkgName">Package</span>
+          <span id="modalPkgPrice">₦0</span>
+        </div>
+        <div class="form-group">
+          <label>Your Full Name *</label>
+          <input type="text" id="modalName" placeholder="e.g. Musa Ibrahim" />
+        </div>
+        <div class="form-group">
+          <label>WhatsApp Number *</label>
+          <input type="tel" id="modalPhone" placeholder="e.g. 08012345678" />
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input
+            type="email"
+            id="modalEmail"
+            placeholder="e.g. you@example.com"
+          />
+          <small style="font-size: 0.72rem; color: #999"
+            >Required by Paystack for your payment receipt.</small
+          >
+        </div>
+        <div class="form-group">
+          <label>Advert Details (optional)</label>
+          <textarea
+            id="modalDetails"
+            style="
+              width: 100%;
+              min-height: 70px;
+              padding: 0.7rem 0.9rem;
+              border: 1.5px solid var(--border);
+              border-radius: 8px;
+              font-size: 0.88rem;
+              outline: none;
+              font-family: inherit;
+              resize: vertical;
+            "
+            placeholder="Tell us what you'd like advertised — we'll pick this up on WhatsApp after payment."
+          ></textarea>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-cancel" onclick="closePaymentModal()">
+            Cancel
+          </button>
+          <button class="modal-pay" onclick="confirmPayment()">
+            Pay Now
+          </button>
+        </div>
+        <p class="modal-note">
+          After a successful payment you'll be redirected to WhatsApp to send
+          your advert details. Your payment reference is included
+          automatically. Prefer OPay, bank transfer, or cash instead? Use the
+          "Order via WhatsApp Form" button below any package.
+        </p>
+      </div>
+    </div>
     <footer>
       <div class="footer-bottom">
         <span>© 2026 GitataHub. Built for the Gitata Community.</span>
@@ -805,17 +1011,28 @@
       </div>
     </footer>
     <a href="https://wa.me/2349159329638" class="wa-float"></a>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script>
+      // Publishable key — safe to expose in client-side code by design.
+      const PAYSTACK_KEY = "pk_live_68b9c2e1671f2087fd0c253935788a9b2b384bd8";
+      const WHATSAPP_NUMBER = "2349159329638";
+
+      let selectedPackage = null;
+      let selectedAmount = null;
+
+      // Scrolls to the manual order form and pre-fills the package.
       function selectPackage(pkg) {
-        document.getElementById("packageSelect").value =
-          pkg.split(" - ")[0] + " — " + pkg.split(" - ")[1];
+        const key = pkg.split(" - ")[0] + " — " + pkg.split(" - ")[1];
+        document.getElementById("packageSelect").value = key;
         document
           .querySelector(".contact-form")
           .scrollIntoView({ behavior: "smooth" });
       }
-      function submitOrder() {
-        const name = document.getElementById("clientName").value;
-        const phone = document.getElementById("clientPhone").value;
+
+      // Manual order form (pay later via OPay / bank transfer / cash).
+      function submitWhatsAppOrder() {
+        const name = document.getElementById("clientName").value.trim();
+        const phone = document.getElementById("clientPhone").value.trim();
         const pkg = document.getElementById("packageSelect").value;
         if (!name || !phone || pkg.includes("Select")) {
           alert(
@@ -825,103 +1042,109 @@
         }
         const msg = `Hi GitataHub! I want to advertise.\n\nName: ${name}\nPhone: ${phone}\nPackage: ${pkg}`;
         window.open(
-          `https://wa.me/2349159329638?text=${encodeURIComponent(msg)}`,
+          `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,
           "_blank",
         );
       }
+
+      // --- Direct Paystack payment flow ---
+      function openPaymentModal(pkgName, amount) {
+        selectedPackage = pkgName;
+        selectedAmount = amount;
+        document.getElementById("modalPkgName").textContent = pkgName;
+        document.getElementById("modalPkgPrice").textContent =
+          "₦" + amount.toLocaleString();
+        document.getElementById("modalName").value = "";
+        document.getElementById("modalPhone").value = "";
+        document.getElementById("modalEmail").value = "";
+        document.getElementById("modalDetails").value = "";
+        document.getElementById("paymentModal").classList.add("show");
+      }
+
+      function closePaymentModal() {
+        document.getElementById("paymentModal").classList.remove("show");
+      }
+
+      function confirmPayment() {
+        const name = document.getElementById("modalName").value.trim();
+        const phone = document.getElementById("modalPhone").value.trim();
+        const email = document.getElementById("modalEmail").value.trim();
+        const details = document.getElementById("modalDetails").value.trim();
+
+        if (!name || !phone || !email) {
+          alert("Please fill in your name, phone number, and email.");
+          return;
+        }
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+
+        const handler = PaystackPop.setup({
+          key: PAYSTACK_KEY,
+          email: email,
+          amount: selectedAmount * 100,
+          currency: "NGN",
+          ref: "GHub_" + Date.now(),
+          metadata: {
+            name,
+            phone,
+            package: selectedPackage,
+            custom_fields: [
+              {
+                display_name: "Advert Details",
+                variable_name: "advert_details",
+                value: details || "(sent via WhatsApp)",
+              },
+            ],
+          },
+          callback: function (response) {
+            // Save payment to localStorage for the admin dashboard.
+            const payments = JSON.parse(
+              localStorage.getItem("ghub_payments") || "[]",
+            );
+            payments.unshift({
+              id: Date.now(),
+              name,
+              email,
+              phone,
+              package: selectedPackage,
+              amount: selectedAmount,
+              details,
+              ref: response.reference,
+              date: new Date().toLocaleDateString("en-GB"),
+            });
+            localStorage.setItem("ghub_payments", JSON.stringify(payments));
+
+            closePaymentModal();
+
+            const msg =
+              `Hi GitataHub! I just paid for ${selectedPackage}.\n\n` +
+              `Payment Reference: ${response.reference}\n` +
+              `Name: ${name}\n` +
+              `Phone: ${phone}\n\n` +
+              `Here are my advert details:\n${details || "(will send shortly)"}`;
+
+            alert(
+              "Payment successful! Reference: " +
+                response.reference +
+                "\n\nYou're being redirected to WhatsApp to send your advert details.",
+            );
+
+            window.open(
+              `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,
+              "_blank",
+            );
+          },
+          onClose: function () {
+            alert(
+              "Payment cancelled. You can try again or contact us on WhatsApp.",
+            );
+          },
+        });
+        handler.openIframe();
+      }
     </script>
+    <script defer src="/_vercel/insights/script.js"></script>
   </body>
 </html>
-<script src="https://js.paystack.co/v1/inline.js"></script>
-<script>
-  const PAYSTACK_KEY = "pk_live_68b9c2e1671f2087fd0c253935788a9b2b384bd8";
-  const PACKAGES = {
-    "Business Listing — ₦3,000/month": 3000,
-    "Sponsored Post — ₦5,000/post": 5000,
-    "Job Advertisement — ₦3,000": 3000,
-    "Property Listing — ₦2,000": 2000,
-    "Banner Advertisement — ₦10,000/month": 10000,
-    "Event Promotion — ₦2,500": 2500,
-  };
-
-  function submitOrder() {
-    const name = document.getElementById("clientName").value.trim();
-    const phone = document.getElementById("clientPhone").value.trim();
-    const pkg = document.getElementById("packageSelect").value;
-    if (!name || !phone || pkg.includes("Select")) {
-      alert("Please fill your name, phone number, and select a package.");
-      return;
-    }
-    const amount = PACKAGES[pkg];
-    if (!amount) {
-      alert("Please select a valid package");
-      return;
-    }
-    const email =
-      prompt("Please enter your email address for payment receipt:") ||
-      "customer@gitatahub.ng";
-    const handler = PaystackPop.setup({
-      key: PAYSTACK_KEY,
-      email: email,
-      amount: amount * 100,
-      currency: "NGN",
-      ref: "GHub_" + Date.now(),
-      metadata: { name, phone, package: pkg },
-      callback: function (response) {
-        // Save payment to localStorage for admin
-        const payments = JSON.parse(
-          localStorage.getItem("ghub_payments") || "[]",
-        );
-        payments.unshift({
-          id: Date.now(),
-          name,
-          email,
-          phone,
-          package: pkg,
-          amount,
-          ref: response.reference,
-          date: new Date().toLocaleDateString("en-GB"),
-        });
-        localStorage.setItem("ghub_payments", JSON.stringify(payments));
-        alert(
-          "Payment successful! Reference: " +
-            response.reference +
-            "\n\nThank you " +
-            name +
-            "! We will activate your " +
-            pkg +
-            " within 1 hour.\n\nWe will contact you on: " +
-            phone,
-        );
-        const msg =
-          "Hi GitataHub! I just made payment for " +
-          pkg +
-          ". Payment Reference: " +
-          response.reference +
-          ". My name is " +
-          name +
-          " and my phone is " +
-          phone;
-        window.open(
-          "https://wa.me/2349159329638?text=" + encodeURIComponent(msg),
-          "_blank",
-        );
-      },
-      onClose: function () {
-        alert(
-          "Payment cancelled. You can try again or contact us on WhatsApp.",
-        );
-      },
-    });
-    handler.openIframe();
-  }
-
-  function selectPackage(pkg) {
-    const key = pkg.split(" - ")[0] + " — " + pkg.split(" - ")[1];
-    document.getElementById("packageSelect").value = key;
-    document
-      .querySelector(".contact-form")
-      .scrollIntoView({ behavior: "smooth" });
-  }
-</script>
-<script defer src="/_vercel/insights/script.js"></script>

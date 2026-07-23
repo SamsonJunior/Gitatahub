@@ -1165,7 +1165,7 @@ async function loadBusinesses(){
       card.innerHTML='<div class="biz-logo">'+(BIZ_ICONS[b.category]||"🏪")+'</div>'
         +'<div class="biz-info"><h4>'+b.name+'</h4><p>'+(b.desc||"")+'</p>'
         +'<span class="biz-tag">'+(b.category||"")+'</span>'
-        +'<span class="verified">✅ Verified Business</span></div>';
+        +'<span class="verified">Verified Business</span></div>';
       grid.appendChild(card);
     });
   }catch(e){console.log("biz err",e);}
